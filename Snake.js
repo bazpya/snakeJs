@@ -17,11 +17,12 @@ function initialise(){
 	cellWidthPixels = gridContainer.offsetWidth / gridWidth + 'px';
 	cellHeightPixels = gridContainer.offsetHeight / gridHeight + 'px';
 	grid = Grid();
+	previousFoodCell = grid.cells[1][1];
 	gridContainer.appendChild(grid);
 };
 
 function start(){
-	grid.dropFood();
+	dropFood();
 	worm = new Worm();
 	theButton.innerText = "Restart";
 	theButton.onmousedown = restart;
@@ -74,6 +75,20 @@ function speedUp(){
 	if(movingTimeStep > 80) movingTimeStep -= 5;
 };
 
+function dropFood() {
+	if(!isPaused && !isOver){
+		if(previousFoodCell.isFood) previousFoodCell.beNormal();
+		do {
+			foodX = 1 + Math.floor(Math.random() * (gridWidth - 2));
+			foodY = 1 + Math.floor(Math.random() * (gridHeight - 2));
+			nextFoodCell = grid.cells[foodX][foodY];
+		} while (nextFoodCell.isWorm || nextFoodCell.isObstacle);
+		nextFoodCell.beFood();
+		previousFoodCell = nextFoodCell;
+	}
+	setTimeout(dropFood, foodDroppingTimeStep);
+};
+
 //###########################  Grid  ##############################################
 //#################################################################################
 
@@ -92,20 +107,6 @@ var Grid = function() {
 			newGrid.cells[y].push(newCell);
 		};
 		newGrid.appendChild(newRow);
-	};
-	newGrid.previousFoodCell = newGrid.cells[1][1];
-	newGrid.dropFood = function() {
-		if(!isPaused && !isOver){
-			if(newGrid.previousFoodCell.isFood) newGrid.previousFoodCell.beNormal();
-			do {
-				foodX = 1 + Math.floor(Math.random() * (gridWidth - 2));
-				foodY = 1 + Math.floor(Math.random() * (gridHeight - 2));
-				nextFoodCell = newGrid.cells[foodX][foodY];
-			} while (nextFoodCell.isWorm || nextFoodCell.isObstacle);
-			nextFoodCell.beFood();
-			newGrid.previousFoodCell = nextFoodCell;
-		}
-		setTimeout(newGrid.dropFood, foodDroppingTimeStep);
 	};
 	return newGrid;
 };
