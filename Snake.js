@@ -9,7 +9,7 @@ function initialise(){
 	theButton = document.getElementById('button');
 	gridWidth = 20;
 	gridHeight = 20;
-	movingDirection = 2;  // 0 = up, 1 = right, 2 = down, 3 = left
+	movingDirection = 'down';
 	movingTimeStep = 150; // milliseconds
 	foodDroppingTimeStep = 3000; // milliseconds
 	isPaused = false;
@@ -61,10 +61,10 @@ function bindEventHandlers(){
 	
 	window.onkeydown = function(keyDownEvent){
 		switch(keyDownEvent.keyCode){
-			case 87: movingDirection = 0; break;
-			case 68: movingDirection = 1; break;
-			case 83: movingDirection = 2; break;
-			case 65: movingDirection = 3; break;
+			case 87: movingDirection = 'up'; break;
+			case 68: movingDirection = 'right'; break;
+			case 83: movingDirection = 'down'; break;
+			case 65: movingDirection = 'left'; break;
 			case 80: isPaused = !isPaused; break;
 			default: break;
 		};
@@ -207,10 +207,10 @@ Worm.prototype.update = function(){
 
 Worm.prototype.getNextCell = function(){
 	switch(movingDirection){
-		case 0: return grid.cells[this.head.row - 1][this.head.column]; break;
-		case 1: return grid.cells[this.head.row][this.head.column + 1]; break;
-		case 2: return grid.cells[this.head.row + 1][this.head.column]; break;
-		case 3: return grid.cells[this.head.row][this.head.column - 1]; break;
+		case 'up': return grid.cells[this.head.row - 1][this.head.column]; break;
+		case 'right': return grid.cells[this.head.row][this.head.column + 1]; break;
+		case 'down': return grid.cells[this.head.row + 1][this.head.column]; break;
+		case 'left': return grid.cells[this.head.row][this.head.column - 1]; break;
 		default: break;
 	};
 };
