@@ -180,11 +180,17 @@ var Cell = function(rowNumber, columnNumber) {
 var Worm = function() {
 	this.sections = [];
 	this.head = grid.cells[1][1];
-	this.tail = this.head;
-	this.length = 1;
 	this.sections.push(this.head);
 	this.head.beWorm();
 };
+
+Object.defineProperties(Worm.prototype,{
+	length: { get: function () {return this.sections.length}}
+});
+
+Object.defineProperties(Worm.prototype,{
+	tail: { get: function () {return this.sections[this.length - 1]}}
+});
 
 Worm.prototype.update = function(){
 	var nextCell = this.getNextCell();
@@ -192,7 +198,6 @@ Worm.prototype.update = function(){
 		gameOver();
 	}
 	else if(nextCell.isFood){
-		this.length++;
 		speedUp();
 		this.sections.unshift(nextCell);
 		this.head = nextCell;
@@ -205,7 +210,6 @@ Worm.prototype.update = function(){
 		var previousTail = this.tail;
 		this.sections.splice(-1,1);
 		previousTail.beNormal();
-		this.tail = this.sections[this.length - 1];
 	}
 };
 
