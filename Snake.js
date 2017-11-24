@@ -101,8 +101,8 @@ var Grid = function() {
 		newGrid.cells.push([]);
 		for (var x = 0; x < gridWidth; x++){
 			var newCell = Cell(y, x);
-			if(x == 0 || x == gridWidth - 1 || y == 0 || y == gridHeight - 1)
-				newCell.beObstacle();
+			// if(x == 1 || x == gridWidth - 2 || y == 1 || y == gridHeight - 2) newCell.beFood();
+			if(x == 0 || x == gridWidth - 1 || y == 0 || y == gridHeight - 1) newCell.beObstacle();
 			newRow.appendChild(newCell);
 			newGrid.cells[y].push(newCell);
 		};
