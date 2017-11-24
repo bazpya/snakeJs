@@ -82,7 +82,7 @@ function dropFood() {
 			foodX = 1 + Math.floor(Math.random() * (gridWidth - 2));
 			foodY = 1 + Math.floor(Math.random() * (gridHeight - 2));
 			nextFoodCell = grid.cells[foodX][foodY];
-		} while (nextFoodCell.isWorm || nextFoodCell.isObstacle);
+		} while (!nextFoodCell.isNormal);
 		nextFoodCell.beFood();
 		previousFoodCell = nextFoodCell;
 	}
@@ -118,6 +118,10 @@ HTMLTableCellElement.prototype.isWorm = 0;
 HTMLTableCellElement.prototype.isFood = 0;
 HTMLTableCellElement.prototype.row = 0;
 HTMLTableCellElement.prototype.column = 0;
+
+Object.defineProperties(HTMLTableCellElement.prototype,{
+	isNormal: { get: function () {return !(this.isWorm || this.isFood || this.isObstacle)}}
+});
 
 HTMLTableCellElement.prototype.beObstacle = function() {
 	this.style.backgroundColor = 'red';
