@@ -72,7 +72,7 @@ function bindEventHandlers(){
 };
 
 function speedUp(){
-	if(movingTimeStep > 80) movingTimeStep -= 5;
+	if(movingTimeStep > 85) movingTimeStep -= 5;
 };
 
 function dropFood() {
