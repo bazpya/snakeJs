@@ -14,6 +14,7 @@ function initialise(){
 	foodDroppingTimeStep = 3000; // milliseconds
 	isPaused = false;
 	isOver = false;
+	acceptKey = true;
 	cellWidthPixels = gridContainer.offsetWidth / gridWidth + 'px';
 	cellHeightPixels = gridContainer.offsetHeight / gridHeight + 'px';
 	grid = Grid();
@@ -61,10 +62,30 @@ function bindEventHandlers(){
 	
 	window.onkeydown = function(keyDownEvent){
 		switch(keyDownEvent.keyCode){
-			case 87: if(worm.length > 1 && movingDirection == 'down') break; movingDirection = 'up'; break;
-			case 68: if(worm.length > 1 && movingDirection == 'left') break; movingDirection = 'right'; break;
-			case 83: if(worm.length > 1 && movingDirection == 'up') break; movingDirection = 'down'; break;
-			case 65: if(worm.length > 1 && movingDirection == 'right') break; movingDirection = 'left'; break;
+			case 87:
+				if(!acceptKey) break;
+				acceptKey = false;
+				if(worm.length > 1 && movingDirection == 'down') break; // Disable reverse
+				movingDirection = 'up';
+				break;
+			case 68:
+				if(!acceptKey) break;
+				acceptKey = false;
+				if(worm.length > 1 && movingDirection == 'left') break; // Disable reverse
+				movingDirection = 'right';
+				break;
+			case 83:
+				if(!acceptKey) break;
+				acceptKey = false;
+				if(worm.length > 1 && movingDirection == 'up') break; // Disable reverse
+				movingDirection = 'down';
+				break;
+			case 65:
+				if(!acceptKey) break;
+				acceptKey = false;
+				if(worm.length > 1 && movingDirection == 'right') break; // Disable reverse
+				movingDirection = 'left';
+				break;
 			case 80: isPaused = !isPaused; break;
 			default: break;
 		};
@@ -194,6 +215,7 @@ Object.defineProperties(Worm.prototype,{
 
 Worm.prototype.update = function(){
 	var nextCell = this.getNextCell();
+	acceptKey = true;
 	if(nextCell.isObstacle || nextCell.isWorm){
 		gameOver();
 	}
