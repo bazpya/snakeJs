@@ -10,12 +10,14 @@ function initialise(){
 	gridWidth = 20;
 	gridHeight = 20;
 	currentDirection = 'down';
+	wormColour = 'yellowgreen';
+	foodColour = 'yellow';
+	obstacleColour = 'red';
 	directions = [];
 	movingTimeStep = 150; // milliseconds
 	foodDroppingTimeStep = 3000; // milliseconds
 	isPaused = false;
 	isOver = false;
-	acceptKey = true;
 	cellWidthPixels = gridContainer.offsetWidth / gridWidth + 'px';
 	cellHeightPixels = gridContainer.offsetHeight / gridHeight + 'px';
 	grid = Grid();
@@ -99,7 +101,7 @@ function dropFood() {
 		} while (!nextFoodCell.isNormal);
 		nextFoodCell.beFood();
 		previousFoodCell = nextFoodCell;
-	}
+	};
 	setTimeout(dropFood, foodDroppingTimeStep);
 };
 
@@ -146,21 +148,21 @@ Object.defineProperties(HTMLTableCellElement.prototype,{
 });
 
 HTMLTableCellElement.prototype.beObstacle = function() {
-	this.style.backgroundColor = 'red';
+	this.style.backgroundColor = obstacleColour;
 	this.isObstacle = 1;
 	this.isWorm = 0;
 	this.isFood = 0;
 };
 
 HTMLTableCellElement.prototype.beWorm = function() {
-	this.style.backgroundColor = 'yellowgreen';
+	this.style.backgroundColor = wormColour;
 	this.isObstacle = 0;
 	this.isWorm = 1;
 	this.isFood = 0;
 };
 
 HTMLTableCellElement.prototype.beFood = function() {
-	this.style.backgroundColor = 'yellow';
+	this.style.backgroundColor = foodColour;
 	this.isObstacle = 0;
 	this.isWorm = 0;
 	this.isFood = 1;
@@ -206,29 +208,34 @@ var Worm = function() {
 };
 
 Object.defineProperties(Worm.prototype,{
+	head: { get: function () {return this.sections[0]}},
 	length: { get: function () {return this.sections.length}},
-	tail: { get: function () {return this.sections.last}},
-	head: { get: function () {return this.sections[0]}}
+	tail: { get: function () {return this.sections.last}}
 });
 
 Worm.prototype.update = function(){
 	var nextCell = this.getNextCell();
-	acceptKey = true;
 	if(nextCell.isObstacle || nextCell.isWorm){    // Forbidden cell
 		gameOver();
 	}
 	else if(nextCell.isFood){    // Food cell
+		this.moveHeadTo(nextCell);
 		speedUp();
-		this.sections.unshift(nextCell);
-		nextCell.beWorm();
 	}
 	else {    // Normal cell
-		this.sections.unshift(nextCell);
-		nextCell.beWorm();
-		var previousTail = this.tail;
-		this.sections.splice(-1,1);
-		previousTail.beNormal();
-	}
+		this.moveHeadTo(nextCell);
+		this.moveTail();
+	};
+};
+
+Worm.prototype.moveHeadTo = function(nextHeadCell){
+	this.sections.unshift(nextHeadCell);
+	this.head.beWorm();
+};
+
+Worm.prototype.moveTail = function(){
+	this.tail.beNormal();
+	this.sections.splice(-1,1);
 };
 
 Worm.prototype.getNextCell = function(){
@@ -236,7 +243,7 @@ Worm.prototype.getNextCell = function(){
 	if (directions.length > 0) {
 		nextMove = directions.shift();
 		currentDirection = nextMove;
-	}
+	};
 	switch(nextMove){
 		case 'up': return grid.cells[this.head.row - 1][this.head.column]; break;
 		case 'right': return grid.cells[this.head.row][this.head.column + 1]; break;
