@@ -9,7 +9,8 @@ function initialise(){
 	theButton = document.getElementById('button');
 	gridWidth = 20;
 	gridHeight = 20;
-	movingDirection = 'down';
+	currentDirection = 'down';
+	directions = [];
 	movingTimeStep = 150; // milliseconds
 	foodDroppingTimeStep = 3000; // milliseconds
 	isPaused = false;
@@ -63,28 +64,20 @@ function bindEventHandlers(){
 	window.onkeydown = function(keyDownEvent){
 		switch(keyDownEvent.keyCode){
 			case 87:
-				if(!acceptKey) break;
-				acceptKey = false;
-				if(worm.length > 1 && movingDirection == 'down') break; // Disable reverse
-				movingDirection = 'up';
+				if(worm.length > 1 && currentDirection == 'down') break; // Disable reverse
+				directions.push('up');
 				break;
 			case 68:
-				if(!acceptKey) break;
-				acceptKey = false;
-				if(worm.length > 1 && movingDirection == 'left') break; // Disable reverse
-				movingDirection = 'right';
+				if(worm.length > 1 && currentDirection == 'left') break; // Disable reverse
+				directions.push('right');
 				break;
 			case 83:
-				if(!acceptKey) break;
-				acceptKey = false;
-				if(worm.length > 1 && movingDirection == 'up') break; // Disable reverse
-				movingDirection = 'down';
+				if(worm.length > 1 && currentDirection == 'up') break; // Disable reverse
+				directions.push('down');
 				break;
 			case 65:
-				if(!acceptKey) break;
-				acceptKey = false;
-				if(worm.length > 1 && movingDirection == 'right') break; // Disable reverse
-				movingDirection = 'left';
+				if(worm.length > 1 && currentDirection == 'right') break; // Disable reverse
+				directions.push('left');
 				break;
 			case 80: isPaused = !isPaused; break;
 			default: break;
@@ -110,6 +103,10 @@ function dropFood() {
 	setTimeout(dropFood, foodDroppingTimeStep);
 };
 
+Object.defineProperties(Array.prototype,{
+	last: { get: function () {return this[this.length-1]}}
+});
+
 //###########################  Grid  ##############################################
 //#################################################################################
 
@@ -126,7 +123,7 @@ var Grid = function() {
 			// if(x == 2 || x == gridWidth - 3 || y == 2 || y == gridHeight - 3) newCell.beFood();
 			// if(x == 3 || x == gridWidth - 4 || y == 3 || y == gridHeight - 4) newCell.beFood();
 			// if(x == 4 || x == gridWidth - 5 || y == 4 || y == gridHeight - 5) newCell.beFood();
-			// if(x == 5 || x == gridWidth - 6 || y == 5 || y == gridHeight - 6) newCell.beFood();
+			if(x == 5 || x == gridWidth - 6 || y == 5 || y == gridHeight - 6) newCell.beFood();
 			if(x == 0 || x == gridWidth - 1 || y == 0 || y == gridHeight - 1) newCell.beObstacle();
 			newRow.appendChild(newCell);
 			newGrid.cells[y].push(newCell);
@@ -214,22 +211,22 @@ Object.defineProperties(Worm.prototype,{
 });
 
 Object.defineProperties(Worm.prototype,{
-	tail: { get: function () {return this.sections[this.length - 1]}}
+	tail: { get: function () {return this.sections.last}}
 });
 
 Worm.prototype.update = function(){
 	var nextCell = this.getNextCell();
 	acceptKey = true;
-	if(nextCell.isObstacle || nextCell.isWorm){
+	if(nextCell.isObstacle || nextCell.isWorm){    // Forbidden cell
 		gameOver();
 	}
-	else if(nextCell.isFood){
+	else if(nextCell.isFood){    // Food cell
 		speedUp();
 		this.sections.unshift(nextCell);
 		this.head = nextCell;
 		nextCell.beWorm();
 	}
-	else {
+	else {    // Normal cell
 		this.sections.unshift(nextCell);
 		this.head = nextCell;
 		nextCell.beWorm();
@@ -240,7 +237,12 @@ Worm.prototype.update = function(){
 };
 
 Worm.prototype.getNextCell = function(){
-	switch(movingDirection){
+	var nextMove = currentDirection;
+	if (directions.length > 0) {
+		nextMove = directions.shift();
+		currentDirection = nextMove;
+	}
+	switch(nextMove){
 		case 'up': return grid.cells[this.head.row - 1][this.head.column]; break;
 		case 'right': return grid.cells[this.head.row][this.head.column + 1]; break;
 		case 'down': return grid.cells[this.head.row + 1][this.head.column]; break;
