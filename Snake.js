@@ -201,17 +201,14 @@ var Cell = function(rowNumber, columnNumber) {
 
 var Worm = function() {
 	this.sections = [];
-	this.head = grid.cells[1][1];
-	this.sections.push(this.head);
+	this.sections.push(grid.cells[1][1]);
 	this.head.beWorm();
 };
 
 Object.defineProperties(Worm.prototype,{
-	length: { get: function () {return this.sections.length}}
-});
-
-Object.defineProperties(Worm.prototype,{
-	tail: { get: function () {return this.sections.last}}
+	length: { get: function () {return this.sections.length}},
+	tail: { get: function () {return this.sections.last}},
+	head: { get: function () {return this.sections[0]}}
 });
 
 Worm.prototype.update = function(){
@@ -223,12 +220,10 @@ Worm.prototype.update = function(){
 	else if(nextCell.isFood){    // Food cell
 		speedUp();
 		this.sections.unshift(nextCell);
-		this.head = nextCell;
 		nextCell.beWorm();
 	}
 	else {    // Normal cell
 		this.sections.unshift(nextCell);
-		this.head = nextCell;
 		nextCell.beWorm();
 		var previousTail = this.tail;
 		this.sections.splice(-1,1);
