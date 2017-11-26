@@ -12,7 +12,12 @@ function initialise(){
 	currentDirection = 'down';
 	wormColour = 'yellowgreen';
 	foodColour = 'yellow';
-	obstacleColour = 'red';
+	obstacleColour = 'orangered';
+	keyCodeForUp = 'W'.charCodeAt(0);
+	keyCodeForRight = 'D'.charCodeAt(0);
+	keyCodeForDown = 'S'.charCodeAt(0);
+	keyCodeForLeft = 'A'.charCodeAt(0);
+	keyCodeForPause = ' '.charCodeAt(0);
 	directions = [];
 	movingTimeStep = 150; // milliseconds
 	foodDroppingTimeStep = 3000; // milliseconds
@@ -62,26 +67,25 @@ function gameOver(){
 
 function bindEventHandlers(){
 	theButton.onmousedown = start;
-	
 	window.onkeydown = function(keyDownEvent){
 		switch(keyDownEvent.keyCode){
-			case 87:
+			case keyCodeForUp:
 				if(worm.length > 1 && currentDirection == 'down') break; // Disable reverse
 				directions.push('up');
 				break;
-			case 68:
+			case keyCodeForRight:
 				if(worm.length > 1 && currentDirection == 'left') break; // Disable reverse
 				directions.push('right');
 				break;
-			case 83:
+			case keyCodeForDown:
 				if(worm.length > 1 && currentDirection == 'up') break; // Disable reverse
 				directions.push('down');
 				break;
-			case 65:
+			case keyCodeForLeft:
 				if(worm.length > 1 && currentDirection == 'right') break; // Disable reverse
 				directions.push('left');
 				break;
-			case 80: isPaused = !isPaused; break;
+			case keyCodeForPause: isPaused = !isPaused; break;
 			default: break;
 		};
 	};
@@ -121,10 +125,10 @@ var Grid = function() {
 		newGrid.cells.push([]);
 		for (var x = 0; x < gridWidth; x++){
 			var newCell = Cell(y, x);
-			// if(x == 1 || x == gridWidth - 2 || y == 1 || y == gridHeight - 2) newCell.beFood();
-			// if(x == 2 || x == gridWidth - 3 || y == 2 || y == gridHeight - 3) newCell.beFood();
-			// if(x == 3 || x == gridWidth - 4 || y == 3 || y == gridHeight - 4) newCell.beFood();
-			// if(x == 4 || x == gridWidth - 5 || y == 4 || y == gridHeight - 5) newCell.beFood();
+			if(x == 1 || x == gridWidth - 2 || y == 1 || y == gridHeight - 2) newCell.beFood();
+			if(x == 2 || x == gridWidth - 3 || y == 2 || y == gridHeight - 3) newCell.beFood();
+			if(x == 3 || x == gridWidth - 4 || y == 3 || y == gridHeight - 4) newCell.beFood();
+			if(x == 4 || x == gridWidth - 5 || y == 4 || y == gridHeight - 5) newCell.beFood();
 			if(x == 5 || x == gridWidth - 6 || y == 5 || y == gridHeight - 6) newCell.beFood();
 			if(x == 0 || x == gridWidth - 1 || y == 0 || y == gridHeight - 1) newCell.beObstacle();
 			newRow.appendChild(newCell);
@@ -137,42 +141,34 @@ var Grid = function() {
 
 //############################  Cell  #############################################
 //#################################################################################
-HTMLTableCellElement.prototype.isObstacle = 0;
-HTMLTableCellElement.prototype.isWorm = 0;
-HTMLTableCellElement.prototype.isFood = 0;
-HTMLTableCellElement.prototype.row = 0;
-HTMLTableCellElement.prototype.column = 0;
 
 Object.defineProperties(HTMLTableCellElement.prototype,{
+	row : { value: 0, writable: true},
+	column : { value: 0, writable: true},
+	isObstacle : { value: 0, writable: true},
+	isWorm : { value: 0, writable: true},
+	isFood : { value: 0, writable: true},
 	isNormal: { get: function () {return !(this.isWorm || this.isFood || this.isObstacle)}}
 });
 
 HTMLTableCellElement.prototype.beObstacle = function() {
+	this.isObstacle = 1; this.isWorm = 0; this.isFood = 0;
 	this.style.backgroundColor = obstacleColour;
-	this.isObstacle = 1;
-	this.isWorm = 0;
-	this.isFood = 0;
 };
 
 HTMLTableCellElement.prototype.beWorm = function() {
+	this.isObstacle = 0; this.isWorm = 1; this.isFood = 0;
 	this.style.backgroundColor = wormColour;
-	this.isObstacle = 0;
-	this.isWorm = 1;
-	this.isFood = 0;
 };
 
 HTMLTableCellElement.prototype.beFood = function() {
+	this.isObstacle = 0; this.isWorm = 0; this.isFood = 1;
 	this.style.backgroundColor = foodColour;
-	this.isObstacle = 0;
-	this.isWorm = 0;
-	this.isFood = 1;
 };
 
 HTMLTableCellElement.prototype.beNormal = function() {
+	this.isObstacle = 0; this.isWorm = 0; this.isFood = 0;
 	this.style.backgroundColor = '';
-	this.isObstacle = 0;
-	this.isWorm = 0;
-	this.isFood = 0;
 };
 
 var Cell = function(rowNumber, columnNumber) {
