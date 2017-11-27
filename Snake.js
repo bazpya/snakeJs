@@ -7,8 +7,8 @@ function initialise(){
 	gridContainer = document.getElementById('grid-container');
 	lengthDisplay = document.getElementById('length-display');
 	theButton = document.getElementById('button');
-	gridWidth = 20;
-	gridHeight = 20;
+	gridWidth = 30;
+	gridHeight = 30;
 	currentDirection = 'down';
 	wormColour = 'yellowgreen';
 	foodColour = 'yellow';
@@ -19,42 +19,12 @@ function initialise(){
 	keyCodeForDown = 'S'.charCodeAt(0);
 	keyCodeForLeft = 'A'.charCodeAt(0);
 	keyCodeForPause = ' '.charCodeAt(0);
-	directionKeyCodeMapping = {
-		false:{'up':{}, 'right':{}, 'down':{}, left:{}},
-		true:{'up':{}, 'right':{}, 'down':{}, left:{}}
-	};
-	directionKeyCodeMapping[false]['up'][keyCodeForUp] = function(){};
-	directionKeyCodeMapping[false]['up'][keyCodeForRight] = function(){directions.push('right')};
-	directionKeyCodeMapping[false]['up'][keyCodeForDown] = function(){directions.push('down')};
-	directionKeyCodeMapping[false]['up'][keyCodeForLeft] = function(){directions.push('left')};
-	directionKeyCodeMapping[false]['right'][keyCodeForUp] = function(){directions.push('up')};
-	directionKeyCodeMapping[false]['right'][keyCodeForRight] = function(){};
-	directionKeyCodeMapping[false]['right'][keyCodeForDown] = function(){directions.push('down')};
-	directionKeyCodeMapping[false]['right'][keyCodeForLeft] = function(){directions.push('left')};
-	directionKeyCodeMapping[false]['down'][keyCodeForUp] = function(){directions.push('up')};
-	directionKeyCodeMapping[false]['down'][keyCodeForRight] = function(){directions.push('right')};
-	directionKeyCodeMapping[false]['down'][keyCodeForDown] = function(){};
-	directionKeyCodeMapping[false]['down'][keyCodeForLeft] = function(){directions.push('left')};
-	directionKeyCodeMapping[false]['left'][keyCodeForUp] = function(){directions.push('up')};
-	directionKeyCodeMapping[false]['left'][keyCodeForRight] = function(){directions.push('right')};
-	directionKeyCodeMapping[false]['left'][keyCodeForDown] = function(){directions.push('down')};
-	directionKeyCodeMapping[false]['left'][keyCodeForLeft] = function(){};
-	directionKeyCodeMapping[true]['up'][keyCodeForUp] = function(){};
-	directionKeyCodeMapping[true]['up'][keyCodeForRight] = function(){directions.push('right')};
-	directionKeyCodeMapping[true]['up'][keyCodeForDown] = function(){};
-	directionKeyCodeMapping[true]['up'][keyCodeForLeft] = function(){directions.push('left')};
-	directionKeyCodeMapping[true]['right'][keyCodeForUp] = function(){directions.push('up')};
-	directionKeyCodeMapping[true]['right'][keyCodeForRight] = function(){};
-	directionKeyCodeMapping[true]['right'][keyCodeForDown] = function(){directions.push('down')};
-	directionKeyCodeMapping[true]['right'][keyCodeForLeft] = function(){};
-	directionKeyCodeMapping[true]['down'][keyCodeForUp] = function(){};
-	directionKeyCodeMapping[true]['down'][keyCodeForRight] = function(){directions.push('right')};
-	directionKeyCodeMapping[true]['down'][keyCodeForDown] = function(){};
-	directionKeyCodeMapping[true]['down'][keyCodeForLeft] = function(){directions.push('left')};
-	directionKeyCodeMapping[true]['left'][keyCodeForUp] = function(){directions.push('up')};
-	directionKeyCodeMapping[true]['left'][keyCodeForRight] = function(){};
-	directionKeyCodeMapping[true]['left'][keyCodeForDown] = function(){directions.push('down')};
-	directionKeyCodeMapping[true]['left'][keyCodeForLeft] = function(){};
+	directionKeyCodeMapping = {};
+	directionKeyCodeMapping[keyCodeForUp] = function(){directions.push('up')};
+	directionKeyCodeMapping[keyCodeForRight] = function(){directions.push('right')};
+	directionKeyCodeMapping[keyCodeForDown] = function(){directions.push('down')};
+	directionKeyCodeMapping[keyCodeForLeft] = function(){directions.push('left')};
+	directionKeyCodeMapping[keyCodeForPause] = function(){isPaused = !isPaused};
 	movingTimeStep = 150; // milliseconds
 	foodDroppingTimeStep = 3000; // milliseconds
 	isPaused = false;
@@ -64,11 +34,11 @@ function initialise(){
 	grid = Grid();
 	previousFoodCell = grid.cells[1][1];
 	gridContainer.appendChild(grid);
-	worm = new Worm();
 };
 
 function start(){
 	dropFood();
+	worm = new Worm();
 	theButton.innerText = "Restart";
 	theButton.onmousedown = restart;
 	run();
@@ -104,24 +74,7 @@ function gameOver(){
 function bindEventHandlers(){
 	theButton.onmousedown = start;
 	window.onkeydown = function(keyDownEvent){
-		// directions.push(directionKeyCodeMapping[keyDownEvent.keyCode]);
-		directionKeyCodeMapping[worm.length > 1][currentDirection][keyDownEvent.keyCode]();
-		// switch(keyDownEvent.keyCode){
-			// case keyCodeForUp:
-				// if(worm.length > 1 && currentDirection == 'down') break; // Disable reverse
-				// directions.push(directionKeyCodeMapping.keyCodeForUp); break;
-			// case keyCodeForRight:
-				// if(worm.length > 1 && currentDirection == 'left') break; // Disable reverse
-				// directions.push(directionKeyCodeMapping.keyCodeForRight); break;
-			// case keyCodeForDown:
-				// if(worm.length > 1 && currentDirection == 'up') break; // Disable reverse
-				// directions.push(directionKeyCodeMapping.keyCodeForDown); break;
-			// case keyCodeForLeft:
-				// if(worm.length > 1 && currentDirection == 'right') break; // Disable reverse
-				// directions.push(directionKeyCodeMapping.keyCodeForLeft); break;
-			// case keyCodeForPause: isPaused = !isPaused; break;
-			// default: break;
-		// };
+		directionKeyCodeMapping[keyDownEvent.keyCode]();
 	};
 };
 
@@ -161,7 +114,7 @@ var Grid = function() {
 			var newCell = Cell(y, x);
 			// if(x == 1 || x == gridWidth - 2 || y == 1 || y == gridHeight - 2) newCell.beFood();
 			// if(x == 2 || x == gridWidth - 3 || y == 2 || y == gridHeight - 3) newCell.beFood();
-			// if(x == 3 || x == gridWidth - 4 || y == 3 || y == gridHeight - 4) newCell.beFood();
+			// if(x == 3 || x == gridWidth - 4 || y == S3 || y == gridHeight - 4) newCell.beFood();
 			// if(x == 4 || x == gridWidth - 5 || y == 4 || y == gridHeight - 5) newCell.beFood();
 			// if(x == 5 || x == gridWidth - 6 || y == 5 || y == gridHeight - 6) newCell.beFood();
 			if(x == 0 || x == gridWidth - 1 || y == 0 || y == gridHeight - 1) newCell.beObstacle();
