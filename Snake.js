@@ -10,9 +10,12 @@ function initialise(){
 	gridWidth = 30;
 	gridHeight = 30;
 	currentDirection = 'down';
-	wormColour = 'yellowgreen';
-	foodColour = 'yellow';
-	obstacleColour = 'orangered';
+	// wormColour = 'yellowgreen';
+	// foodColour = 'yellow';
+	// obstacleColour = 'orangered';
+	wormColour = '#353535';
+	foodColour = '#404040';
+	obstacleColour = '#303030';
 	directions = [];
 	keyCodeForUp = 'W'.charCodeAt(0);
 	keyCodeForRight = 'D'.charCodeAt(0);
