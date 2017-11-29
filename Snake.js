@@ -5,12 +5,11 @@ window.onload = function(){
 
 function initialise(){
 	gridContainer = document.getElementById('grid-container');
-	lengthDisplay = document.getElementById('length-display');
+	lengthDisplay = document.getElementById('score');
 	theButton = document.getElementById('button');
 	gridWidth = 40;  // cells
 	gridHeight = 40;  // cells
 	cellDimensionPixels = '10px';
-	// gridContainer.style.height = (gridHeight * (cellDimensionPixels + 1) ) + 'px';
 	currentDirection = 'down';
 	// wormColour = 'yellowgreen';
 	// foodColour = 'yellow';
