@@ -44,21 +44,15 @@ body {
 }
 
 #grid-container{
-	box-sizing:border-box;
-	border-bottom:1px solid grey;
-	border-right:1px solid grey;
-	height:500px;
+	background-color: green;
 }
 
 table {
-	border-spacing:0;
-	border-collapse:collapse;
+	border-spacing:1px;
+	background-color: grey;
 }
 
 td {
 	box-sizing:border-box;
-	border-top:1px solid grey;
-	border-left:1px solid grey;
-	/* width:10px; */
-	/* height:10px; */
+	background-color: black;
 }

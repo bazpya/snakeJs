@@ -7,15 +7,17 @@ function initialise(){
 	gridContainer = document.getElementById('grid-container');
 	lengthDisplay = document.getElementById('length-display');
 	theButton = document.getElementById('button');
-	gridWidth = 30;
-	gridHeight = 30;
+	gridWidth = 40;  // cells
+	gridHeight = 40;  // cells
+	cellDimensionPixels = '10px';
+	// gridContainer.style.height = (gridHeight * (cellDimensionPixels + 1) ) + 'px';
 	currentDirection = 'down';
-	// wormColour = 'yellowgreen';
-	// foodColour = 'yellow';
-	// obstacleColour = 'orangered';
-	wormColour = '#353535';
-	foodColour = '#404040';
-	obstacleColour = '#303030';
+	wormColour = 'yellowgreen';
+	foodColour = 'yellow';
+	obstacleColour = 'orangered';
+	// wormColour = '#353535';
+	// foodColour = '#404040';
+	// obstacleColour = '#303030';
 	directions = [];
 	keyCodeForUp = 'W'.charCodeAt(0);
 	keyCodeForRight = 'D'.charCodeAt(0);
@@ -28,12 +30,10 @@ function initialise(){
 	directionKeyCodeMapping[keyCodeForDown] = function(){directions.push('down')};
 	directionKeyCodeMapping[keyCodeForLeft] = function(){directions.push('left')};
 	directionKeyCodeMapping[keyCodeForPause] = function(){isPaused = !isPaused};
-	movingTimeStep = 120; // milliseconds
-	foodDroppingTimeStep = 3000; // milliseconds
+	movingTimeStep = 120;  // milliseconds
+	foodDroppingTimeStep = 3000;  // milliseconds
 	isPaused = false;
 	isOver = false;
-	cellWidthPixels = gridContainer.offsetWidth / gridWidth + 'px';
-	cellHeightPixels = gridContainer.offsetHeight / gridHeight + 'px';
 	grid = Grid();
 	previousFoodCell = grid.cells[1][1];
 	gridContainer.appendChild(grid);
@@ -166,8 +166,8 @@ var Cell = function(rowNumber, columnNumber) {
 	newElement.className = 'cell';
 	newElement.row = rowNumber;
 	newElement.column = columnNumber;
-	newElement.style.width = cellWidthPixels;
-	newElement.style.height = cellHeightPixels;
+	newElement.style.width = cellDimensionPixels;
+	newElement.style.height = cellDimensionPixels;
 	// newElement.onmousedown = function(clickEvent) {
 		// clickEvent.preventDefault();
 		// var mouseButton = clickEvent.which;
