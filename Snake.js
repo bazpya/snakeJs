@@ -7,8 +7,11 @@ function initialise(){
 	gridContainer = document.getElementById('grid-container');
 	lengthDisplay = document.getElementById('score');
 	theButton = document.getElementById('button');
-	gridWidth = 40;  // cells
-	gridHeight = 40;  // cells
+	openingSound = document.getElementById('opening-sound');
+	swallowSound = document.getElementById('swallow-sound');
+
+	gridWidth = 20;  // cells
+	gridHeight = 20;  // cells
 	cellDimensionPixels = '10px';
 	currentDirection = 'down';
 	// wormColour = 'yellowgreen';
@@ -48,8 +51,8 @@ function start(){
 
 function restart(){
 	delete grid;
-	while(gridContainer.firstChild){
-		gridContainer.removeChild(gridContainer.firstChild);
+	while(gridContainer.lastChild){
+		gridContainer.removeChild(gridContainer.lastChild);
 	};
 	delete worm;
 	initialise();
@@ -206,6 +209,7 @@ Worm.prototype.update = function(){
 	}
 	else if(nextCell.isFood){    // Food cell
 		this.moveHeadTo(nextCell);
+		swallowSound.play();
 		speedUp();
 	}
 	else {    // Normal cell
