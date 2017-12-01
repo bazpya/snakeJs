@@ -9,7 +9,13 @@ function initialise(){
 	theButton = document.getElementById('button');
 	openingSound = document.getElementById('opening-sound');
 	swallowSound = document.getElementById('swallow-sound');
-
+	// swallowSound.play();
+	audioCtx = new AudioContext();
+	beepOscillator = audioCtx.createOscillator();
+	beepOscillator.frequency.value = 3000;
+	beepOscillator.connect(audioCtx.destination);
+	beepOscillator.start();
+	beepOscillator.disconnect();
 	gridWidth = 20;  // cells
 	gridHeight = 20;  // cells
 	cellDimensionPixels = '10px';
@@ -104,6 +110,11 @@ function dropFood() {
 Object.defineProperties(Array.prototype,{
 	last: { get: function () {return this[this.length-1]}}
 });
+
+function beep(){
+	beepOscillator.connect(audioCtx.destination);
+	setTimeout(function(){beepOscillator.disconnect();},50)
+};
 
 //###########################  Grid  ##############################################
 //#################################################################################
@@ -209,7 +220,7 @@ Worm.prototype.update = function(){
 	}
 	else if(nextCell.isFood){    // Food cell
 		this.moveHeadTo(nextCell);
-		swallowSound.play();
+		beep();
 		speedUp();
 	}
 	else {    // Normal cell
