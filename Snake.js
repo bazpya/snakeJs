@@ -104,7 +104,7 @@ function dropFood() {
 		nextFoodCell.beFood();
 		previousFoodCell = nextFoodCell;
 	};
-	setTimeout(dropFood, foodDroppingTimeStep);
+	setTimeout(dropFood, foodDroppingTimeStep); // replace with setInterval and clear it in callback
 };
 
 Object.defineProperties(Array.prototype,{
