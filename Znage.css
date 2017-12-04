@@ -1,12 +1,12 @@
 :root{
 	--corner-percentage: 20%;
 	--crosshair-movement-time: 0.2s;
-	--worm-colour: yellowgreen;
-	--food-colour: yellow;
-	--obstacle-colour: orangered;
-	/* --worm-colour: #353535; */
-	/* --food-colour: #404040; */
-	/* --obstacle-colour: #303030; */
+	/* --worm-colour: yellowgreen; */
+	/* --food-colour: yellow; */
+	/* --obstacle-colour: orangered; */
+	--worm-colour: #353535;
+	--food-colour: #404040;
+	--obstacle-colour: #303030;
 }
 * {
     margin: 0;
