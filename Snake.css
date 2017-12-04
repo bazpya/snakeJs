@@ -1,11 +1,17 @@
+:root{
+	--corner-percentage: 20%;
+	--crosshair-movement-time: 0.2s;
+	--worm-colour: yellowgreen;
+	--food-colour: yellow;
+	--obstacle-colour: orangered;
+	/* --worm-colour: #353535; */
+	/* --food-colour: #404040; */
+	/* --obstacle-colour: #303030; */
+}
 * {
     margin: 0;
     overflow: hidden;
-	-webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    user-select: none;
+	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -o-user-select: none; user-select: none;
 }
 html {
 	padding: 10px 10px 0 10px;
@@ -29,7 +35,6 @@ body {
 }
 .spread-elements {
 	display:inline-block;
-	/* border:1px solid red; */
 	text-align: center;
 	font-size:24px;
 }
@@ -41,7 +46,6 @@ body {
 	font-size:14px;
 }
 #score{
-	/* color:yellow; */
 	font-size:24px;
 }
 #help{
@@ -70,4 +74,65 @@ table {
 td {
 	box-sizing:border-box;
 	background-color: black;
+}
+td.obstacle{
+	background-color:var(--obstacle-colour);
+}
+td.worm{
+	background-color:var(--worm-colour);
+}
+td.food{
+	background-color:var(--food-colour);
+}
+.target{
+	position:relative;
+}
+.corners{
+    position:absolute;
+	width:var(--corner-percentage);
+	height:var(--corner-percentage);
+	transition-duration: var(--crosshair-movement-time);
+	transition-timing-function: linear;
+	border-color: transparent;
+    border-width:2px;
+}
+.corner-top-left{
+    border-style:solid none none solid;
+    top:calc(50% - var(--corner-percentage));
+    left:calc(50% - var(--corner-percentage));
+}
+.corner-top-right{
+    border-style:solid solid none none;
+    top:calc(50% - var(--corner-percentage));
+    right:calc(50% - var(--corner-percentage));
+}
+.corner-bottom-left{
+    border-style:none none solid solid;
+    bottom:calc(50% - var(--corner-percentage));
+    left:calc(50% - var(--corner-percentage));
+}
+.corner-bottom-right{
+    border-style:none solid solid none;
+    bottom:calc(50% - var(--corner-percentage));
+    right:calc(50% - var(--corner-percentage));
+}
+
+.target:hover .corners{
+	border-color:yellowgreen;
+}
+.target:hover .corner-top-left{
+    top:0;
+    left:0;
+}
+.target:hover .corner-top-right{
+    top:0;
+    right:0;
+}
+.target:hover .corner-bottom-left{
+    bottom:0;
+    left:0;
+}
+.target:hover .corner-bottom-right{
+    bottom:0;
+    right:0;
 }

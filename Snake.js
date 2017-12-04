@@ -8,8 +8,9 @@ function initialise(){
 	lengthDisplay = document.getElementById('score');
 	theButton = document.getElementById('button');
 	openingSound = document.getElementById('opening-sound');
-	swallowSound = document.getElementById('swallow-sound');
-	// swallowSound.play();
+	closingSound = document.getElementById('swallow-sound');
+	targets = document.getElementsByClassName('target');
+	initialiseCrosshairs();
 	audioCtx = new AudioContext();
 	beepOscillator = audioCtx.createOscillator();
 	beepOscillator.frequency.value = 3000;
@@ -20,12 +21,6 @@ function initialise(){
 	gridHeight = 20;  // cells
 	cellDimensionPixels = '10px';
 	currentDirection = 'down';
-	// wormColour = 'yellowgreen';
-	// foodColour = 'yellow';
-	// obstacleColour = 'orangered';
-	wormColour = '#353535';
-	foodColour = '#404040';
-	obstacleColour = '#303030';
 	directions = [];
 	keyCodeForUp = 'W'.charCodeAt(0);
 	keyCodeForRight = 'D'.charCodeAt(0);
@@ -50,7 +45,7 @@ function initialise(){
 function start(){
 	dropFood();
 	worm = new Worm();
-	theButton.innerText = "Restart";
+	theButton.firstChild.textContent = "Restart";
 	theButton.onmousedown = restart;
 	run();
 };
@@ -116,6 +111,25 @@ function beep(){
 	setTimeout(function(){beepOscillator.disconnect();},50)
 };
 
+function initialiseCrosshairs(){
+	Array.prototype.forEach.call(targets, function(item){
+		var cornerTopLeft = document.createElement('div');
+		cornerTopLeft.classList.add('corners','corner-top-left');
+		item.appendChild(cornerTopLeft);
+		var cornerTopRight = document.createElement('div');
+		cornerTopRight.classList.add('corners','corner-top-right');
+		item.appendChild(cornerTopRight);
+		var cornerBottomLeft = document.createElement('div');
+		cornerBottomLeft.classList.add('corners','corner-bottom-left');
+		item.appendChild(cornerBottomLeft);
+		var cornerBottomRight = document.createElement('div');
+		cornerBottomRight.classList.add('corners','corner-bottom-right');
+		item.appendChild(cornerBottomRight);
+		item.onmouseenter = mouseIn;
+		item.onmouseleave = mouseOut;
+	});
+};
+
 //###########################  Grid  ##############################################
 //#################################################################################
 
@@ -155,24 +169,24 @@ Object.defineProperties(HTMLTableCellElement.prototype,{
 	isNormal: { get: function () {return !(this.isWorm || this.isFood || this.isObstacle)}}
 });
 
+HTMLTableCellElement.prototype.beNormal = function() {
+	this.isObstacle = 0; this.isWorm = 0; this.isFood = 0;
+	this.className = 'cell';
+};
+
 HTMLTableCellElement.prototype.beObstacle = function() {
 	this.isObstacle = 1; this.isWorm = 0; this.isFood = 0;
-	this.style.backgroundColor = obstacleColour;
+	this.className = 'obstacle';
 };
 
 HTMLTableCellElement.prototype.beWorm = function() {
 	this.isObstacle = 0; this.isWorm = 1; this.isFood = 0;
-	this.style.backgroundColor = wormColour;
+	this.className = 'worm';
 };
 
 HTMLTableCellElement.prototype.beFood = function() {
 	this.isObstacle = 0; this.isWorm = 0; this.isFood = 1;
-	this.style.backgroundColor = foodColour;
-};
-
-HTMLTableCellElement.prototype.beNormal = function() {
-	this.isObstacle = 0; this.isWorm = 0; this.isFood = 0;
-	this.style.backgroundColor = '';
+	this.className = 'food';
 };
 
 var Cell = function(rowNumber, columnNumber) {
@@ -253,3 +267,11 @@ Worm.prototype.getNextCell = function(){
 		default: break;
 	};
 };
+//############################  Target  #############################################
+//###################################################################################
+function mouseIn(){
+	openingSound.play();
+}
+function mouseOut(){
+	closingSound.play();
+}
