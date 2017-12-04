@@ -7,19 +7,12 @@ function initialise(){
 	gridContainer = document.getElementById('grid-container');
 	lengthDisplay = document.getElementById('score');
 	theButton = document.getElementById('button');
-	openingSound = document.getElementById('opening-sound');
-	closingSound = document.getElementById('swallow-sound');
 	targets = document.getElementsByClassName('target');
 	initialiseCrosshairs();
-	audioCtx = new AudioContext();
-	beepOscillator = audioCtx.createOscillator();
-	beepOscillator.frequency.value = 3000;
-	beepOscillator.connect(audioCtx.destination);
-	beepOscillator.start();
-	beepOscillator.disconnect();
+	initialiseSound();
 	gridWidth = 20;  // cells
 	gridHeight = 20;  // cells
-	cellDimensionPixels = '10px';
+	cellDimensionPixels = '20px';
 	currentDirection = 'down';
 	directions = [];
 	keyCodeForUp = 'W'.charCodeAt(0);
@@ -105,30 +98,6 @@ function dropFood() {
 Object.defineProperties(Array.prototype,{
 	last: { get: function () {return this[this.length-1]}}
 });
-
-function beep(){
-	beepOscillator.connect(audioCtx.destination);
-	setTimeout(function(){beepOscillator.disconnect();},50)
-};
-
-function initialiseCrosshairs(){
-	Array.prototype.forEach.call(targets, function(item){
-		var cornerTopLeft = document.createElement('div');
-		cornerTopLeft.classList.add('corners','corner-top-left');
-		item.appendChild(cornerTopLeft);
-		var cornerTopRight = document.createElement('div');
-		cornerTopRight.classList.add('corners','corner-top-right');
-		item.appendChild(cornerTopRight);
-		var cornerBottomLeft = document.createElement('div');
-		cornerBottomLeft.classList.add('corners','corner-bottom-left');
-		item.appendChild(cornerBottomLeft);
-		var cornerBottomRight = document.createElement('div');
-		cornerBottomRight.classList.add('corners','corner-bottom-right');
-		item.appendChild(cornerBottomRight);
-		item.onmouseenter = mouseIn;
-		item.onmouseleave = mouseOut;
-	});
-};
 
 //###########################  Grid  ##############################################
 //#################################################################################
@@ -234,7 +203,7 @@ Worm.prototype.update = function(){
 	}
 	else if(nextCell.isFood){    // Food cell
 		this.moveHeadTo(nextCell);
-		beep();
+		foodBeep();
 		speedUp();
 	}
 	else {    // Normal cell
@@ -269,9 +238,60 @@ Worm.prototype.getNextCell = function(){
 };
 //############################  Target  #############################################
 //###################################################################################
-function mouseIn(){
-	openingSound.play();
+function initialiseCrosshairs(){
+	Array.prototype.forEach.call(targets, function(item){
+		var cornerTopLeft = document.createElement('div');
+		cornerTopLeft.classList.add('corners','corner-top-left');
+		item.appendChild(cornerTopLeft);
+		var cornerTopRight = document.createElement('div');
+		cornerTopRight.classList.add('corners','corner-top-right');
+		item.appendChild(cornerTopRight);
+		var cornerBottomLeft = document.createElement('div');
+		cornerBottomLeft.classList.add('corners','corner-bottom-left');
+		item.appendChild(cornerBottomLeft);
+		var cornerBottomRight = document.createElement('div');
+		cornerBottomRight.classList.add('corners','corner-bottom-right');
+		item.appendChild(cornerBottomRight);
+		item.onmouseenter = mouseInBeep;
+		item.onmouseleave = mouseOutBeep;
+	});
+};
+
+//#############################  Sound  #############################################
+//###################################################################################
+function initialiseSound(){
+	audioCtx = new AudioContext();
+
+	foodBeepOscillator = audioCtx.createOscillator();
+	foodBeepOscillator.frequency.value = 2000;
+	foodBeepOscillator.connect(audioCtx.destination);
+	foodBeepOscillator.start();
+	foodBeepOscillator.disconnect();
+	
+	mouseInBeepOscillator = audioCtx.createOscillator();
+	mouseInBeepOscillator.frequency.value = 3000;
+	mouseInBeepOscillator.connect(audioCtx.destination);
+	mouseInBeepOscillator.start();
+	mouseInBeepOscillator.disconnect();
+	
+	mouseOutBeepOscillator = audioCtx.createOscillator();
+	mouseOutBeepOscillator.frequency.value = 2500;
+	mouseOutBeepOscillator.connect(audioCtx.destination);
+	mouseOutBeepOscillator.start();
+	mouseOutBeepOscillator.disconnect();
 }
-function mouseOut(){
-	closingSound.play();
-}
+function foodBeep(){
+	foodBeepOscillator.connect(audioCtx.destination);
+	setTimeout(function(){foodBeepOscillator.disconnect();},70);
+};
+
+function mouseInBeep(){
+	mouseInBeepOscillator.connect(audioCtx.destination);
+	setTimeout(function(){mouseInBeepOscillator.disconnect();},50);
+};
+
+function mouseOutBeep(){
+	mouseOutBeepOscillator.connect(audioCtx.destination);
+	setTimeout(function(){mouseOutBeepOscillator.disconnect();},50);
+};
+

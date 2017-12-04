@@ -118,7 +118,7 @@ td.food{
 }
 
 .target:hover .corners{
-	border-color:yellowgreen;
+	border-color:var(--food-colour);
 }
 .target:hover .corner-top-left{
     top:0;
