@@ -1,12 +1,15 @@
 :root{
+	--worm-colour: yellowgreen;
+	--food-colour: yellow;
+	--obstacle-colour: orangered;
+/* ----------------------------------------- */
+	/* --worm-colour: #353535; */
+	/* --food-colour: #404040; */
+	/* --obstacle-colour: #303030; */
+/* ----------------------------------------- */
 	--corner-percentage: 20%;
 	--crosshair-movement-time: 0.2s;
-	/* --worm-colour: yellowgreen; */
-	/* --food-colour: yellow; */
-	/* --obstacle-colour: orangered; */
-	--worm-colour: #353535;
-	--food-colour: #404040;
-	--obstacle-colour: #303030;
+	--cell-dimension: 20px;
 }
 * {
     margin: 0;
@@ -38,7 +41,7 @@ body {
 	text-align: center;
 	font-size:24px;
 }
-#znage{
+#znage-title{
 	color:darkgrey;
 }
 #score-container{
@@ -74,6 +77,8 @@ table {
 td {
 	box-sizing:border-box;
 	background-color: black;
+	width:var(--cell-dimension);
+	height:var(--cell-dimension);
 }
 td.obstacle{
 	background-color:var(--obstacle-colour);

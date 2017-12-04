@@ -1,6 +1,8 @@
-//############################  Mouse-Over Targets  ##################################
+//##################################  Crosshairs  ####################################
 //####################################################################################
 function initialiseCrosshairs(){
+	targets = document.getElementsByClassName('target');
+
 	Array.prototype.forEach.call(targets, function(item){
 		var cornerTopLeft = document.createElement('div');
 		cornerTopLeft.classList.add('corners','corner-top-left');

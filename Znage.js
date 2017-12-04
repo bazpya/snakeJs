@@ -38,20 +38,13 @@ function gameOver(){
 	});
 };
 
-function bindEventHandlers(){
-	theButton.onmousedown = start;
-	window.onkeydown = function(keyDownEvent){
-		directionKeyCodeMapping[keyDownEvent.keyCode]();
-	};
-};
-
 function speedUp(){
-	if(movingTimeStep > 40) movingTimeStep -= 5;
+	if(movingTimeStep > minimumMovingTimeStep) movingTimeStep -= movingTimeStepDecrement;
 };
 
 function dropFood() {
 	if(!isPaused && !isOver){
-		if(previousFoodCell.isFood) previousFoodCell.beNormal();
+		if(typeof previousFoodCell !== 'undefined' && previousFoodCell.isFood) previousFoodCell.beNormal();
 		do {
 			foodX = 1 + Math.floor(Math.random() * (gridWidth - 2));
 			foodY = 1 + Math.floor(Math.random() * (gridHeight - 2));
