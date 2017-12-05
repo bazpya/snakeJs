@@ -33,6 +33,7 @@ function pause(){
 };
 function unPause (){
 	if(!isOver) isPaused = false;
+	// Add a pop-up to show in paused state
 };
 
 function gameOver(){
