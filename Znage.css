@@ -1,11 +1,11 @@
 :root{
-	--worm-colour: yellowgreen;
-	--food-colour: yellow;
-	--obstacle-colour: orangered;
+	/* --worm-colour: yellowgreen; */
+	/* --food-colour: yellow; */
+	/* --obstacle-colour: orangered; */
 /* ----------------------------------------- */
-	/* --worm-colour: #353535; */
-	/* --food-colour: #404040; */
-	/* --obstacle-colour: #303030; */
+	--worm-colour: #353535;
+	--food-colour: #404040;
+	--obstacle-colour: #303030;
 /* ----------------------------------------- */
 	--corner-percentage: 20%;
 	--crosshair-movement-time: 0.2s;

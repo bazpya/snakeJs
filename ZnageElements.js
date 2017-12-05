@@ -4,6 +4,8 @@ function initialiseElements(){
 	theButton = document.getElementById('button');
 	grid = Grid(gridHeight, gridWidth);
 	gridContainer.appendChild(grid);
+	worm = new Worm();
+	lengthDisplay.innerHTML = worm.length;
 }
 
 //###########################  Grid  ##############################################
@@ -96,6 +98,7 @@ Worm.prototype.update = function(){
 	else if(nextCell.isFood){    // Food cell
 		this.moveHeadTo(nextCell);
 		foodBeep();
+		lengthDisplay.innerHTML = worm.length;
 		speedUp();
 	}
 	else {    // Normal cell

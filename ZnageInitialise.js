@@ -4,7 +4,7 @@ function initialise(){
 	movingTimeStep = 120;  // milliseconds
 	movingTimeStepDecrement = 5;  // milliseconds
 	minimumMovingTimeStep = 40;  // milliseconds
-	foodDroppingTimeStep = 3000;  // milliseconds
+	feedingTimeStep = 3000;  // milliseconds
 	keyCodeForUp = 'W'.charCodeAt(0);
 	keyCodeForRight = 'D'.charCodeAt(0);
 	keyCodeForDown = 'S'.charCodeAt(0);
@@ -20,7 +20,7 @@ function initialise(){
 	directionKeyCodeMapping[keyCodeForRight] = function(){directions.push('right')};
 	directionKeyCodeMapping[keyCodeForDown] = function(){directions.push('down')};
 	directionKeyCodeMapping[keyCodeForLeft] = function(){directions.push('left')};
-	directionKeyCodeMapping[keyCodeForPause] = function(){isPaused = !isPaused};
+	directionKeyCodeMapping[keyCodeForPause] = function(){togglePause()};
 	initialiseElements()
 	initialiseCrosshairs();
 	initialiseSound();
