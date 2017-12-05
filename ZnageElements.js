@@ -118,12 +118,8 @@ Worm.prototype.moveTail = function(){
 };
 
 Worm.prototype.getNextCell = function(){
-	var nextMove = currentDirection;
-	if (directions.length > 0) {
-		nextMove = directions.shift();
-		currentDirection = nextMove;
-	};
-	switch(nextMove){
+	if (Boolean(directions.length)) currentDirection = directions.shift();
+	switch(currentDirection){
 		case 'up': return grid.cells[this.head.row - 1][this.head.column]; break;
 		case 'right': return grid.cells[this.head.row][this.head.column + 1]; break;
 		case 'down': return grid.cells[this.head.row + 1][this.head.column]; break;
