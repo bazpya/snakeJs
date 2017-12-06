@@ -13,9 +13,6 @@ window.restart = function(){
 	window.unPause()
 	window.gridContainer.removeChild(grid);
 	delete window.grid;
-	// while(window.gridContainer.lastChild){
-		// window.gridContainer.removeChild(window.gridContainer.lastChild);
-	// };
 	delete window.worm;
 	window.initialise();
 };
