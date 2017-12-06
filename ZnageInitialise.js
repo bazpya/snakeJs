@@ -19,6 +19,12 @@ window.initialise = function(){
 	window.initialiseElements()
 	window.initialiseCrosshairs();
 	window.initialiseSound();
+	window.nextCellGettingFunctions = [
+		function(){return window.grid.cells[window.worm.head.row - 1][window.worm.head.column]},
+		function(){return window.grid.cells[window.worm.head.row][window.worm.head.column + 1]},
+		function(){return window.grid.cells[window.worm.head.row][window.worm.head.column - 1]}
+	];
+
 };
 
 window.bindEventHandlers = function(){

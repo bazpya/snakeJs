@@ -120,11 +120,5 @@ window.Worm.prototype.moveTail = function(){
 
 window.Worm.prototype.getNextCell = function(){
 	if (Boolean(window.directions.length)) window.currentDirection = window.directions.shift();
-	switch(window.currentDirection){
-		case 0: return window.grid.cells[this.head.row - 1][this.head.column]; break;
-		case 1: return window.grid.cells[this.head.row][this.head.column + 1]; break;
-		case 2: return window.grid.cells[this.head.row + 1][this.head.column]; break;
-		case 3: return window.grid.cells[this.head.row][this.head.column - 1]; break;
-		default: break;
-	};
+	return window.nextCellGettingFunctions[window.currentDirection]();
 };
