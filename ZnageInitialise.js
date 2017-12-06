@@ -10,17 +10,12 @@ window.initialise = function(){
 	window.keyCodeForDown = 'S'.charCodeAt(0);
 	window.keyCodeForLeft = 'A'.charCodeAt(0);
 	window.keyCodeForPause = ' '.charCodeAt(0);
-	window.currentDirection = 'down';
+	window.currentDirection = 2;
+	window.lastDirection = 2;
 	window.isPaused = false;
 	window.isOver = false;
 	window.debugMode = false;
-	window.directions = [];
-	window.directionKeyCodeMapping = {};
-	window.directionKeyCodeMapping[keyCodeForUp] = function(){directions.push('up')};
-	window.directionKeyCodeMapping[keyCodeForRight] = function(){directions.push('right')};
-	window.directionKeyCodeMapping[keyCodeForDown] = function(){directions.push('down')};
-	window.directionKeyCodeMapping[keyCodeForLeft] = function(){directions.push('left')};
-	window.directionKeyCodeMapping[keyCodeForPause] = function(){togglePause()};
+	window.directions = [2];
 	window.initialiseElements()
 	window.initialiseCrosshairs();
 	window.initialiseSound();
@@ -29,14 +24,21 @@ window.initialise = function(){
 window.bindEventHandlers = function(){
 	window.theButton.onmousedown = start;
 	window.onkeydown = function(keyDownEvent){
-		window.directionKeyCodeMapping[keyDownEvent.keyCode]();
+		switch(keyDownEvent.keyCode){
+			case window.keyCodeForUp: if(window.lastDirection % 2 != 0) {window.directions.push(0); window.lastDirection = 0;};  break;
+			case window.keyCodeForRight: if(window.lastDirection % 2 != 1) {window.directions.push(1); window.lastDirection = 1;};  break;
+			case window.keyCodeForDown: if(window.lastDirection % 2 != 0) {window.directions.push(2); window.lastDirection = 2;};  break;
+			case window.keyCodeForLeft: if(window.lastDirection % 2 != 1) {window.directions.push(3); window.lastDirection = 3;};  break;
+			case window.keyCodeForPause: window.togglePause(); break;
+			default: break;
+		};
 	};
 	document.oncontextmenu = function(clickEvent){
 		clickEvent.preventDefault();
 	};
 	document.onmousedown = function(clickEvent) {
 		if (window.debugMode && clickEvent.target.tagName == 'TD') {
-			var mouseButton = clickEvent.which;
+			var mouseButton = clickEvent.which;  // TODO: unnecessary variables
 			var clickedCell = clickEvent.target;
 			switch(mouseButton){
 				case 1: clickedCell.beFood(); break;  // left click
