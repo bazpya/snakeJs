@@ -10,7 +10,8 @@ window.start = function(){
 	window.feed();
 };
 window.restart = function(){
-	gridContainer.removeChild(grid);
+	window.unPause()
+	window.gridContainer.removeChild(grid);
 	delete window.grid;
 	// while(window.gridContainer.lastChild){
 		// window.gridContainer.removeChild(window.gridContainer.lastChild);
@@ -29,7 +30,7 @@ window.togglePause = function(){
 	if(window.isPaused) window.unPause();
 	else window.pause();
 };
-window.pause = function(){  //TODO: Pop-up should disappear after clicking "Restart"
+window.pause = function(){
 	window.isPaused = true;
 	window.popUp.classList.replace('popup-down' , (window.debugMode) ? 'popup-up-debug' : 'popup-up');
 };
@@ -39,7 +40,7 @@ window.unPause = function(){
 };
 
 window.gameOver = function(){
-	window.pause();
+	window.isPaused = true;
 	window.isOver = true;
 	window.worm.sections.forEach(function(section){
 		section.beObstacle();
