@@ -38,12 +38,10 @@ window.bindEventHandlers = function(){
 	};
 	document.onmousedown = function(clickEvent) {
 		if (window.debugMode && clickEvent.target.tagName == 'TD') {
-			var mouseButton = clickEvent.which;  // TODO: unnecessary variables
-			var clickedCell = clickEvent.target;
-			switch(mouseButton){
-				case 1: clickedCell.beFood(); break;  // left click
-				case 2: clickedCell.beNormal(); break;  // middle click
-				case 3: clickedCell.beObstacle(); break;  // right click
+			switch(clickEvent.which){
+				case 1: clickEvent.target.beFood(); break;  // left click
+				case 2: clickEvent.target.beNormal(); break;  // middle click
+				case 3: clickEvent.target.beObstacle(); break;  // right click
 				default: break;
 			};
 		};
