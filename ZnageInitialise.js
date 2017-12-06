@@ -1,41 +1,41 @@
-function initialise(){
-	gridHeight = 20;  // cells
-	gridWidth = 20;  // cells
-	movingTimeStep = 120;  // milliseconds
-	movingTimeStepDecrement = 5;  // milliseconds
-	minimumMovingTimeStep = 40;  // milliseconds
-	feedingTimeStep = 3000;  // milliseconds
-	keyCodeForUp = 'W'.charCodeAt(0);
-	keyCodeForRight = 'D'.charCodeAt(0);
-	keyCodeForDown = 'S'.charCodeAt(0);
-	keyCodeForLeft = 'A'.charCodeAt(0);
-	keyCodeForPause = ' '.charCodeAt(0);
-	currentDirection = 'down';
-	isPaused = false;
-	isOver = false;
-	cellClickingEnabled = false;
-	directions = [];
-	directionKeyCodeMapping = {};
-	directionKeyCodeMapping[keyCodeForUp] = function(){directions.push('up')};
-	directionKeyCodeMapping[keyCodeForRight] = function(){directions.push('right')};
-	directionKeyCodeMapping[keyCodeForDown] = function(){directions.push('down')};
-	directionKeyCodeMapping[keyCodeForLeft] = function(){directions.push('left')};
-	directionKeyCodeMapping[keyCodeForPause] = function(){togglePause()};
-	initialiseElements()
-	initialiseCrosshairs();
-	initialiseSound();
+window.initialise = function(){
+	window.gridHeight = 20;  // cells
+	window.gridWidth = 20;  // cells
+	window.movingTimeStep = 120;  // milliseconds
+	window.movingTimeStepDecrement = 5;  // milliseconds
+	window.minimumMovingTimeStep = 40;  // milliseconds
+	window.feedingTimeStep = 3000;  // milliseconds
+	window.keyCodeForUp = 'W'.charCodeAt(0);
+	window.keyCodeForRight = 'D'.charCodeAt(0);
+	window.keyCodeForDown = 'S'.charCodeAt(0);
+	window.keyCodeForLeft = 'A'.charCodeAt(0);
+	window.keyCodeForPause = ' '.charCodeAt(0);
+	window.currentDirection = 'down';
+	window.isPaused = false;
+	window.isOver = false;
+	window.cellClickingEnabled = false;
+	window.directions = [];
+	window.directionKeyCodeMapping = {};
+	window.directionKeyCodeMapping[keyCodeForUp] = function(){directions.push('up')};
+	window.directionKeyCodeMapping[keyCodeForRight] = function(){directions.push('right')};
+	window.directionKeyCodeMapping[keyCodeForDown] = function(){directions.push('down')};
+	window.directionKeyCodeMapping[keyCodeForLeft] = function(){directions.push('left')};
+	window.directionKeyCodeMapping[keyCodeForPause] = function(){togglePause()};
+	window.initialiseElements()
+	window.initialiseCrosshairs();
+	window.initialiseSound();
 };
 
-function bindEventHandlers(){
-	theButton.onmousedown = start;
+window.bindEventHandlers = function(){
+	window.theButton.onmousedown = start;
 	window.onkeydown = function(keyDownEvent){
-		directionKeyCodeMapping[keyDownEvent.keyCode]();
+		window.directionKeyCodeMapping[keyDownEvent.keyCode]();
 	};
 	document.oncontextmenu = function(clickEvent){
 		clickEvent.preventDefault();
 	};
 	document.onmousedown = function(clickEvent) {
-		if (cellClickingEnabled && clickEvent.target.tagName == 'TD') {
+		if (window.cellClickingEnabled && clickEvent.target.tagName == 'TD') {
 			var mouseButton = clickEvent.which;
 			var clickedCell = clickEvent.target;
 			switch(mouseButton){

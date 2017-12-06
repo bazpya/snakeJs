@@ -1,68 +1,67 @@
 window.onload = function(){
-	initialise();
-	bindEventHandlers();
+	window.initialise();
+	window.bindEventHandlers();
 };
 
-function start(){
-	theButton.firstChild.textContent = "Restart";
-	theButton.onmousedown = restart;
-	run();
-	feed();
+window.start = function(){
+	window.theButton.firstChild.textContent = "Restart";
+	window.theButton.onmousedown = restart;
+	window.run();
+	window.feed();
 };
-function restart(){
-	delete grid;
-	while(gridContainer.lastChild){
-		gridContainer.removeChild(gridContainer.lastChild);
+window.restart = function(){
+	delete window.grid;
+	while(window.gridContainer.lastChild){
+		window.gridContainer.removeChild(window.gridContainer.lastChild);
 	};
-	delete worm;
-	initialise();
+	delete window.worm;
+	window.initialise();
 };
 
 // Due to the nature of JS timers you cannot form loops with them and simply pause/resume them!
-function run(){
-	if(!isPaused) worm.update();
-	setTimeout(run, movingTimeStep);
+window.run = function(){
+	if(!window.isPaused) window.worm.update();
+	setTimeout(window.run, window.movingTimeStep);
 };
 
-function togglePause(){
-	if(isPaused) unPause();
-	else pause();
+window.togglePause = function(){
+	if(window.isPaused) window.unPause();
+	else window.pause();
 };
-function pause(){
-	isPaused = true;
+window.pause = function(){
+	window.isPaused = true;
 };
-function unPause (){
-	if(!isOver) isPaused = false;
+window.unPause = function(){
+	if(!window.isOver) window.isPaused = false;
 	// Add a pop-up to show in paused state
 };
 
-function gameOver(){
-	pause();
-	isOver = true;
-	worm.sections.forEach(function(section){
+window.gameOver = function(){
+	window.pause();
+	window.isOver = true;
+	window.worm.sections.forEach(function(section){
 		section.beObstacle();
 	});
 };
 
-function feed() {
-	if(!isPaused){
-		if(typeof previousFoodCell !== 'undefined' && previousFoodCell.isFood) previousFoodCell.beNormal();
+window.feed = function() {
+	if(!window.isPaused){
+		if(typeof window.previousFoodCell !== 'undefined' && window.previousFoodCell.isFood) window.previousFoodCell.beNormal();
 		do {
 			foodX = 1 + Math.floor(Math.random() * (gridWidth - 2));
 			foodY = 1 + Math.floor(Math.random() * (gridHeight - 2));
-			nextFoodCell = grid.cells[foodX][foodY];
+			var nextFoodCell = grid.cells[foodX][foodY];
 		} while (!nextFoodCell.isNormal);
 		nextFoodCell.beFood();
-		previousFoodCell = nextFoodCell;
+		window.previousFoodCell = nextFoodCell;
 	};
-	setTimeout(feed, feedingTimeStep);
+	setTimeout(window.feed, window.feedingTimeStep);
 };
 
-function speedUp(){
-	if(movingTimeStep > minimumMovingTimeStep) movingTimeStep -= movingTimeStepDecrement;
+window.speedUp = function(){
+	if(window.movingTimeStep > window.minimumMovingTimeStep) window.movingTimeStep -= window.movingTimeStepDecrement;
 };
+
 Object.defineProperties(Array.prototype,{
 	last: { get: function () {return this[this.length-1]}}
 });
-
-

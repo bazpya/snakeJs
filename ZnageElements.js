@@ -1,18 +1,18 @@
-function initialiseElements(){
-	gridContainer = document.getElementById('grid-container');
-	lengthDisplay = document.getElementById('score');
-	theButton = document.getElementById('button');
-	grid = Grid(gridHeight, gridWidth);
-	gridContainer.appendChild(grid);
-	worm = new Worm();
-	lengthDisplay.innerHTML = worm.length;
+window.initialiseElements = function(){
+	window.gridContainer = document.getElementById('grid-container');
+	window.lengthDisplay = document.getElementById('score');
+	window.theButton = document.getElementById('button');
+	window.grid = Grid(gridHeight, gridWidth);
+	window.gridContainer.appendChild(grid);
+	window.worm = new Worm();
+	window.lengthDisplay.innerHTML = worm.length;
 }
 
 //###########################  Grid  ##############################################
 //#################################################################################
 
-function Grid(height, width) {
-	newGrid = document.createElement('table');
+window.Grid = function(height, width) {
+	var newGrid = document.createElement('table');
 	newGrid.id = 'grid';
 	newGrid.cells = [];
 	for(var y = 0; y < height; y++){
@@ -38,7 +38,7 @@ function Grid(height, width) {
 //############################  Cell  #############################################
 //#################################################################################
 
-Object.defineProperties(HTMLTableCellElement.prototype,{
+Object.defineProperties(window.HTMLTableCellElement.prototype,{
 	row : { value: 0, writable: true},
 	column : { value: 0, writable: true},
 	isObstacle : { value: 0, writable: true},
@@ -47,27 +47,27 @@ Object.defineProperties(HTMLTableCellElement.prototype,{
 	isNormal: { get: function () {return !(this.isWorm || this.isFood || this.isObstacle)}}
 });
 
-HTMLTableCellElement.prototype.beNormal = function() {
+window.HTMLTableCellElement.prototype.beNormal = function() {
 	this.isObstacle = 0; this.isWorm = 0; this.isFood = 0;
 	this.className = 'cell';
 };
 
-HTMLTableCellElement.prototype.beObstacle = function() {
+window.HTMLTableCellElement.prototype.beObstacle = function() {
 	this.isObstacle = 1; this.isWorm = 0; this.isFood = 0;
 	this.className = 'obstacle';
 };
 
-HTMLTableCellElement.prototype.beWorm = function() {
+window.HTMLTableCellElement.prototype.beWorm = function() {
 	this.isObstacle = 0; this.isWorm = 1; this.isFood = 0;
 	this.className = 'worm';
 };
 
-HTMLTableCellElement.prototype.beFood = function() {
+window.HTMLTableCellElement.prototype.beFood = function() {
 	this.isObstacle = 0; this.isWorm = 0; this.isFood = 1;
 	this.className = 'food';
 };
 
-function Cell(rowNumber, columnNumber) {
+window.Cell = function(rowNumber, columnNumber) {
 	var newElement = document.createElement('td');
 	newElement.className = 'cell';
 	newElement.row = rowNumber;
@@ -78,28 +78,28 @@ function Cell(rowNumber, columnNumber) {
 //############################  Worm  #############################################
 //#################################################################################
 
-function Worm() {
+window.Worm = function() {
 	this.sections = [];
 	this.sections.push(grid.cells[1][1]);
 	this.head.beWorm();
 };
 
-Object.defineProperties(Worm.prototype,{
+Object.defineProperties(window.Worm.prototype,{
 	head: { get: function () {return this.sections[0]}},
 	length: { get: function () {return this.sections.length}},
 	tail: { get: function () {return this.sections.last}}
 });
 
-Worm.prototype.update = function(){
+window.Worm.prototype.update = function(){
 	var nextCell = this.getNextCell();
 	if(nextCell.isObstacle || nextCell.isWorm){    // Forbidden cell
-		gameOver();
+		window.gameOver();
 	}
 	else if(nextCell.isFood){    // Food cell
 		this.moveHeadTo(nextCell);
-		foodBeep();
-		lengthDisplay.innerHTML = worm.length;
-		speedUp();
+		window.foodBeep();
+		window.lengthDisplay.innerHTML = worm.length;
+		window.speedUp();
 	}
 	else {    // Normal cell
 		this.moveHeadTo(nextCell);
@@ -107,23 +107,23 @@ Worm.prototype.update = function(){
 	};
 };
 
-Worm.prototype.moveHeadTo = function(nextHeadCell){
+window.Worm.prototype.moveHeadTo = function(nextHeadCell){
 	this.sections.unshift(nextHeadCell);
 	this.head.beWorm();
 };
 
-Worm.prototype.moveTail = function(){
+window.Worm.prototype.moveTail = function(){
 	this.tail.beNormal();
 	this.sections.splice(-1,1);
 };
 
-Worm.prototype.getNextCell = function(){
-	if (Boolean(directions.length)) currentDirection = directions.shift();
-	switch(currentDirection){
-		case 'up': return grid.cells[this.head.row - 1][this.head.column]; break;
-		case 'right': return grid.cells[this.head.row][this.head.column + 1]; break;
-		case 'down': return grid.cells[this.head.row + 1][this.head.column]; break;
-		case 'left': return grid.cells[this.head.row][this.head.column - 1]; break;
+window.Worm.prototype.getNextCell = function(){
+	if (Boolean(window.directions.length)) window.currentDirection = window.directions.shift();
+	switch(window.currentDirection){
+		case 'up': return window.grid.cells[this.head.row - 1][this.head.column]; break;
+		case 'right': return window.grid.cells[this.head.row][this.head.column + 1]; break;
+		case 'down': return window.grid.cells[this.head.row + 1][this.head.column]; break;
+		case 'left': return window.grid.cells[this.head.row][this.head.column - 1]; break;
 		default: break;
 	};
 };

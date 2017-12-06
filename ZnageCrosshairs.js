@@ -1,7 +1,7 @@
 //##################################  Crosshairs  ####################################
 //####################################################################################
-function initialiseCrosshairs(){
-	targets = document.getElementsByClassName('target');
+window.initialiseCrosshairs = function(){
+	var targets = document.getElementsByClassName('target');
 
 	Array.prototype.forEach.call(targets, function(item){
 		var cornerTopLeft = document.createElement('div');
@@ -16,7 +16,7 @@ function initialiseCrosshairs(){
 		var cornerBottomRight = document.createElement('div');
 		cornerBottomRight.classList.add('corners','corner-bottom-right');
 		item.appendChild(cornerBottomRight);
-		item.onmouseenter = mouseInBeep;
+		item.onmouseenter = mouseInBeep;  // Could replace with global event listeners!
 		item.onmouseleave = mouseOutBeep;
 	});
 };
