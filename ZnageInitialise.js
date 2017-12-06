@@ -3,7 +3,7 @@ window.initialise = function(){
 	window.gridWidth = 20;  // cells
 	window.movingTimeStep = 120;  // milliseconds
 	window.movingTimeStepDecrement = 5;  // milliseconds
-	window.minimumMovingTimeStep = 40;  // milliseconds
+	window.minimumMovingTimeStep = 80;  // milliseconds
 	window.feedingTimeStep = 3000;  // milliseconds
 	window.keyCodeForUp = 'W'.charCodeAt(0);
 	window.keyCodeForRight = 'D'.charCodeAt(0);
@@ -13,7 +13,7 @@ window.initialise = function(){
 	window.currentDirection = 'down';
 	window.isPaused = false;
 	window.isOver = false;
-	window.cellClickingEnabled = false;
+	window.debugMode = false;
 	window.directions = [];
 	window.directionKeyCodeMapping = {};
 	window.directionKeyCodeMapping[keyCodeForUp] = function(){directions.push('up')};
@@ -35,7 +35,7 @@ window.bindEventHandlers = function(){
 		clickEvent.preventDefault();
 	};
 	document.onmousedown = function(clickEvent) {
-		if (window.cellClickingEnabled && clickEvent.target.tagName == 'TD') {
+		if (window.debugMode && clickEvent.target.tagName == 'TD') {
 			var mouseButton = clickEvent.which;
 			var clickedCell = clickEvent.target;
 			switch(mouseButton){
