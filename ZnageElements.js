@@ -100,11 +100,35 @@ window.Worm.prototype.update = function(){
 		this.moveHeadTo(nextCell);
 		window.foodBeep();
 		window.lengthDisplay.innerHTML = worm.length;
+		this.redefineUpdate();
 		window.speedUp();
 	}
 	else {    // Normal cell
 		this.moveHeadTo(nextCell);
 		this.moveTail();
+	};
+};
+
+window.Worm.prototype.redefineUpdate = function(){
+    window.directionKeyCodeMapping[keyCodeForUp] = function(){if(window.lastDirectionCommand % 2 != 0) {window.directions.push(0); window.lastDirectionCommand = 0;}};
+    window.directionKeyCodeMapping[keyCodeForRight] = function(){if(window.lastDirectionCommand % 2 != 1) {window.directions.push(1); window.lastDirectionCommand = 1;}};
+    window.directionKeyCodeMapping[keyCodeForDown] = function(){if(window.lastDirectionCommand % 2 != 0) {window.directions.push(2); window.lastDirectionCommand = 2;}};
+    window.directionKeyCodeMapping[keyCodeForLeft] = function(){if(window.lastDirectionCommand % 2 != 1) {window.directions.push(3); window.lastDirectionCommand = 3;}};
+	window.worm.update = function(){
+		var nextCell = this.getNextCell();
+		if(nextCell.isObstacle || nextCell.isWorm){    // Forbidden cell
+			window.gameOver();
+		}
+		else if(nextCell.isFood){    // Food cell
+			this.moveHeadTo(nextCell);
+			window.foodBeep();
+			window.lengthDisplay.innerHTML = worm.length;
+			window.speedUp();
+		}
+		else {    // Normal cell
+			this.moveHeadTo(nextCell);
+			this.moveTail();
+		};
 	};
 };
 

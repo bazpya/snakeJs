@@ -10,18 +10,25 @@ window.initialise = function(){
 	window.keyCodeForDown = 'S'.charCodeAt(0);
 	window.keyCodeForLeft = 'A'.charCodeAt(0);
 	window.keyCodeForPause = ' '.charCodeAt(0);
-	window.currentDirection = 2;
-	window.lastDirection = 2;
 	window.isPaused = false;
 	window.isOver = false;
 	window.debugMode = false;
+	window.currentDirection = 2;
+	window.lastDirectionCommand = 2;
 	window.directions = [2];
+    window.directionKeyCodeMapping = {};
+    window.directionKeyCodeMapping[keyCodeForUp] = function(){window.directions.push(0); window.lastDirectionCommand = 0;};
+    window.directionKeyCodeMapping[keyCodeForRight] = function(){window.directions.push(1); window.lastDirectionCommand = 1;};
+    window.directionKeyCodeMapping[keyCodeForDown] = function(){window.directions.push(2); window.lastDirectionCommand = 2;};
+    window.directionKeyCodeMapping[keyCodeForLeft] = function(){window.directions.push(3); window.lastDirectionCommand = 3;};
+    window.directionKeyCodeMapping[keyCodeForPause] = function(){togglePause()};
 	window.initialiseElements()
 	window.initialiseCrosshairs();
 	window.initialiseSound();
 	window.nextCellGettingFunctions = [
 		function(){return window.grid.cells[window.worm.head.row - 1][window.worm.head.column]},
 		function(){return window.grid.cells[window.worm.head.row][window.worm.head.column + 1]},
+		function(){return window.grid.cells[window.worm.head.row + 1][window.worm.head.column]},
 		function(){return window.grid.cells[window.worm.head.row][window.worm.head.column - 1]}
 	];
 
@@ -30,14 +37,7 @@ window.initialise = function(){
 window.bindEventHandlers = function(){
 	window.theButton.onmousedown = start;
 	window.onkeydown = function(keyDownEvent){
-		switch(keyDownEvent.keyCode){
-			case window.keyCodeForUp: if(window.lastDirection % 2 != 0) {window.directions.push(0); window.lastDirection = 0;};  break;
-			case window.keyCodeForRight: if(window.lastDirection % 2 != 1) {window.directions.push(1); window.lastDirection = 1;};  break;
-			case window.keyCodeForDown: if(window.lastDirection % 2 != 0) {window.directions.push(2); window.lastDirection = 2;};  break;
-			case window.keyCodeForLeft: if(window.lastDirection % 2 != 1) {window.directions.push(3); window.lastDirection = 3;};  break;
-			case window.keyCodeForPause: window.togglePause(); break;
-			default: break;
-		};
+        window.directionKeyCodeMapping[keyDownEvent.keyCode]();
 	};
 	document.oncontextmenu = function(clickEvent){
 		clickEvent.preventDefault();
