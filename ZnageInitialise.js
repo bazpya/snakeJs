@@ -11,7 +11,6 @@ window.initialise = function(){
 	window.keyCodeForLeft = 'A'.charCodeAt(0);
 	window.keyCodeForPause = ' '.charCodeAt(0);
 	window.isPaused = false;
-	window.isOver = false;
 	window.debugMode = false;
 	window.currentDirection = 2;
 	window.lastDirectionCommand = 2;
@@ -21,7 +20,7 @@ window.initialise = function(){
     window.directionKeyCodeMapping[keyCodeForRight] = function(){window.directions.push(1); window.lastDirectionCommand = 1;};
     window.directionKeyCodeMapping[keyCodeForDown] = function(){window.directions.push(2); window.lastDirectionCommand = 2;};
     window.directionKeyCodeMapping[keyCodeForLeft] = function(){window.directions.push(3); window.lastDirectionCommand = 3;};
-    window.directionKeyCodeMapping[keyCodeForPause] = function(){togglePause()};
+    window.directionKeyCodeMapping[keyCodeForPause] = function(){window.togglePause()};
 	window.initialiseElements()
 	window.initialiseCrosshairs();
 	window.initialiseSound();
@@ -39,7 +38,7 @@ window.bindEventHandlers = function(){
 	window.onkeydown = function(keyDownEvent){
         window.directionKeyCodeMapping[keyDownEvent.keyCode]();
 	};
-	document.oncontextmenu = function(clickEvent){
+	document.oncontextmenu = function(clickEvent){  // TODO: is this 'clickEvent' in the scope of 'window' ?
 		clickEvent.preventDefault();
 	};
 	document.onmousedown = function(clickEvent) {

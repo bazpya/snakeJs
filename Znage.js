@@ -13,42 +13,50 @@ window.start = function(){
 };
 // TODO: can we use functions defined below in this function?
 window.restart = function(){
-	// window.unPause()
-	window.popUp.classList.replace((window.debugMode) ? 'popup-up-debug' : 'popup-up' , 'popup-down');
-	window.stopFeeding();
-	window.gridContainer.removeChild(grid);
-	delete window.grid;
-	delete window.worm;
-	window.initialise();
-	window.feed();
+	// window.popUp.classList.replace((window.debugMode) ? 'popup-up-debug' : 'popup-up' , 'popup-down');
+	// window.stopFeeding();
+	// window.gridContainer.removeChild(grid);
+	// delete window.grid;
+	// delete window.worm;
+	// window.initialise();
+	// window.runLoopId++;
+	// window.run();
+	// window.feed();
 };
 
 window.run = function(){
-	if(!window.isPaused) window.worm.update();
-	setTimeout(window.run, window.movingTimeStep);
+	console.log(window['runningLoop' + window.runLoopId] + ' ID: ' + window.runLoopId);
+	window.worm.update();
+	window['runningLoop' + window.runLoopId] = setTimeout(window.run, window.movingTimeStep);
 };
 
 window.togglePause = function(){
-	if(window.isPaused) window.unPause();
-	else window.pause();
+	(window.isPaused) ? window.unPause() : window.pause();
 };
 window.pause = function(){
 	window.isPaused = true;
+	clearTimeout(window['runningLoop' + window.runLoopId]);
+	delete window['runningLoop' + window.runLoopId];
 	window.stopFeeding();
 	window.popUp.classList.replace('popup-down' , (window.debugMode) ? 'popup-up-debug' : 'popup-up');
 };
 window.unPause = function(){
-	if(!window.isOver) window.isPaused = false;
+	window.isPaused = false;
+	window.runLoopId++;
+	window.run();
 	window.feed();
 	window.popUp.classList.replace((window.debugMode) ? 'popup-up-debug' : 'popup-up' , 'popup-down');
 };
 
 window.gameOver = function(){
-	window.isPaused = true;
-	window.isOver = true;
-	window.worm.sections.forEach(function(section){
-		section.beObstacle();
-	});
+	// window.pause();
+	clearTimeout(window['runningLoop' + window.runLoopId]);
+	window['runningLoop' + window.runLoopId] = 0;
+	delete window['runningLoop' + window.runLoopId];
+	window.stopFeeding();
+	// window.worm.sections.forEach(function(section){
+		// section.beObstacle();
+	// });
 };
 
 window.feed = function(){
