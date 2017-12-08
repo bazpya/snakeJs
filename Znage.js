@@ -41,10 +41,12 @@ window.pause = function(){
 	window.isPaused = true;
 	window.stopRunning();
 	window.stopFeeding();
+	window.definePausedKeyCodeMapping();
 	window.popUp.classList.replace('popup-down' , (window.debugMode) ? 'popup-up-debug' : 'popup-up');
 };
 window.unPause = function(){
 	window.isPaused = false;
+	(window.worm.length === 1) ? window.defineInitialKeyCodeMapping() : window.defineSelfBiteAvoidingKeyCodeMapping();
 	window.run();
 	window.feed();
 	window.popUp.classList.replace((window.debugMode) ? 'popup-up-debug' : 'popup-up' , 'popup-down');
@@ -53,6 +55,7 @@ window.unPause = function(){
 window.gameOver = function(){
 	window.stopRunning();
 	window.stopFeeding();
+	window.disableKeys();
 	window.worm.sections.forEach(function(section){
 		section.beObstacle();
 	});

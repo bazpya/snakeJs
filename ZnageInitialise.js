@@ -3,7 +3,7 @@ window.initialise = function(){
 	window.gridWidth = 20;  // cells
 	window.movingTimeStep = 120;  // milliseconds
 	window.movingTimeStepDecrement = 5;  // milliseconds
-	window.minimumMovingTimeStep = 60;  // milliseconds
+	window.minimumMovingTimeStep = 80;  // milliseconds
 	window.feedingTimeStep = 3000;  // milliseconds
 	window.keyCodeForUp = 'W'.charCodeAt(0);
 	window.keyCodeForRight = 'D'.charCodeAt(0);
@@ -16,11 +16,7 @@ window.initialise = function(){
 	window.lastDirectionCommand = 2;
 	window.directions = [2];
     window.directionKeyCodeMapping = {};
-    window.directionKeyCodeMapping[keyCodeForUp] = function(){window.directions.push(0); window.lastDirectionCommand = 0;};
-    window.directionKeyCodeMapping[keyCodeForRight] = function(){window.directions.push(1); window.lastDirectionCommand = 1;};
-    window.directionKeyCodeMapping[keyCodeForDown] = function(){window.directions.push(2); window.lastDirectionCommand = 2;};
-    window.directionKeyCodeMapping[keyCodeForLeft] = function(){window.directions.push(3); window.lastDirectionCommand = 3;};
-    window.directionKeyCodeMapping[keyCodeForPause] = function(){window.togglePause()};
+	window.defineInitialKeyCodeMapping()
 	window.initialiseElements()
 	window.initialiseCrosshairs();
 	window.initialiseSound();
@@ -51,4 +47,31 @@ window.bindEventHandlers = function(){
 			};
 		};
 	};
+};
+
+window.defineInitialKeyCodeMapping = function(){
+    window.directionKeyCodeMapping[keyCodeForUp] = function(){window.directions.push(0); window.lastDirectionCommand = 0;};
+    window.directionKeyCodeMapping[keyCodeForRight] = function(){window.directions.push(1); window.lastDirectionCommand = 1;};
+    window.directionKeyCodeMapping[keyCodeForDown] = function(){window.directions.push(2); window.lastDirectionCommand = 2;};
+    window.directionKeyCodeMapping[keyCodeForLeft] = function(){window.directions.push(3); window.lastDirectionCommand = 3;};
+    window.directionKeyCodeMapping[keyCodeForPause] = function(){window.togglePause()};
+};
+
+window.defineSelfBiteAvoidingKeyCodeMapping = function(){
+    window.directionKeyCodeMapping[keyCodeForUp] = function(){if(window.lastDirectionCommand % 2 != 0) {window.directions.push(0); window.lastDirectionCommand = 0;}};
+    window.directionKeyCodeMapping[keyCodeForRight] = function(){if(window.lastDirectionCommand % 2 != 1) {window.directions.push(1); window.lastDirectionCommand = 1;}};
+    window.directionKeyCodeMapping[keyCodeForDown] = function(){if(window.lastDirectionCommand % 2 != 0) {window.directions.push(2); window.lastDirectionCommand = 2;}};
+    window.directionKeyCodeMapping[keyCodeForLeft] = function(){if(window.lastDirectionCommand % 2 != 1) {window.directions.push(3); window.lastDirectionCommand = 3;}};
+};
+
+window.definePausedKeyCodeMapping = function(){
+    window.directionKeyCodeMapping[keyCodeForUp] = function(){};
+    window.directionKeyCodeMapping[keyCodeForRight] = function(){};
+    window.directionKeyCodeMapping[keyCodeForDown] = function(){};
+    window.directionKeyCodeMapping[keyCodeForLeft] = function(){};
+};
+
+window.disableKeys = function(){
+	window.definePausedKeyCodeMapping();
+    window.directionKeyCodeMapping[keyCodeForPause] = function(){};
 };
