@@ -14,8 +14,7 @@ window.start = function(){
 // TODO: can we use functions defined below in this function?
 window.restart = function(){
 	window.popUp.classList.replace((window.debugMode) ? 'popup-up-debug' : 'popup-up' , 'popup-down');
-	clearInterval(window['runningLoop' + window.runLoopId]);
-	delete window['runningLoop' + window.runLoopId];
+	window.stopRunning();
 	window.stopFeeding();
 	window.gridContainer.removeChild(grid);
 	delete window.grid;
@@ -30,13 +29,17 @@ window.run = function(){
 	window['runningLoop' + window.runLoopId] = setInterval(function(){window.worm.update();}, window.movingTimeStep);
 };
 
+window.stopRunning = function(){
+	clearInterval(window['runningLoop' + window.runLoopId]);
+	delete window['runningLoop' + window.runLoopId];
+};
+
 window.togglePause = function(){
 	(window.isPaused) ? window.unPause() : window.pause();
 };
 window.pause = function(){
 	window.isPaused = true;
-	clearInterval(window['runningLoop' + window.runLoopId]);
-	delete window['runningLoop' + window.runLoopId];
+	window.stopRunning();
 	window.stopFeeding();
 	window.popUp.classList.replace('popup-down' , (window.debugMode) ? 'popup-up-debug' : 'popup-up');
 };
@@ -48,8 +51,7 @@ window.unPause = function(){
 };
 
 window.gameOver = function(){
-	clearInterval(window['runningLoop' + window.runLoopId]);
-	delete window['runningLoop' + window.runLoopId];
+	window.stopRunning();
 	window.stopFeeding();
 	window.worm.sections.forEach(function(section){
 		section.beObstacle();
