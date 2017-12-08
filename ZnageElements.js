@@ -99,7 +99,7 @@ window.Worm.prototype.update = function(){
 	else if(nextCell.isFood){    // Food cell
 		this.moveHeadTo(nextCell);
 		window.foodBeep();
-		window.lengthDisplay.innerHTML = worm.length;
+		window.lengthDisplay.innerHTML = this.length;
 		this.redefineUpdate();
 		window.speedUp();
 	}
@@ -114,7 +114,7 @@ window.Worm.prototype.redefineUpdate = function(){
     window.directionKeyCodeMapping[keyCodeForRight] = function(){if(window.lastDirectionCommand % 2 != 1) {window.directions.push(1); window.lastDirectionCommand = 1;}};
     window.directionKeyCodeMapping[keyCodeForDown] = function(){if(window.lastDirectionCommand % 2 != 0) {window.directions.push(2); window.lastDirectionCommand = 2;}};
     window.directionKeyCodeMapping[keyCodeForLeft] = function(){if(window.lastDirectionCommand % 2 != 1) {window.directions.push(3); window.lastDirectionCommand = 3;}};
-	window.worm.update = function(){
+	this.update = function(){
 		var nextCell = this.getNextCell();
 		if(nextCell.isObstacle || nextCell.isWorm){    // Forbidden cell
 			window.gameOver();
@@ -122,8 +122,12 @@ window.Worm.prototype.redefineUpdate = function(){
 		else if(nextCell.isFood){    // Food cell
 			this.moveHeadTo(nextCell);
 			window.foodBeep();
-			window.lengthDisplay.innerHTML = worm.length;
+			window.lengthDisplay.innerHTML = this.length;
+			clearInterval(window['runningLoop' + window.runLoopId]);
+			delete window['runningLoop' + window.runLoopId];
 			window.speedUp();
+			window.run();
+
 		}
 		else {    // Normal cell
 			this.moveHeadTo(nextCell);
