@@ -21,12 +21,12 @@ window.Grid = function(height, width) {
 		newGrid.cells.push([]);
 		for (var x = 0; x < width; x++){
 			var newCell = Cell(y, x);
-			if(x == 1 || x == width - 2 || y == 1 || y == height - 2) newCell.beFood();
-			if(x == 2 || x == width - 3 || y == 2 || y == height - 3) newCell.beFood();
-			if(x == 3 || x == width - 4 || y == 3 || y == height - 4) newCell.beFood();
-			if(x == 4 || x == width - 5 || y == 4 || y == height - 5) newCell.beFood();
-			if(x == 5 || x == width - 6 || y == 5 || y == height - 6) newCell.beFood();
-			if(x == 6 || x == width - 7 || y == 6 || y == height - 7) newCell.beFood();
+			// if(x == 1 || x == width - 2 || y == 1 || y == height - 2) newCell.beFood();
+			// if(x == 2 || x == width - 3 || y == 2 || y == height - 3) newCell.beFood();
+			// if(x == 3 || x == width - 4 || y == 3 || y == height - 4) newCell.beFood();
+			// if(x == 4 || x == width - 5 || y == 4 || y == height - 5) newCell.beFood();
+			// if(x == 5 || x == width - 6 || y == 5 || y == height - 6) newCell.beFood();
+			// if(x == 6 || x == width - 7 || y == 6 || y == height - 7) newCell.beFood();
 			if(x == 0 || x == width - 1 || y == 0 || y == height - 1) newCell.beObstacle();
 			newRow.appendChild(newCell);
 			newGrid.cells[y].push(newCell);

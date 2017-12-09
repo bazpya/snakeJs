@@ -15,7 +15,7 @@ window.initialise = function(){
 	window.currentDirection = 2;
 	window.lastDirectionCommand = 2;
 	window.directions = [2];
-    window.directionKeyCodeMapping = {};
+    window.keyMapping = {};
 	window.defineInitialKeyCodeMapping()
 	window.initialiseElements()
 	window.initialiseCrosshairs();
@@ -32,7 +32,7 @@ window.initialise = function(){
 window.bindEventHandlers = function(){
 	window.theButton.onmousedown = start;
 	window.onkeydown = function(keyDownEvent){
-        window.directionKeyCodeMapping[keyDownEvent.keyCode]();
+        window.keyMapping[keyDownEvent.keyCode]();
 	};
 	document.oncontextmenu = function(clickEvent){  // TODO: is this 'clickEvent' in the scope of 'window' ?
 		clickEvent.preventDefault();
@@ -50,28 +50,28 @@ window.bindEventHandlers = function(){
 };
 
 window.defineInitialKeyCodeMapping = function(){
-    window.directionKeyCodeMapping[keyCodeForUp] = function(){window.directions.push(0); window.lastDirectionCommand = 0;};
-    window.directionKeyCodeMapping[keyCodeForRight] = function(){window.directions.push(1); window.lastDirectionCommand = 1;};
-    window.directionKeyCodeMapping[keyCodeForDown] = function(){window.directions.push(2); window.lastDirectionCommand = 2;};
-    window.directionKeyCodeMapping[keyCodeForLeft] = function(){window.directions.push(3); window.lastDirectionCommand = 3;};
-    window.directionKeyCodeMapping[keyCodeForPause] = function(){window.togglePause()};
+    window.keyMapping[keyCodeForUp] = function(){window.directions.push(0); window.lastDirectionCommand = 0;};
+    window.keyMapping[keyCodeForRight] = function(){window.directions.push(1); window.lastDirectionCommand = 1;};
+    window.keyMapping[keyCodeForDown] = function(){window.directions.push(2); window.lastDirectionCommand = 2;};
+    window.keyMapping[keyCodeForLeft] = function(){window.directions.push(3); window.lastDirectionCommand = 3;};
+    window.keyMapping[keyCodeForPause] = function(){window.togglePause()};
 };
 
 window.defineSelfBiteAvoidingKeyCodeMapping = function(){
-    window.directionKeyCodeMapping[keyCodeForUp] = function(){if(window.lastDirectionCommand % 2 != 0) {window.directions.push(0); window.lastDirectionCommand = 0;}};
-    window.directionKeyCodeMapping[keyCodeForRight] = function(){if(window.lastDirectionCommand % 2 != 1) {window.directions.push(1); window.lastDirectionCommand = 1;}};
-    window.directionKeyCodeMapping[keyCodeForDown] = function(){if(window.lastDirectionCommand % 2 != 0) {window.directions.push(2); window.lastDirectionCommand = 2;}};
-    window.directionKeyCodeMapping[keyCodeForLeft] = function(){if(window.lastDirectionCommand % 2 != 1) {window.directions.push(3); window.lastDirectionCommand = 3;}};
+    window.keyMapping[keyCodeForUp] = function(){if(!Boolean(window.lastDirectionCommand % 2)) return; window.directions.push(0); window.lastDirectionCommand = 0;};
+    window.keyMapping[keyCodeForRight] = function(){if(Boolean(window.lastDirectionCommand % 2)) return; window.directions.push(1); window.lastDirectionCommand = 1;};
+    window.keyMapping[keyCodeForDown] = function(){if(!Boolean(window.lastDirectionCommand % 2)) return; window.directions.push(2); window.lastDirectionCommand = 2;};
+    window.keyMapping[keyCodeForLeft] = function(){if(Boolean(window.lastDirectionCommand % 2)) return; window.directions.push(3); window.lastDirectionCommand = 3;};
 };
 
 window.definePausedKeyCodeMapping = function(){
-    window.directionKeyCodeMapping[keyCodeForUp] = function(){};
-    window.directionKeyCodeMapping[keyCodeForRight] = function(){};
-    window.directionKeyCodeMapping[keyCodeForDown] = function(){};
-    window.directionKeyCodeMapping[keyCodeForLeft] = function(){};
+    window.keyMapping[keyCodeForUp] = function(){};
+    window.keyMapping[keyCodeForRight] = function(){};
+    window.keyMapping[keyCodeForDown] = function(){};
+    window.keyMapping[keyCodeForLeft] = function(){};
 };
 
 window.disableKeys = function(){
 	window.definePausedKeyCodeMapping();
-    window.directionKeyCodeMapping[keyCodeForPause] = function(){};
+    window.keyMapping[keyCodeForPause] = function(){};
 };
