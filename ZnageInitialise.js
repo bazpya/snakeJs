@@ -19,17 +19,19 @@ window.initialise = function () {
 	window.defineInitialKeyCodeMapping()
 	window.initialiseElements()
 	window.initialiseCrosshairs();
-	window.initialiseSound();
 	window.nextCellGettingFunctions = [
 		function () { return window.grid.cells[window.worm.head.row - 1][window.worm.head.column] },
 		function () { return window.grid.cells[window.worm.head.row][window.worm.head.column + 1] },
 		function () { return window.grid.cells[window.worm.head.row + 1][window.worm.head.column] },
 		function () { return window.grid.cells[window.worm.head.row][window.worm.head.column - 1] }
 	];
-
 };
 
 window.bindEventHandlers = function () {
+	window.splash.onclick = function () {
+		window.initialiseSound();
+		window.splash.classList.replace((window.debugMode) ? 'popup-up-debug' : 'popup-up', 'popup-down');
+	};
 	window.theButton.onmousedown = start;
 	window.onkeydown = function (keyDownEvent) {
 		window.keyMapping[keyDownEvent.keyCode]();

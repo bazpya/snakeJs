@@ -2,7 +2,8 @@ window.initialiseElements = function () {
 	window.gridContainer = document.getElementById('grid-container');
 	window.lengthDisplay = document.getElementById('score');
 	window.theButton = document.getElementById('button');
-	window.popUp = document.getElementById('popup');
+	window.popUp = document.getElementById('pause');
+	window.splash = document.getElementById('splash');
 	window.grid = Grid(gridHeight, gridWidth);
 	window.gridContainer.appendChild(grid);
 	window.worm = new Worm();
