@@ -1,178 +1,182 @@
-:root{
-	--worm-colour: yellowgreen;
-	--food-colour: yellow;
-	--obstacle-colour: orangered;
-/* ----------------------------------------- */
-	/* --worm-colour: #252525; */
-	/* --food-colour: #303030; */
-	/* --obstacle-colour: #202020; */
-/* ----------------------------------------- */
-	--corner-percentage: 20%;
-	--crosshair-movement-time: 0.2s;
-	--cell-dimension: 20px;
+:root {
+  --worm-colour: yellowgreen;
+  --food-colour: yellow;
+  --obstacle-colour: orangered;
+  /* ----------------------------------------- */
+  /* --worm-colour: #252525; */
+  /* --food-colour: #303030; */
+  /* --obstacle-colour: #202020; */
+  /* ----------------------------------------- */
+  --corner-percentage: 20%;
+  --crosshair-movement-time: 0.2s;
+  --cell-dimension: 20px;
 }
 * {
-    margin: 0;
-    overflow: hidden;
-	-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -o-user-select: none; user-select: none;
+  margin: 0;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 html {
-	padding: 10px 10px 0 10px;
+  padding: 10px 10px 0 10px;
 }
 body {
-    background: black;
-	font-family: helvetica;
+  background: black;
+  font-family: helvetica;
 }
 .full-width-row {
-	width:100%;
-	text-align: justify;
-	font-size: 0.1px;
+  width: 100%;
+  text-align: justify;
+  font-size: 0.1px;
 }
 .full-width-row:after {
-  content: '';
+  content: "";
   width: 100%; /* Ensures there are at least 2 lines of text, so justification works */
   display: inline-block;
 }
-#controls-row{
-	margin-top:10px;
+#controls-row {
+  margin-top: 10px;
 }
 .spread-elements {
-	display:inline-block;
-	text-align: center;
-	font-size:24px;
+  display: inline-block;
+  text-align: center;
+  font-size: 24px;
 }
-#znage-title{
-	color:darkgrey;
+#znage-title {
+  color: darkgrey;
 }
-#score-container{
-	color:green;
-	font-size:14px;
+#score-container {
+  color: green;
+  font-size: 14px;
 }
-#score{
-	color:yellowgreen;
-	font-size:24px;
+#score {
+  color: yellowgreen;
+  font-size: 24px;
 }
-#help{
-	color:darkgrey;
-	font-size:12px;
+#help {
+  color: darkgrey;
+  font-size: 12px;
 }
-#button{
-	background-color:dimgrey;
-	font-size:14px;
-	width: 60px;
-    height: 40px;
-    border-radius: 4px;
-    border: none;
-	color: black;
+#button {
+  background-color: dimgrey;
+  font-size: 14px;
+  width: 60px;
+  height: 40px;
+  border-radius: 4px;
+  border: none;
+  color: black;
 }
 #button:focus {
   outline: none;
 }
-#grid-container{
-	display:inline-block;
-	position:relative;
-	margin-top:10px;
+#grid-container {
+  display: inline-block;
+  position: relative;
+  margin-top: 10px;
 }
-#popup{
-	position:absolute;
-	color:green;
-	opacity:0.4;
+#popup {
+  position: absolute;
+  color: green;
+  opacity: 0.4;
 }
-.popup-down{
-	display:none;
+.popup-down {
+  display: none;
 }
-.popup-up{
-	display:unset;
-	width:100%;
-	height:100%;
-	background-color: yellow;
+.popup-up {
+  display: unset;
+  width: 100%;
+  height: 100%;
+  background-color: yellow;
 }
-.popup-up-debug{
-	display:unset;
-	width:unset;
-	height:unset;
-	background-color: red;
+.popup-up-debug {
+  display: unset;
+  width: unset;
+  height: unset;
+  background-color: red;
 }
-#popup-text{
+#popup-text {
 }
-.popup-up #popup-text{
-	font-size:32px;
-	position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+.popup-up #popup-text {
+  font-size: 32px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.popup-up-debug #popup-text{
+.popup-up-debug #popup-text {
 }
 table {
-	border-spacing:1px;
-	background-color: #202020;
+  border-spacing: 1px;
+  background-color: #202020;
 }
 td {
-	box-sizing:border-box;
-	border-radius:2px;
-	background-color: black;
-	width:var(--cell-dimension);
-	height:var(--cell-dimension);
+  box-sizing: border-box;
+  border-radius: 2px;
+  background-color: black;
+  width: var(--cell-dimension);
+  height: var(--cell-dimension);
 }
-td.obstacle{
-	background-color:var(--obstacle-colour);
+td.obstacle {
+  background-color: var(--obstacle-colour);
 }
-td.worm{
-	background-color:var(--worm-colour);
+td.worm {
+  background-color: var(--worm-colour);
 }
-td.food{
-	background-color:var(--food-colour);
+td.food {
+  background-color: var(--food-colour);
 }
-.target{
-	position:relative;
+.target {
+  position: relative;
 }
-.corners{
-    position:absolute;
-	width:var(--corner-percentage);
-	height:var(--corner-percentage);
-	transition-duration: var(--crosshair-movement-time);
-	transition-timing-function: linear;
-	border-color: transparent;
-    border-width:2px;
+.corners {
+  position: absolute;
+  width: var(--corner-percentage);
+  height: var(--corner-percentage);
+  transition-duration: var(--crosshair-movement-time);
+  transition-timing-function: linear;
+  border-color: transparent;
+  border-width: 2px;
 }
-.corner-top-left{
-    border-style:solid none none solid;
-    top:calc(50% - var(--corner-percentage));
-    left:calc(50% - var(--corner-percentage));
+.corner-top-left {
+  border-style: solid none none solid;
+  top: calc(50% - var(--corner-percentage));
+  left: calc(50% - var(--corner-percentage));
 }
-.corner-top-right{
-    border-style:solid solid none none;
-    top:calc(50% - var(--corner-percentage));
-    right:calc(50% - var(--corner-percentage));
+.corner-top-right {
+  border-style: solid solid none none;
+  top: calc(50% - var(--corner-percentage));
+  right: calc(50% - var(--corner-percentage));
 }
-.corner-bottom-left{
-    border-style:none none solid solid;
-    bottom:calc(50% - var(--corner-percentage));
-    left:calc(50% - var(--corner-percentage));
+.corner-bottom-left {
+  border-style: none none solid solid;
+  bottom: calc(50% - var(--corner-percentage));
+  left: calc(50% - var(--corner-percentage));
 }
-.corner-bottom-right{
-    border-style:none solid solid none;
-    bottom:calc(50% - var(--corner-percentage));
-    right:calc(50% - var(--corner-percentage));
+.corner-bottom-right {
+  border-style: none solid solid none;
+  bottom: calc(50% - var(--corner-percentage));
+  right: calc(50% - var(--corner-percentage));
 }
 
-.target:hover .corners{
-	border-color:var(--food-colour);
+.target:hover .corners {
+  border-color: var(--food-colour);
 }
-.target:hover .corner-top-left{
-    top:0;
-    left:0;
+.target:hover .corner-top-left {
+  top: 0;
+  left: 0;
 }
-.target:hover .corner-top-right{
-    top:0;
-    right:0;
+.target:hover .corner-top-right {
+  top: 0;
+  right: 0;
 }
-.target:hover .corner-bottom-left{
-    bottom:0;
-    left:0;
+.target:hover .corner-bottom-left {
+  bottom: 0;
+  left: 0;
 }
-.target:hover .corner-bottom-right{
-    bottom:0;
-    right:0;
+.target:hover .corner-bottom-right {
+  bottom: 0;
+  right: 0;
 }
