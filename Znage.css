@@ -26,6 +26,7 @@ html {
 body {
   background: black;
   font-family: helvetica;
+  text-align: center;
 }
 .full-width-row {
   width: 100%;
@@ -84,7 +85,7 @@ body {
   height: 100%;
 }
 .popup-up {
-  display: unset;
+  display: block;
   background-color: yellow;
 }
 .popup-up-debug {
