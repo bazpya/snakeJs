@@ -13,7 +13,7 @@ window.start = function () {
 };
 // TODO: can we use functions defined below in this function?
 window.restart = function () {
-	window.popUp.classList.replace((window.debugMode) ? 'popup-up-debug' : 'popup-up', 'popup-down');
+	window.pauseOverlay.classList.replace((window.debugMode) ? 'popup-debug' : 'popup', 'popdown');
 	window.stopRunning();
 	window.stopFeeding();
 	window.gridContainer.removeChild(grid);
@@ -42,14 +42,14 @@ window.pause = function () {
 	window.stopRunning();
 	window.stopFeeding();
 	window.definePausedKeyCodeMapping();
-	window.popUp.classList.replace('popup-down', (window.debugMode) ? 'popup-up-debug' : 'popup-up');
+	window.pauseOverlay.classList.replace('popdown', (window.debugMode) ? 'popup-debug' : 'popup');
 };
 window.unPause = function () {
 	window.isPaused = false;
 	(window.worm.length === 1) ? window.defineInitialKeyCodeMapping() : window.defineSelfBiteAvoidingKeyCodeMapping();
 	window.run();
 	window.feed();
-	window.popUp.classList.replace((window.debugMode) ? 'popup-up-debug' : 'popup-up', 'popup-down');
+	window.pauseOverlay.classList.replace((window.debugMode) ? 'popup-debug' : 'popup', 'popdown');
 };
 
 window.gameOver = function () {

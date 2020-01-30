@@ -1,36 +1,36 @@
 window.initialiseElements = function () {
 	window.gridContainer = document.getElementById('grid-container');
-	window.lengthDisplay = document.getElementById('score');
+	window.scoreDisplay = document.getElementById('score');
 	window.theButton = document.getElementById('button');
-	window.popUp = document.getElementById('pause');
+	window.pauseOverlay = document.getElementById('pause');
 	window.splash = document.getElementById('splash');
-	window.grid = Grid(gridHeight, gridWidth);
+	window.grid = makeGrid(gridHeight, gridWidth);
 	window.gridContainer.appendChild(grid);
 	window.worm = new Worm();
-	window.lengthDisplay.innerHTML = worm.length;
+	window.scoreDisplay.innerHTML = worm.length;
 }
 
 //###########################  Grid  ##############################################
 //#################################################################################
 
-window.Grid = function (height, width) {
+window.makeGrid = function (height, width) {
 	var newGrid = document.createElement('table');
 	newGrid.id = 'grid';
 	newGrid.cells = [];
-	for (var y = 0; y < height; y++) {
+	for (var r = 0; r < height; r++) {
 		var newRow = document.createElement('tr');
 		newGrid.cells.push([]);
-		for (var x = 0; x < width; x++) {
-			var newCell = Cell(y, x);
+		for (var c = 0; c < width; c++) {
+			var newCell = Cell(r, c);
 			// if(x == 1 || x == width - 2 || y == 1 || y == height - 2) newCell.beFood();
 			// if(x == 2 || x == width - 3 || y == 2 || y == height - 3) newCell.beFood();
 			// if(x == 3 || x == width - 4 || y == 3 || y == height - 4) newCell.beFood();
 			// if(x == 4 || x == width - 5 || y == 4 || y == height - 5) newCell.beFood();
 			// if(x == 5 || x == width - 6 || y == 5 || y == height - 6) newCell.beFood();
 			// if(x == 6 || x == width - 7 || y == 6 || y == height - 7) newCell.beFood();
-			if (x == 0 || x == width - 1 || y == 0 || y == height - 1) newCell.beObstacle();
+			if (c == 0 || c == width - 1 || r == 0 || r == height - 1) newCell.beObstacle();
 			newRow.appendChild(newCell);
-			newGrid.cells[y].push(newCell);
+			newGrid.cells[r].push(newCell);
 		};
 		newGrid.appendChild(newRow);
 	};
@@ -100,7 +100,7 @@ window.Worm.prototype.update = function () {
 	else if (nextCell.isFood) {    // Food cell
 		this.moveHeadTo(nextCell);
 		window.foodBeep();
-		window.lengthDisplay.innerHTML = this.length;
+		window.scoreDisplay.innerHTML = this.length;
 		this.redefineUpdate();
 		window.speedUp();
 	}
@@ -120,7 +120,7 @@ window.Worm.prototype.redefineUpdate = function () {
 		else if (nextCell.isFood) {    // Food cell
 			this.moveHeadTo(nextCell);
 			window.foodBeep();
-			window.lengthDisplay.innerHTML = this.length;
+			window.scoreDisplay.innerHTML = this.length;
 			clearInterval(window['runningLoop' + window.runLoopId]);
 			delete window['runningLoop' + window.runLoopId];
 			window.speedUp();

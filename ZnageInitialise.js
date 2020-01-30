@@ -30,7 +30,7 @@ window.initialise = function () {
 window.bindEventHandlers = function () {
 	window.splash.onclick = function () {
 		window.initialiseSound();
-		window.splash.classList.replace((window.debugMode) ? 'popup-up-debug' : 'popup-up', 'popup-down');
+		window.splash.classList.replace('popup', 'popdown');
 	};
 	window.theButton.onmousedown = start;
 	window.onkeydown = function (keyDownEvent) {

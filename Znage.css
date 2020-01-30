@@ -28,12 +28,12 @@ body {
   font-family: helvetica;
   text-align: center;
 }
-.full-width-row {
+.fullwidth-row {
   width: 100%;
   text-align: justify;
   font-size: 0.1px;
 }
-.full-width-row:after {
+.fullwidth-row:after {
   content: "";
   width: 100%; /* Ensures there are at least 2 lines of text, so justification works */
   display: inline-block;
@@ -84,17 +84,17 @@ body {
   width: 100%;
   height: 100%;
 }
-.popup-up {
+.popup {
   display: block;
   background-color: yellow;
 }
-.popup-up-debug {
+.popup-debug {
   display: unset;
   width: unset;
   height: unset;
   background-color: red;
 }
-.popup-down {
+.popdown {
   display: none;
 }
 
