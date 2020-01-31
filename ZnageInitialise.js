@@ -34,7 +34,8 @@ window.bindEventHandlers = function () {
 	};
 	window.theButton.onmousedown = start;
 	window.onkeydown = function (keyDownEvent) {
-		window.keyMapping[keyDownEvent.keyCode]();
+		if (typeof window.keyMapping[keyDownEvent.keyCode] === 'function')
+			window.keyMapping[keyDownEvent.keyCode]();
 	};
 	document.oncontextmenu = function (clickEvent) {  // TODO: is this 'clickEvent' in the scope of 'window' ?
 		clickEvent.preventDefault();
