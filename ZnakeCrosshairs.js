@@ -1,6 +1,6 @@
 //##################################  Crosshairs  ####################################
 //####################################################################################
-window.initialiseCrosshairs = function () {
+initialiseCrosshairs = function () {
 	let targets = document.getElementsByClassName('target');
 
 	Array.prototype.forEach.call(targets, function (item) {

@@ -1,39 +1,39 @@
 //#############################  Sound  #############################################
 //###################################################################################
-window.initialiseSound = function () {
-	if (typeof window.audioCtx === 'undefined') {
-		window.audioCtx = new AudioContext();
+initialiseSound = function () {
+	if (typeof audioCtx === 'undefined') {
+		audioCtx = new AudioContext();
 
-		window.foodBeepOscillator = window.audioCtx.createOscillator();
-		window.foodBeepOscillator.frequency.value = 2000;
-		window.foodBeepOscillator.connect(window.audioCtx.destination);
-		window.foodBeepOscillator.start();
-		window.foodBeepOscillator.disconnect();
+		foodBeepOscillator = audioCtx.createOscillator();
+		foodBeepOscillator.frequency.value = 2000;
+		foodBeepOscillator.connect(audioCtx.destination);
+		foodBeepOscillator.start();
+		foodBeepOscillator.disconnect();
 
-		window.mouseInBeepOscillator = window.audioCtx.createOscillator();
-		window.mouseInBeepOscillator.frequency.value = 3000;
-		window.mouseInBeepOscillator.connect(window.audioCtx.destination);
-		window.mouseInBeepOscillator.start();
-		window.mouseInBeepOscillator.disconnect();
+		mouseInBeepOscillator = audioCtx.createOscillator();
+		mouseInBeepOscillator.frequency.value = 3000;
+		mouseInBeepOscillator.connect(audioCtx.destination);
+		mouseInBeepOscillator.start();
+		mouseInBeepOscillator.disconnect();
 
-		window.mouseOutBeepOscillator = window.audioCtx.createOscillator();
-		window.mouseOutBeepOscillator.frequency.value = 2500;
-		window.mouseOutBeepOscillator.connect(window.audioCtx.destination);
-		window.mouseOutBeepOscillator.start();
-		window.mouseOutBeepOscillator.disconnect();
+		mouseOutBeepOscillator = audioCtx.createOscillator();
+		mouseOutBeepOscillator.frequency.value = 2500;
+		mouseOutBeepOscillator.connect(audioCtx.destination);
+		mouseOutBeepOscillator.start();
+		mouseOutBeepOscillator.disconnect();
 	};
 };
-window.foodBeep = function () {
-	window.foodBeepOscillator.connect(window.audioCtx.destination);
-	setTimeout(function () { window.foodBeepOscillator.disconnect() }, 70);
+foodBeep = function () {
+	foodBeepOscillator.connect(audioCtx.destination);
+	setTimeout(function () { foodBeepOscillator.disconnect() }, 70);
 };
 
-window.mouseInBeep = function () {
-	window.mouseInBeepOscillator.connect(window.audioCtx.destination);
-	setTimeout(function () { window.mouseInBeepOscillator.disconnect() }, 50);
+mouseInBeep = function () {
+	mouseInBeepOscillator.connect(audioCtx.destination);
+	setTimeout(function () { mouseInBeepOscillator.disconnect() }, 50);
 };
 
-window.mouseOutBeep = function () {
-	window.mouseOutBeepOscillator.connect(window.audioCtx.destination);
-	setTimeout(function () { window.mouseOutBeepOscillator.disconnect() }, 50);
+mouseOutBeep = function () {
+	mouseOutBeepOscillator.connect(audioCtx.destination);
+	setTimeout(function () { mouseOutBeepOscillator.disconnect() }, 50);
 };

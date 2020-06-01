@@ -1,76 +1,76 @@
-window.onload = function () {
-	window.runLoopId = 0;
-	window.feedLoopId = 0;
-	window.initialise();
-	window.bindEventHandlers();
+onload = function () {
+	runLoopId = 0;
+	feedLoopId = 0;
+	initialise();
+	bindEventHandlers();
 };
 
-window.start = function () {
-	window.theButton.firstChild.textContent = "Restart";
-	window.theButton.onmousedown = restart;
-	window.run();
-	window.feed();
+start = function () {
+	theButton.firstChild.textContent = "Restart";
+	theButton.onmousedown = restart;
+	run();
+	feed();
 };
 // TODO: can we use functions defined below in this function?
-window.restart = function () {
-	window.pauseOverlay.classList.replace((window.debugMode) ? 'popup-debug' : 'popup', 'popdown');
-	window.stopRunning();
-	window.stopFeeding();
-	window.gridContainer.removeChild(grid);
-	delete window.grid;
-	delete window.worm;
-	window.initialise();
-	window.run();
-	window.feed();
+restart = function () {
+	pauseOverlay.classList.replace((debugMode) ? 'popup-debug' : 'popup', 'popdown');
+	stopRunning();
+	stopFeeding();
+	gridContainer.removeChild(grid);
+	delete grid;
+	delete worm;
+	initialise();
+	run();
+	feed();
 };
 
-window.run = function () {
-	window.runLoopId++;
-	window['runningLoop' + window.runLoopId] = setInterval(function () { window.worm.update(); }, window.movingTimeStep);
+run = function () {
+	runLoopId++;
+	window['runningLoop' + runLoopId] = setInterval(function () { worm.update(); }, movingTimeStep);
 };
 
-window.stopRunning = function () {
-	clearInterval(window['runningLoop' + window.runLoopId]);
-	delete window['runningLoop' + window.runLoopId];
+stopRunning = function () {
+	clearInterval(window['runningLoop' + runLoopId]);
+	delete window['runningLoop' + runLoopId];
 };
 
-window.togglePause = function () {
-	(window.isPaused) ? window.unPause() : window.pause();
+togglePause = function () {
+	(isPaused) ? unPause() : pause();
 };
-window.pause = function () {
-	window.isPaused = true;
-	window.stopRunning();
-	window.stopFeeding();
-	window.definePausedKeyCodeMapping();
-	window.pauseOverlay.classList.replace('popdown', (window.debugMode) ? 'popup-debug' : 'popup');
+pause = function () {
+	isPaused = true;
+	stopRunning();
+	stopFeeding();
+	definePausedKeyCodeMapping();
+	pauseOverlay.classList.replace('popdown', (debugMode) ? 'popup-debug' : 'popup');
 };
-window.unPause = function () {
-	window.isPaused = false;
-	(window.worm.length === 1) ? window.defineInitialKeyCodeMapping() : window.defineSelfBiteAvoidingKeyCodeMapping();
-	window.run();
-	window.feed();
-	window.pauseOverlay.classList.replace((window.debugMode) ? 'popup-debug' : 'popup', 'popdown');
+unPause = function () {
+	isPaused = false;
+	(worm.length === 1) ? defineInitialKeyCodeMapping() : defineSelfBiteAvoidingKeyCodeMapping();
+	run();
+	feed();
+	pauseOverlay.classList.replace((debugMode) ? 'popup-debug' : 'popup', 'popdown');
 };
 
-window.gameOver = function () {
-	window.stopRunning();
-	window.stopFeeding();
-	window.disableKeys();
-	window.worm.sections.forEach(function (section) {
+gameOver = function () {
+	stopRunning();
+	stopFeeding();
+	disableKeys();
+	worm.sections.forEach(function (section) {
 		section.beObstacle();
 	});
 	console.log('Over!');
 };
 
-window.feed = function () {
-	window['foodDroppingInterval' + window.feedLoopId] = setInterval(window.dropFood, window.feedingTimeStep);
+feed = function () {
+	window['foodDroppingInterval' + feedLoopId] = setInterval(dropFood, feedingTimeStep);
 };
-window.stopFeeding = function () {
-	clearInterval(window['foodDroppingInterval' + window.feedLoopId]);
-	delete window['foodDroppingInterval' + window.feedLoopId++];
+stopFeeding = function () {
+	clearInterval(window['foodDroppingInterval' + feedLoopId]);
+	delete window['foodDroppingInterval' + feedLoopId++];
 };
-window.dropFood = function () {
-	if (typeof window.previousFoodCell !== 'undefined' && window.previousFoodCell.isFood) window.previousFoodCell.beNormal();
+dropFood = function () {
+	if (typeof previousFoodCell !== 'undefined' && previousFoodCell.isFood) previousFoodCell.beNormal();
 	let nextFoodCell;
 	do {
 		foodX = 1 + Math.floor(Math.random() * (gridWidth - 2));
@@ -78,11 +78,11 @@ window.dropFood = function () {
 		nextFoodCell = grid.cells[foodX][foodY];
 	} while (!nextFoodCell.isNormal);
 	nextFoodCell.beFood();
-	window.previousFoodCell = nextFoodCell;
+	previousFoodCell = nextFoodCell;
 };
 
-window.speedUp = function () {
-	if (window.movingTimeStep > window.minimumMovingTimeStep) window.movingTimeStep -= window.movingTimeStepDecrement;
+speedUp = function () {
+	if (movingTimeStep > minimumMovingTimeStep) movingTimeStep -= movingTimeStepDecrement;
 };
 
 Object.defineProperties(Array.prototype, {
