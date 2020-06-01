@@ -14,14 +14,14 @@ window.initialiseElements = function () {
 //#################################################################################
 
 window.makeGrid = function (height, width) {
-	var newGrid = document.createElement('table');
+	let newGrid = document.createElement('table');
 	newGrid.id = 'grid';
 	newGrid.cells = [];
-	for (var r = 0; r < height; r++) {
-		var newRow = document.createElement('tr');
+	for (let r = 0; r < height; r++) {
+		let newRow = document.createElement('tr');
 		newGrid.cells.push([]);
-		for (var c = 0; c < width; c++) {
-			var newCell = Cell(r, c);
+		for (let c = 0; c < width; c++) {
+			let newCell = Cell(r, c);
 			// if(x == 1 || x == width - 2 || y == 1 || y == height - 2) newCell.beFood();
 			// if(x == 2 || x == width - 3 || y == 2 || y == height - 3) newCell.beFood();
 			// if(x == 3 || x == width - 4 || y == 3 || y == height - 4) newCell.beFood();
@@ -70,7 +70,7 @@ window.HTMLTableCellElement.prototype.beFood = function () {
 };
 
 window.Cell = function (rowNumber, columnNumber) {
-	var newElement = document.createElement('td');
+	let newElement = document.createElement('td');
 	newElement.className = 'cell';
 	newElement.row = rowNumber;
 	newElement.column = columnNumber;
@@ -93,7 +93,7 @@ Object.defineProperties(window.Worm.prototype, {
 });
 
 window.Worm.prototype.update = function () {
-	var nextCell = this.getNextCell();
+	let nextCell = this.getNextCell();
 	if (nextCell.isObstacle || nextCell.isWorm) {    // Forbidden cell
 		window.gameOver();
 	}
@@ -113,7 +113,7 @@ window.Worm.prototype.update = function () {
 window.Worm.prototype.redefineUpdate = function () {
 	window.defineSelfBiteAvoidingKeyCodeMapping();
 	this.update = function () {
-		var nextCell = this.getNextCell();
+		let nextCell = this.getNextCell();
 		if (nextCell.isObstacle || nextCell.isWorm) {    // Forbidden cell
 			window.gameOver();
 		}

@@ -71,7 +71,7 @@ window.stopFeeding = function () {
 };
 window.dropFood = function () {
 	if (typeof window.previousFoodCell !== 'undefined' && window.previousFoodCell.isFood) window.previousFoodCell.beNormal();
-	var nextFoodCell;
+	let nextFoodCell;
 	do {
 		foodX = 1 + Math.floor(Math.random() * (gridWidth - 2));
 		foodY = 1 + Math.floor(Math.random() * (gridHeight - 2));
