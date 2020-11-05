@@ -37,6 +37,7 @@ stopRunning = function () {
 togglePause = function () {
 	(isPaused) ? unPause() : pause();
 };
+
 pause = function () {
 	isPaused = true;
 	stopRunning();
@@ -44,6 +45,7 @@ pause = function () {
 	definePausedKeyCodeMapping();
 	pauseOverlay.classList.replace('popdown', (debugMode) ? 'popup-debug' : 'popup');
 };
+
 unPause = function () {
 	isPaused = false;
 	(worm.length === 1) ? defineInitialKeyCodeMapping() : defineSelfBiteAvoidingKeyCodeMapping();
@@ -65,10 +67,12 @@ gameOver = function () {
 feed = function () {
 	window['foodDroppingInterval' + feedLoopId] = setInterval(dropFood, feedingTimeStep);
 };
+
 stopFeeding = function () {
 	clearInterval(window['foodDroppingInterval' + feedLoopId]);
 	delete window['foodDroppingInterval' + feedLoopId++];
 };
+
 dropFood = function () {
 	if (typeof previousFoodCell !== 'undefined' && previousFoodCell.isFood) previousFoodCell.beNormal();
 	let nextFoodCell;

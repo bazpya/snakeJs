@@ -23,6 +23,7 @@ initialiseSound = function () {
 		mouseOutBeepOscillator.disconnect();
 	};
 };
+
 foodBeep = function () {
 	foodBeepOscillator.connect(audioCtx.destination);
 	setTimeout(function () { foodBeepOscillator.disconnect() }, 70);
