@@ -1,3 +1,6 @@
+//###########################  Splash  ############################################
+//#################################################################################
+
 Splash = function (game, element) {
 	this.game = game;
 	this.element = element;
@@ -15,4 +18,21 @@ Splash.prototype.bindHandler = function () {
 
 Splash.prototype.popDown = function () {
 	this.element.classList.replace('popup', 'popdown');
+}
+
+//###########################  Pause Overlay  #####################################
+//#################################################################################
+
+PauseOverlay = function (game, element) {
+	this.game = game;
+	this.element = element;
+
+}
+
+PauseOverlay.prototype.popUp = function () {
+	this.element.classList.replace('popdown', (this.game.config.debugMode) ? 'popup-debug' : 'popup');
+}
+
+PauseOverlay.prototype.popDown = function () {
+	this.element.classList.replace((this.game.config.debugMode) ? 'popup-debug' : 'popup', 'popdown');
 }

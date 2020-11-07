@@ -31,7 +31,8 @@ Game.prototype.initialise = function () {
 	let splashElement = document.getElementById('splash');
 	this.splash = new Splash(this, splashElement);
 	this.button = document.getElementById('button'); //Todo: Refactor to an object
-	this.pauseOverlay = document.getElementById('pause'); //Todo: Refactor to an object
+	let pauseOverlayElement = document.getElementById('pause');
+	this.pauseOverlay = new PauseOverlay(this, pauseOverlayElement);
 	this.scoreDisplay = document.getElementById('score'); //Todo: Refactor to an object
 	this.worm = new Worm(this);
 	this.nextCellGettingFunctions = [
@@ -105,7 +106,7 @@ Game.prototype.start = function () {
 }
 
 Game.prototype.restart = function () {
-	this.pauseOverlay.classList.replace((this.config.debugMode) ? 'popup-debug' : 'popup', 'popdown');
+	this.pauseOverlay.popDown();
 	this.stopRunning();
 	this.stopFeeding();
 	this.grid.erase();
@@ -135,7 +136,7 @@ Game.prototype.pause = function () {
 	this.stopRunning();
 	this.stopFeeding();
 	this.definePausedKeyCodeMapping();
-	this.pauseOverlay.classList.replace('popdown', (this.config.debugMode) ? 'popup-debug' : 'popup');
+	this.pauseOverlay.popUp();
 }
 
 Game.prototype.unPause = function () {
@@ -143,7 +144,7 @@ Game.prototype.unPause = function () {
 	(this.worm.length === 1) ? this.defineInitialKeyCodeMapping() : this.defineSelfBiteAvoidingKeyCodeMapping();
 	this.run();
 	this.feed();
-	this.pauseOverlay.classList.replace((this.config.debugMode) ? 'popup-debug' : 'popup', 'popdown');
+	this.pauseOverlay.popDown();
 }
 
 Game.prototype.gameOver = function () {
