@@ -1,5 +1,3 @@
-//##################################  Crosshairs  ####################################
-//####################################################################################
 Game.prototype.initialiseCrosshairs = function () {
     let targets = document.getElementsByClassName('target');
     let me = this;
@@ -20,4 +18,4 @@ Game.prototype.initialiseCrosshairs = function () {
 		item.onmouseenter = () => me.sound.mouseInBeep();  // Could replace with global event listeners!
 		item.onmouseleave = () => me.sound.mouseOutBeep();
 	});
-};
+}

@@ -1,12 +1,12 @@
 onload = function () {
 	game = new Game(znakeConfig);
-};
+}
 
 Game = function (config) {
 	this.importConfig(config);
 	this.initialise();
 	this.bindHandlers();
-};
+}
 
 Game.prototype.importConfig = function (znakeConfig) {
 	this.config = {}
@@ -18,7 +18,7 @@ Game.prototype.importConfig = function (znakeConfig) {
 	this.config.keyCodeForDown = znakeConfig.keyForDown.charCodeAt(0);
 	this.config.keyCodeForLeft = znakeConfig.keyForLeft.charCodeAt(0);
 	this.config.keyCodeForPause = znakeConfig.keyForPause.charCodeAt(0);
-};
+}
 
 Game.prototype.initialise = function () {
 	let me = this;
@@ -44,7 +44,7 @@ Game.prototype.initialise = function () {
 	this.directions = [2];
 	this.currentDirection = 2;
 	this.lastDirectionCommand = 2;
-};
+}
 
 Game.prototype.bindHandlers = function () {
 	let me = this;
@@ -52,15 +52,15 @@ Game.prototype.bindHandlers = function () {
 		me.initialiseSound();
 		me.initialiseCrosshairs();
 		me.splash.classList.replace('popup', 'popdown');
-	};
+	}
 	this.button.onmousedown = () => this.start(); // To fix the 'this' context issue
 	onkeydown = function (keyDownEvent) {
 		if (typeof me.keyMapping[keyDownEvent.keyCode] === 'function')
 			me.keyMapping[keyDownEvent.keyCode]();
-	};
+	}
 	document.oncontextmenu = function (clickEvent) {
 		clickEvent.preventDefault();
-	};
+	}
 	document.onmousedown = function (clickEvent) {
 		if (me.config.debugMode && clickEvent.target.tagName == 'TD') {
 			switch (clickEvent.which) {
@@ -68,10 +68,10 @@ Game.prototype.bindHandlers = function () {
 				case 2: clickEvent.target.element.beBlank(); break;  // middle click
 				case 3: clickEvent.target.element.beObstacle(); break;  // right click
 				default: break;
-			};
-		};
-	};
-};
+			}
+		}
+	}
+}
 
 Game.prototype.initialiseSound = function () {
 	if (typeof this.sound === 'undefined' || typeof this.sound.audioCtx === 'undefined') {
@@ -84,7 +84,7 @@ Game.prototype.start = function () {
 	this.button.onmousedown = () => this.restart();
 	this.run();
 	this.feed();
-};
+}
 
 Game.prototype.restart = function () {
 	this.pauseOverlay.classList.replace((this.config.debugMode) ? 'popup-debug' : 'popup', 'popdown');
@@ -96,21 +96,21 @@ Game.prototype.restart = function () {
 	this.initialise();
 	this.run();
 	this.feed();
-};
+}
 
 Game.prototype.run = function () {
 	this.runLoopId++;
 	this['runningLoop' + this.runLoopId] = setInterval(() => this.worm.update(), this.movingTimeStep);
-};
+}
 
 Game.prototype.stopRunning = function () {
 	clearInterval(this['runningLoop' + this.runLoopId]);
 	delete this['runningLoop' + this.runLoopId];
-};
+}
 
 Game.prototype.togglePause = function () {
 	(this.isPaused) ? this.unPause() : this.pause();
-};
+}
 
 Game.prototype.pause = function () {
 	this.isPaused = true;
@@ -118,7 +118,7 @@ Game.prototype.pause = function () {
 	this.stopFeeding();
 	this.definePausedKeyCodeMapping();
 	this.pauseOverlay.classList.replace('popdown', (this.config.debugMode) ? 'popup-debug' : 'popup');
-};
+}
 
 Game.prototype.unPause = function () {
 	this.isPaused = false;
@@ -126,7 +126,7 @@ Game.prototype.unPause = function () {
 	this.run();
 	this.feed();
 	this.pauseOverlay.classList.replace((this.config.debugMode) ? 'popup-debug' : 'popup', 'popdown');
-};
+}
 
 Game.prototype.gameOver = function () {
 	this.stopRunning();
@@ -136,16 +136,16 @@ Game.prototype.gameOver = function () {
 		section.beObstacle();
 	});
 	log('Over!');
-};
+}
 
 Game.prototype.feed = function () {
 	this['foodDroppingInterval' + this.feedLoopId] = setInterval(() => this.dropFood(), this.feedingTimeStep);
-};
+}
 
 Game.prototype.stopFeeding = function () {
 	clearInterval(this['foodDroppingInterval' + this.feedLoopId]);
 	delete this['foodDroppingInterval' + this.feedLoopId++];
-};
+}
 
 Game.prototype.dropFood = function () {
 	if (typeof this.previousFoodCell !== 'undefined' && this.previousFoodCell.isFood)
@@ -158,11 +158,11 @@ Game.prototype.dropFood = function () {
 	} while (!nextFoodCell.isBlank);
 	nextFoodCell.beFood();
 	this.previousFoodCell = nextFoodCell;
-};
+}
 
 Game.prototype.speedUp = function () {
 	if (this.movingTimeStep > this.config.minimumMovingTimeStep) this.movingTimeStep -= this.config.movingTimeStepDecrement;
-};
+}
 
 Game.prototype.defineInitialKeyCodeMapping = function () {
 	let me = this;
@@ -171,7 +171,7 @@ Game.prototype.defineInitialKeyCodeMapping = function () {
 	this.keyMapping[this.config.keyCodeForDown] = function () { me.directions.push(2); me.lastDirectionCommand = 2; };
 	this.keyMapping[this.config.keyCodeForLeft] = function () { me.directions.push(3); me.lastDirectionCommand = 3; };
 	this.keyMapping[this.config.keyCodeForPause] = function () { me.togglePause() };
-};
+}
 
 Game.prototype.defineSelfBiteAvoidingKeyCodeMapping = function () {
 	let me = this;
@@ -179,16 +179,16 @@ Game.prototype.defineSelfBiteAvoidingKeyCodeMapping = function () {
 	this.keyMapping[this.config.keyCodeForRight] = function () { if (Boolean(this.lastDirectionCommand % 2)) return; me.directions.push(1); this.lastDirectionCommand = 1; };
 	this.keyMapping[this.config.keyCodeForDown] = function () { if (!Boolean(this.lastDirectionCommand % 2)) return; me.directions.push(2); this.lastDirectionCommand = 2; };
 	this.keyMapping[this.config.keyCodeForLeft] = function () { if (Boolean(this.lastDirectionCommand % 2)) return; me.directions.push(3); this.lastDirectionCommand = 3; };
-};
+}
 
 Game.prototype.definePausedKeyCodeMapping = function () {
 	this.keyMapping[this.config.keyCodeForUp] = function () { };
 	this.keyMapping[this.config.keyCodeForRight] = function () { };
 	this.keyMapping[this.config.keyCodeForDown] = function () { };
 	this.keyMapping[this.config.keyCodeForLeft] = function () { };
-};
+}
 
 Game.prototype.disableKeys = function () {
 	this.definePausedKeyCodeMapping();
 	this.keyMapping[this.config.keyCodeForPause] = function () { };
-};
+}
