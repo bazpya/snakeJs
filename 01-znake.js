@@ -30,7 +30,8 @@ Game.prototype.initialise = function () {
 	this.gridContainer = document.getElementById('grid-container');
 	this.grid = new Grid(this.gridContainer, this.config.gridHeight, this.config.gridWidth);
 
-	this.button = document.getElementById('button'); //Todo: Refactor to an object
+	let buttonElement = document.getElementById('button');
+	this.button = new Button(this, buttonElement);
 
 	let splashElement = document.getElementById('splash');
 	this.splash = new Splash(this, splashElement);
@@ -59,7 +60,6 @@ Game.prototype.initialise = function () {
 
 Game.prototype.bindHandlers = function () {
 	let me = this;
-	this.button.onmousedown = () => this.start(); // To fix the 'this' context issue
 	onkeydown = function (keyDownEvent) {
 		if (typeof me.keyMapping[keyDownEvent.keyCode] === 'function')
 			me.keyMapping[keyDownEvent.keyCode]();
@@ -108,8 +108,7 @@ Game.prototype.initialiseCrosshairs = function () {
 }
 
 Game.prototype.start = function () {
-	this.button.firstChild.textContent = "Restart";
-	this.button.onmousedown = () => this.restart();
+	this.button.beRestartButton();
 	this.run();
 	this.feed();
 }
@@ -162,9 +161,7 @@ Game.prototype.gameOver = function () {
 	this.stopRunning();
 	this.stopFeeding();
 	this.disableKeys();
-	this.worm.sections.forEach(function (section) {
-		section.beObstacle();
-	});
+	this.worm.die();
 	log('Over!');
 }
 

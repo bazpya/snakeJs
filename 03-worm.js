@@ -64,6 +64,10 @@ Worm.prototype.getNextCell = function () {
     return this.game.nextCellGettingFunctions[this.game.currentDirection]();
 }
 
+Worm.prototype.die = function () {
+    this.sections.forEach(function (section) { section.beObstacle(); });
+}
+
 Object.defineProperties(Worm.prototype, {
     head: { get: function () { return this.sections[0] } },
     tail: { get: function () { return this.sections.last } },

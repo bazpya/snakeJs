@@ -34,7 +34,7 @@ PauseOverlay.prototype.popDown = function () {
 	this.element.classList.replace((this.game.config.debugMode) ? 'popup-debug' : 'popup', 'popdown');
 }
 
-//############################  Score Board#  #####################################
+//############################  Score Board  ######################################
 
 ScoreBoard = function (game, element) {
 	this.game = game;
@@ -47,4 +47,21 @@ ScoreBoard.prototype.update = function (number) {
 
 ScoreBoard.prototype.reset = function () {
 	this.update(1); // Minimum length
+}
+
+//############################  Button  ######################################
+
+Button = function (game, element) {
+	this.game = game;
+	this.element = element;
+	this.beStartButton();
+}
+
+Button.prototype.beStartButton = function () {
+	this.element.onmousedown = () => this.game.start();
+}
+
+Button.prototype.beRestartButton = function () {
+	this.element.firstChild.textContent = "Restart";
+	this.onmousedown = () => this.game.restart();
 }
