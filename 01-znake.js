@@ -26,15 +26,24 @@ Game.prototype.initialise = function () {
 	this.feedLoopId = 0;
 	this.movingTimeStep = this.config.movingTimeStep;
 	this.feedingTimeStep = this.config.feedingTimeStep;
+
 	this.gridContainer = document.getElementById('grid-container');
 	this.grid = new Grid(this.gridContainer, this.config.gridHeight, this.config.gridWidth);
+
+	this.button = document.getElementById('button'); //Todo: Refactor to an object
+
 	let splashElement = document.getElementById('splash');
 	this.splash = new Splash(this, splashElement);
-	this.button = document.getElementById('button'); //Todo: Refactor to an object
+
 	let pauseOverlayElement = document.getElementById('pause');
 	this.pauseOverlay = new PauseOverlay(this, pauseOverlayElement);
-	this.scoreDisplay = document.getElementById('score'); //Todo: Refactor to an object
+
+	let scoreBoardElement = document.getElementById('score');
+	this.scoreBoard = new ScoreBoard(this, scoreBoardElement);
+	this.scoreBoard.reset();
+
 	this.worm = new Worm(this);
+
 	this.nextCellGettingFunctions = [
 		function () { return me.grid.cells[me.worm.head.row - 1][me.worm.head.column] },
 		function () { return me.grid.cells[me.worm.head.row][me.worm.head.column + 1] },

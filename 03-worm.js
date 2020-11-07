@@ -14,11 +14,11 @@ Worm.prototype.update = function () {
     else if (nextCell.isFood) {    // Food cell
         this.moveHeadTo(nextCell);
         this.game.sound.foodBeep();
-        this.game.scoreDisplay.innerHTML = this.length;
+        this.game.scoreBoard.update(this.length);
         this.redefineUpdate();
         this.game.speedUp();
     }
-    else {    // Normal cell
+    else {    // Blank cell
         this.moveHeadTo(nextCell);
         this.moveTail();
     }
@@ -34,7 +34,7 @@ Worm.prototype.redefineUpdate = function () {
         else if (nextCell.isFood) {    // Food cell
             this.moveHeadTo(nextCell);
             this.game.sound.foodBeep();
-            this.game.scoreDisplay.innerHTML = this.length;
+            this.game.scoreBoard.update(this.length);
             clearInterval(this.game['runningLoop' + this.game.runLoopId]);
             delete this.game['runningLoop' + this.game.runLoopId];
             this.game.speedUp();

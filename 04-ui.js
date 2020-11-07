@@ -1,5 +1,4 @@
 //###########################  Splash  ############################################
-//#################################################################################
 
 Splash = function (game, element) {
 	this.game = game;
@@ -21,12 +20,10 @@ Splash.prototype.popDown = function () {
 }
 
 //###########################  Pause Overlay  #####################################
-//#################################################################################
 
 PauseOverlay = function (game, element) {
 	this.game = game;
 	this.element = element;
-
 }
 
 PauseOverlay.prototype.popUp = function () {
@@ -35,4 +32,19 @@ PauseOverlay.prototype.popUp = function () {
 
 PauseOverlay.prototype.popDown = function () {
 	this.element.classList.replace((this.game.config.debugMode) ? 'popup-debug' : 'popup', 'popdown');
+}
+
+//############################  Score Board#  #####################################
+
+ScoreBoard = function (game, element) {
+	this.game = game;
+	this.element = element;
+}
+
+ScoreBoard.prototype.update = function (number) {
+	this.element.innerHTML = number;
+}
+
+ScoreBoard.prototype.reset = function () {
+	this.update(1); // Minimum length
 }
