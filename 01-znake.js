@@ -28,7 +28,8 @@ Game.prototype.initialise = function () {
 	this.feedingTimeStep = this.config.feedingTimeStep;
 	this.gridContainer = document.getElementById('grid-container');
 	this.grid = new Grid(this.gridContainer, this.config.gridHeight, this.config.gridWidth);
-	this.splash = document.getElementById('splash'); //Todo: Refactor to an object type
+	let splashElement = document.getElementById('splash');
+	this.splash = new Splash(this, splashElement);
 	this.button = document.getElementById('button'); //Todo: Refactor to an object
 	this.pauseOverlay = document.getElementById('pause'); //Todo: Refactor to an object
 	this.scoreDisplay = document.getElementById('score'); //Todo: Refactor to an object
@@ -48,11 +49,6 @@ Game.prototype.initialise = function () {
 
 Game.prototype.bindHandlers = function () {
 	let me = this;
-	this.splash.onclick = function () {
-		me.initialiseSound();
-		me.initialiseCrosshairs();
-		me.splash.classList.replace('popup', 'popdown');
-	}
 	this.button.onmousedown = () => this.start(); // To fix the 'this' context issue
 	onkeydown = function (keyDownEvent) {
 		if (typeof me.keyMapping[keyDownEvent.keyCode] === 'function')
@@ -77,6 +73,28 @@ Game.prototype.initialiseSound = function () {
 	if (typeof this.sound === 'undefined' || typeof this.sound.audioCtx === 'undefined') {
 		this.sound = new Sound(this.config.soundVolume);
 	}
+}
+
+Game.prototype.initialiseCrosshairs = function () {
+	let targets = document.getElementsByClassName('target');
+	let me = this;
+
+	Array.prototype.forEach.call(targets, function (item) {
+		let cornerTopLeft = document.createElement('div');
+		cornerTopLeft.classList.add('corners', 'corner-top-left');
+		item.appendChild(cornerTopLeft);
+		let cornerTopRight = document.createElement('div');
+		cornerTopRight.classList.add('corners', 'corner-top-right');
+		item.appendChild(cornerTopRight);
+		let cornerBottomLeft = document.createElement('div');
+		cornerBottomLeft.classList.add('corners', 'corner-bottom-left');
+		item.appendChild(cornerBottomLeft);
+		let cornerBottomRight = document.createElement('div');
+		cornerBottomRight.classList.add('corners', 'corner-bottom-right');
+		item.appendChild(cornerBottomRight);
+		item.onmouseenter = () => me.sound.mouseInBeep();  // Could replace with global event listeners!
+		item.onmouseleave = () => me.sound.mouseOutBeep();
+	});
 }
 
 Game.prototype.start = function () {
