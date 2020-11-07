@@ -6,12 +6,6 @@ Worm = function (game) {
     this.head.beWorm();
 }
 
-Object.defineProperties(Worm.prototype, {
-    head: { get: function () { return this.sections[0] } },
-    length: { get: function () { return this.sections.length } },
-    tail: { get: function () { return this.sections.last } }
-});
-
 Worm.prototype.update = function () {
     let nextCell = this.getNextCell();
     if (nextCell.isObstacle || nextCell.isWorm) {    // Forbidden cell
@@ -69,3 +63,10 @@ Worm.prototype.getNextCell = function () {
         this.game.currentDirection = this.game.directions.shift();
     return this.game.nextCellGettingFunctions[this.game.currentDirection]();
 }
+
+Object.defineProperties(Worm.prototype, {
+    head: { get: function () { return this.sections[0] } },
+    tail: { get: function () { return this.sections.last } },
+    length: { get: function () { return this.sections.length } },
+    isUnicellular: { get: function () { return this.length === 1 } }
+});

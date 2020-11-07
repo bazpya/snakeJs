@@ -141,7 +141,9 @@ Game.prototype.pause = function () {
 
 Game.prototype.unPause = function () {
 	this.isPaused = false;
-	(this.worm.length === 1) ? this.defineInitialKeyCodeMapping() : this.defineSelfBiteAvoidingKeyCodeMapping();
+	(this.worm.isUnicellular)
+		? this.defineInitialKeyCodeMapping()
+		: this.defineSelfBiteAvoidingKeyCodeMapping();
 	this.run();
 	this.feed();
 	this.pauseOverlay.popDown();
