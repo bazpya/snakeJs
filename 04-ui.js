@@ -27,11 +27,11 @@ PauseOverlay = function (game, element) {
 }
 
 PauseOverlay.prototype.popUp = function () {
-	this.element.classList.replace('popdown', (this.game.config.debugMode) ? 'popup-debug' : 'popup');
+	this.element.classList.replace('popdown', (this.game.config.devMode) ? 'popup-debug' : 'popup');
 }
 
 PauseOverlay.prototype.popDown = function () {
-	this.element.classList.replace((this.game.config.debugMode) ? 'popup-debug' : 'popup', 'popdown');
+	this.element.classList.replace((this.game.config.devMode) ? 'popup-debug' : 'popup', 'popdown');
 }
 
 //############################  Score Board  ######################################

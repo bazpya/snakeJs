@@ -68,7 +68,7 @@ Game.prototype.bindHandlers = function () {
 		clickEvent.preventDefault();
 	}
 	document.onmousedown = function (clickEvent) {
-		if (me.config.debugMode && clickEvent.target.tagName == 'TD') {
+		if (me.config.devMode && clickEvent.target.tagName == 'TD') {
 			switch (clickEvent.which) {
 				case 1: clickEvent.target.element.beFood(); break;  // left click
 				case 2: clickEvent.target.element.beBlank(); break;  // middle click
@@ -162,7 +162,6 @@ Game.prototype.gameOver = function () {
 	this.stopFeeding();
 	this.disableKeys();
 	this.worm.die();
-	log('Over!');
 }
 
 Game.prototype.feed = function () {
