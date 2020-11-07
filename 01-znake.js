@@ -3,18 +3,21 @@ onload = function () {
 };
 
 Game = function (config) {
-	this.config = {}
-	for (let key in config)
-		this.config[key] = config[key];
-
-	this.config.keyCodeForUp = config.keyForUp.charCodeAt(0);
-	this.config.keyCodeForRight = config.keyForRight.charCodeAt(0);
-	this.config.keyCodeForDown = config.keyForDown.charCodeAt(0);
-	this.config.keyCodeForLeft = config.keyForLeft.charCodeAt(0);
-	this.config.keyCodeForPause = config.keyForPause.charCodeAt(0);
-
+	this.importConfig(config);
 	this.initialise();
 	this.bindHandlers();
+};
+
+Game.prototype.importConfig = function (znakeConfig) {
+	this.config = {}
+	for (let key in znakeConfig)
+		this.config[key] = znakeConfig[key];
+
+	this.config.keyCodeForUp = znakeConfig.keyForUp.charCodeAt(0);
+	this.config.keyCodeForRight = znakeConfig.keyForRight.charCodeAt(0);
+	this.config.keyCodeForDown = znakeConfig.keyForDown.charCodeAt(0);
+	this.config.keyCodeForLeft = znakeConfig.keyForLeft.charCodeAt(0);
+	this.config.keyCodeForPause = znakeConfig.keyForPause.charCodeAt(0);
 };
 
 Game.prototype.initialise = function () {
