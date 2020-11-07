@@ -58,10 +58,12 @@ Button = function (game, element) {
 }
 
 Button.prototype.beStartButton = function () {
-	this.element.onmousedown = () => this.game.start();
+	let me = this;
+	this.element.onmousedown = () => me.game.start();
 }
 
 Button.prototype.beRestartButton = function () {
 	this.element.firstChild.textContent = "Restart";
-	this.element.onmousedown = () => this.game.restart();
+	let me = this;
+	this.element.onmousedown = () => me.game.restart();
 }

@@ -8,6 +8,8 @@ Game = function (config) {
 	this.bindHandlers();
 	this.runLoopId = 0;
 	this.feedLoopId = 0;
+	let buttonElement = document.getElementById('button');
+	this.button = new Button(this, buttonElement);
 }
 
 Game.prototype.importConfig = function (znakeConfig) {
@@ -28,9 +30,6 @@ Game.prototype.initialise = function () {
 
 	this.gridContainer = document.getElementById('grid-container');
 	this.grid = new Grid(this.gridContainer, this.config.gridHeight, this.config.gridWidth);
-
-	let buttonElement = document.getElementById('button');
-	this.button = new Button(this, buttonElement);
 
 	let splashElement = document.getElementById('splash');
 	this.splash = new Splash(this, splashElement);
@@ -103,7 +102,6 @@ Game.prototype.start = function () {
 }
 
 Game.prototype.restart = function () {
-	log('restart');
 	this.pauseOverlay.popDown();
 	this.stopRunning();
 	this.stopFeeding();
@@ -118,12 +116,13 @@ Game.prototype.restart = function () {
 
 Game.prototype.run = function () {
 	this.runLoopId++;
-	this['runningLoop' + this.runLoopId] = setInterval(() => this.worm.update(), this.movingTimeStep);
+	let me = this;
+	this.runLoopHandle = setInterval(() => me.worm.update(), me.movingTimeStep);
 }
 
 Game.prototype.stopRunning = function () {
-	clearInterval(this['runningLoop' + this.runLoopId]);
-	delete this['runningLoop' + this.runLoopId];
+	clearInterval(this.runLoopHandle);
+	delete this.runLoopHandle;
 }
 
 Game.prototype.togglePause = function () {
@@ -131,7 +130,7 @@ Game.prototype.togglePause = function () {
 		this.run();
 		this.feed();
 		this.isPaused = false;
-		this.mapKeysForRunning()
+		this.mapKeysForRunning();
 		this.pauseOverlay.popDown();
 	}
 	else {
@@ -152,15 +151,16 @@ Game.prototype.gameOver = function () {
 
 Game.prototype.feed = function () {
 	this.feedLoopId++;
-	this['foodDroppingInterval' + this.feedLoopId] = setInterval(() => this.dropFood(), this.feedingTimeStep);
+	let me = this;
+	this.feedLoopHandle = setInterval(() => me.dropFood(), me.feedingTimeStep);
 }
 
 Game.prototype.stopFeeding = function () {
-	clearInterval(this['foodDroppingInterval' + this.feedLoopId]);
-	delete this['foodDroppingInterval' + this.feedLoopId];
+	clearInterval(this.feedLoopHandle);
+	delete this.feedLoopHandle;
 }
 
-Game.prototype.dropFood = function () {
+Game.prototype.dropFood = function () {  //Todo: Implement proper shuffling algorithm
 	if (typeof this.previousFoodCell !== 'undefined' && this.previousFoodCell.isFood)
 		this.previousFoodCell.beBlank();
 	let nextFoodCell;
@@ -205,3 +205,14 @@ Game.prototype.mapKeysForPause = function () {
 Game.prototype.disableKeys = function () {
 	this.keyMapping.discardElements();
 }
+
+Object.defineProperties(Game.prototype, {
+	runLoopHandle: {
+		get: function () { return this['runningLoop' + this.runLoopId]; },
+		set: function (val) { this['runningLoop' + this.runLoopId] = val; }
+	},
+	feedLoopHandle: {
+		get: function () { return this['feedingLoop' + this.feedLoopId]; },
+		set: function (val) { this['feedingLoop' + this.feedLoopId] = val; }
+	}
+});
