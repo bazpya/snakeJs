@@ -53,9 +53,6 @@ Game.prototype.initialise = function () {
 	];
 	this.keyMapping = {};
 	this.defineInitialKeyCodeMapping();
-	this.directionQueue = [2];
-	this.currentDirection = 2;
-	this.lastDirectionCommand = 2;
 }
 
 Game.prototype.bindHandlers = function () {
@@ -192,19 +189,19 @@ Game.prototype.speedUp = function () {
 
 Game.prototype.defineInitialKeyCodeMapping = function () {
 	let me = this;
-	this.keyMapping[this.config.keyCodeForUp] = function () { me.directionQueue.push(0); me.lastDirectionCommand = 0; };
-	this.keyMapping[this.config.keyCodeForRight] = function () { me.directionQueue.push(1); me.lastDirectionCommand = 1; };
-	this.keyMapping[this.config.keyCodeForDown] = function () { me.directionQueue.push(2); me.lastDirectionCommand = 2; };
-	this.keyMapping[this.config.keyCodeForLeft] = function () { me.directionQueue.push(3); me.lastDirectionCommand = 3; };
+	this.keyMapping[this.config.keyCodeForUp] = function () { me.worm.directionQueue.push(0); me.worm.previousDirection = 0; };
+	this.keyMapping[this.config.keyCodeForRight] = function () { me.worm.directionQueue.push(1); me.worm.previousDirection = 1; };
+	this.keyMapping[this.config.keyCodeForDown] = function () { me.worm.directionQueue.push(2); me.worm.previousDirection = 2; };
+	this.keyMapping[this.config.keyCodeForLeft] = function () { me.worm.directionQueue.push(3); me.worm.previousDirection = 3; };
 	this.keyMapping[this.config.keyCodeForPause] = function () { me.togglePause() };
 }
 
 Game.prototype.defineSelfBiteAvoidingKeyCodeMapping = function () {
 	let me = this;
-	this.keyMapping[this.config.keyCodeForUp] = function () { if (!Boolean(this.lastDirectionCommand % 2)) return; me.directionQueue.push(0); this.lastDirectionCommand = 0; };
-	this.keyMapping[this.config.keyCodeForRight] = function () { if (Boolean(this.lastDirectionCommand % 2)) return; me.directionQueue.push(1); this.lastDirectionCommand = 1; };
-	this.keyMapping[this.config.keyCodeForDown] = function () { if (!Boolean(this.lastDirectionCommand % 2)) return; me.directionQueue.push(2); this.lastDirectionCommand = 2; };
-	this.keyMapping[this.config.keyCodeForLeft] = function () { if (Boolean(this.lastDirectionCommand % 2)) return; me.directionQueue.push(3); this.lastDirectionCommand = 3; };
+	this.keyMapping[this.config.keyCodeForUp] = function () { if (!Boolean(me.worm.previousDirection % 2)) return; me.worm.directionQueue.push(0); me.worm.previousDirection = 0; };
+	this.keyMapping[this.config.keyCodeForRight] = function () { if (Boolean(me.worm.previousDirection % 2)) return; me.worm.directionQueue.push(1); me.worm.previousDirection = 1; };
+	this.keyMapping[this.config.keyCodeForDown] = function () { if (!Boolean(me.worm.previousDirection % 2)) return; me.worm.directionQueue.push(2); me.worm.previousDirection = 2; };
+	this.keyMapping[this.config.keyCodeForLeft] = function () { if (Boolean(me.worm.previousDirection % 2)) return; me.worm.directionQueue.push(3); me.worm.previousDirection = 3; };
 }
 
 Game.prototype.definePausedKeyCodeMapping = function () {

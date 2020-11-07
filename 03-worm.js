@@ -4,6 +4,9 @@ Worm = function (game) {
     this.sections = [];
     this.sections.push(this.game.grid.cells[1][1]);
     this.head.beWorm();
+    this.directionQueue = [2];
+    this.currentDirection = 2;
+    this.previousDirection = 2;
 }
 
 Worm.prototype.update = function () {
@@ -60,9 +63,9 @@ Worm.prototype.moveTail = function () {
 }
 
 Worm.prototype.getNextCell = function () {
-    if (Boolean(this.game.directionQueue.length))
-        this.game.currentDirection = this.game.directionQueue.shift();
-    return this.game.nextCellGettingFunctions[this.game.currentDirection]();
+    if (this.directionQueue.hasAny)
+        this.currentDirection = this.directionQueue.takeFirstOut();
+    return this.game.nextCellGettingFunctions[this.currentDirection]();
 }
 
 Worm.prototype.die = function () {
