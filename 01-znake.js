@@ -45,14 +45,13 @@ Game.prototype.initialise = function () {
 
 	this.worm = new Worm(this);
 
-	this.nextCellGettingFunctions = [
+	this.nextCellGettingFunctions = [  //Todo: Move to grid
 		function () { return me.grid.cells[me.worm.head.row - 1][me.worm.head.column] },
 		function () { return me.grid.cells[me.worm.head.row][me.worm.head.column + 1] },
 		function () { return me.grid.cells[me.worm.head.row + 1][me.worm.head.column] },
 		function () { return me.grid.cells[me.worm.head.row][me.worm.head.column - 1] }
 	];
-	this.keyMapping = {};
-	this.defineInitialKeyCodeMapping();
+	this.keyMapping = [];
 }
 
 Game.prototype.bindHandlers = function () {
@@ -123,6 +122,8 @@ Game.prototype.restart = function () {
 }
 
 Game.prototype.run = function () {
+	this.worm.mapKeys()
+	this.mapKeysForRunning()
 	this.runLoopId++;
 	this['runningLoop' + this.runLoopId] = setInterval(() => this.worm.update(), this.movingTimeStep);
 }
@@ -140,15 +141,12 @@ Game.prototype.pause = function () {
 	this.isPaused = true;
 	this.stopRunning();
 	this.stopFeeding();
-	this.definePausedKeyCodeMapping();
+	this.mapKeysForPause();
 	this.pauseOverlay.popUp();
 }
 
 Game.prototype.unPause = function () {
 	this.isPaused = false;
-	(this.worm.isUnicellular)
-		? this.defineInitialKeyCodeMapping()
-		: this.defineSelfBiteAvoidingKeyCodeMapping();
 	this.run();
 	this.feed();
 	this.pauseOverlay.popDown();
@@ -183,35 +181,37 @@ Game.prototype.dropFood = function () {
 	this.previousFoodCell = nextFoodCell;
 }
 
-Game.prototype.speedUp = function () {
-	if (this.movingTimeStep > this.config.minimumMovingTimeStep) this.movingTimeStep -= this.config.movingTimeStepDecrement;
+Game.prototype.scoreUp = function (score) {
+	this.sound.foodBeep();
+	this.scoreBoard.update(score);
+	this.speedUp();
 }
 
-Game.prototype.defineInitialKeyCodeMapping = function () {
+Game.prototype.speedUp = function () {
+	if (this.movingTimeStep > this.config.minimumMovingTimeStep) {
+		this.movingTimeStep -= this.config.movingTimeStepDecrement;
+		clearInterval(this['runningLoop' + this.runLoopId]);
+		delete this['runningLoop' + this.runLoopId];
+		this.run();
+	}
+}
+
+Game.prototype.mapKeysForRunning = function () {
+	this.worm.mapKeys()
 	let me = this;
-	this.keyMapping[this.config.keyCodeForUp] = function () { me.worm.directionQueue.push(0); me.worm.previousDirection = 0; };
-	this.keyMapping[this.config.keyCodeForRight] = function () { me.worm.directionQueue.push(1); me.worm.previousDirection = 1; };
-	this.keyMapping[this.config.keyCodeForDown] = function () { me.worm.directionQueue.push(2); me.worm.previousDirection = 2; };
-	this.keyMapping[this.config.keyCodeForLeft] = function () { me.worm.directionQueue.push(3); me.worm.previousDirection = 3; };
+	this.keyMapping[this.config.keyCodeForUp] = function () { me.worm.keyMapping[me.config.keyCodeForUp]() };
+	this.keyMapping[this.config.keyCodeForRight] = function () { me.worm.keyMapping[me.config.keyCodeForRight]() };
+	this.keyMapping[this.config.keyCodeForDown] = function () { me.worm.keyMapping[me.config.keyCodeForDown]() };
+	this.keyMapping[this.config.keyCodeForLeft] = function () { me.worm.keyMapping[me.config.keyCodeForLeft]() };
 	this.keyMapping[this.config.keyCodeForPause] = function () { me.togglePause() };
 }
 
-Game.prototype.defineSelfBiteAvoidingKeyCodeMapping = function () {
+Game.prototype.mapKeysForPause = function () {
+	this.disableKeys();
 	let me = this;
-	this.keyMapping[this.config.keyCodeForUp] = function () { if (!Boolean(me.worm.previousDirection % 2)) return; me.worm.directionQueue.push(0); me.worm.previousDirection = 0; };
-	this.keyMapping[this.config.keyCodeForRight] = function () { if (Boolean(me.worm.previousDirection % 2)) return; me.worm.directionQueue.push(1); me.worm.previousDirection = 1; };
-	this.keyMapping[this.config.keyCodeForDown] = function () { if (!Boolean(me.worm.previousDirection % 2)) return; me.worm.directionQueue.push(2); me.worm.previousDirection = 2; };
-	this.keyMapping[this.config.keyCodeForLeft] = function () { if (Boolean(me.worm.previousDirection % 2)) return; me.worm.directionQueue.push(3); me.worm.previousDirection = 3; };
-}
-
-Game.prototype.definePausedKeyCodeMapping = function () {
-	this.keyMapping[this.config.keyCodeForUp] = function () { };
-	this.keyMapping[this.config.keyCodeForRight] = function () { };
-	this.keyMapping[this.config.keyCodeForDown] = function () { };
-	this.keyMapping[this.config.keyCodeForLeft] = function () { };
+	this.keyMapping[this.config.keyCodeForPause] = function () { me.togglePause() };
 }
 
 Game.prototype.disableKeys = function () {
-	this.definePausedKeyCodeMapping();
-	this.keyMapping[this.config.keyCodeForPause] = function () { };
+	this.keyMapping.discardElements();
 }

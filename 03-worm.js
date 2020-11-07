@@ -7,6 +7,7 @@ Worm = function (game) {
     this.directionQueue = [2];
     this.currentDirection = 2;
     this.previousDirection = 2;
+    this.keyMapping = [];
 }
 
 Worm.prototype.update = function () {
@@ -15,12 +16,10 @@ Worm.prototype.update = function () {
     if (nextCell.isObstacle || nextCell.isWorm)    // Forbidden cell
         this.game.gameOver();
 
-    else if (nextCell.isFood) {    // Food cell
+    else if (nextCell.isFood) {
         this.moveHeadTo(nextCell);
-        this.game.sound.foodBeep();
-        this.game.scoreBoard.update(this.length);
+        this.game.scoreUp(this.length);
         this.redefineUpdate();
-        this.game.speedUp();
     }
     else {    // Blank cell
         this.moveHeadTo(nextCell);
@@ -28,8 +27,8 @@ Worm.prototype.update = function () {
     }
 }
 
-Worm.prototype.redefineUpdate = function () {
-    this.game.defineSelfBiteAvoidingKeyCodeMapping();
+Worm.prototype.redefineUpdate = function () { //Todo: Get rid of redundancy
+    this.mapKeys();
     this.update = function () {
         let nextCell = this.getNextCell();
         if (nextCell.isObstacle || nextCell.isWorm) {    // Forbidden cell
@@ -37,13 +36,7 @@ Worm.prototype.redefineUpdate = function () {
         }
         else if (nextCell.isFood) {    // Food cell
             this.moveHeadTo(nextCell);
-            this.game.sound.foodBeep();
-            this.game.scoreBoard.update(this.length);
-            clearInterval(this.game['runningLoop' + this.game.runLoopId]);
-            delete this.game['runningLoop' + this.game.runLoopId];
-            this.game.speedUp();
-            this.game.run();
-
+            this.game.scoreUp(this.length);
         }
         else {    // Normal cell
             this.moveHeadTo(nextCell);
@@ -70,6 +63,26 @@ Worm.prototype.getNextCell = function () {
 
 Worm.prototype.die = function () {
     this.sections.forEach(function (section) { section.beObstacle(); });
+}
+
+Worm.prototype.mapKeys = function () {
+    if (this.isUnicellular)
+        this.mapKeysUnicellular();
+    else {
+        let me = this;
+        this.keyMapping[this.game.config.keyCodeForUp] = function () { if (!Boolean(me.previousDirection % 2)) return; me.directionQueue.push(0); me.previousDirection = 0; };
+        this.keyMapping[this.game.config.keyCodeForRight] = function () { if (Boolean(me.previousDirection % 2)) return; me.directionQueue.push(1); me.previousDirection = 1; };
+        this.keyMapping[this.game.config.keyCodeForDown] = function () { if (!Boolean(me.previousDirection % 2)) return; me.directionQueue.push(2); me.previousDirection = 2; };
+        this.keyMapping[this.game.config.keyCodeForLeft] = function () { if (Boolean(me.previousDirection % 2)) return; me.directionQueue.push(3); me.previousDirection = 3; };
+    }
+}
+
+Worm.prototype.mapKeysUnicellular = function () {
+    let me = this;
+    this.keyMapping[this.game.config.keyCodeForUp] = function () { me.directionQueue.push(0); me.previousDirection = 0; };
+    this.keyMapping[this.game.config.keyCodeForRight] = function () { me.directionQueue.push(1); me.previousDirection = 1; };
+    this.keyMapping[this.game.config.keyCodeForDown] = function () { me.directionQueue.push(2); me.previousDirection = 2; };
+    this.keyMapping[this.game.config.keyCodeForLeft] = function () { me.directionQueue.push(3); me.previousDirection = 3; };
 }
 
 Object.defineProperties(Worm.prototype, {

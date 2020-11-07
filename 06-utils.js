@@ -11,3 +11,8 @@ Array.prototype.takeFirstOut = function () {
     let firstElement = this.shift();
     return firstElement;
 }
+
+Array.prototype.discardElements = function () {
+    while (this.hasAny)
+        this.takeFirstOut();
+}
