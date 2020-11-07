@@ -23,10 +23,21 @@ Grid = function (container, height, width) {
         this.element.appendChild(newRow);
     }
     this.container.appendChild(this.element);
+
+    this.nextCellGettingFunctions = [
+        function (me, wormHead) { return me.cells[wormHead.row - 1][wormHead.column] },
+        function (me, wormHead) { return me.cells[wormHead.row][wormHead.column + 1] },
+        function (me, wormHead) { return me.cells[wormHead.row + 1][wormHead.column] },
+        function (me, wormHead) { return me.cells[wormHead.row][wormHead.column - 1] }
+    ];
 }
 
 Grid.prototype.erase = function () {
     this.container.removeChild(this.element);
+}
+
+Grid.prototype.getNextCell = function (worm) {
+    return this.nextCellGettingFunctions[worm.currentDirection](this, worm.head);
 }
 
 //############################  Cell  #############################################

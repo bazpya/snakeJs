@@ -58,7 +58,7 @@ Worm.prototype.moveTail = function () {
 Worm.prototype.getNextCell = function () {
     if (this.directionQueue.hasAny)
         this.currentDirection = this.directionQueue.takeFirstOut();
-    return this.game.nextCellGettingFunctions[this.currentDirection]();
+    return this.game.grid.getNextCell(this);
 }
 
 Worm.prototype.die = function () {

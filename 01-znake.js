@@ -44,13 +44,6 @@ Game.prototype.initialise = function () {
 	this.scoreBoard.reset();
 
 	this.worm = new Worm(this);
-
-	this.nextCellGettingFunctions = [  //Todo: Move to grid
-		function () { return me.grid.cells[me.worm.head.row - 1][me.worm.head.column] },
-		function () { return me.grid.cells[me.worm.head.row][me.worm.head.column + 1] },
-		function () { return me.grid.cells[me.worm.head.row + 1][me.worm.head.column] },
-		function () { return me.grid.cells[me.worm.head.row][me.worm.head.column - 1] }
-	];
 	this.keyMapping = [];
 }
 
