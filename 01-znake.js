@@ -65,7 +65,7 @@ Game.prototype.bindHandlers = function () {
 		if (me.config.debugMode && clickEvent.target.tagName == 'TD') {
 			switch (clickEvent.which) {
 				case 1: clickEvent.target.element.beFood(); break;  // left click
-				case 2: clickEvent.target.element.beNormal(); break;  // middle click
+				case 2: clickEvent.target.element.beBlank(); break;  // middle click
 				case 3: clickEvent.target.element.beObstacle(); break;  // right click
 				default: break;
 			};
@@ -143,13 +143,13 @@ Game.prototype.stopFeeding = function () {
 
 Game.prototype.dropFood = function () {
 	if (typeof this.previousFoodCell !== 'undefined' && this.previousFoodCell.isFood)
-		this.previousFoodCell.beNormal();
+		this.previousFoodCell.beBlank();
 	let nextFoodCell;
 	do {
 		let foodVer = 1 + Math.floor(Math.random() * (this.config.gridHeight - 2));
 		let foodHor = 1 + Math.floor(Math.random() * (this.config.gridWidth - 2));
 		nextFoodCell = this.grid.cells[foodHor][foodVer];
-	} while (!nextFoodCell.isNormal);
+	} while (!nextFoodCell.isBlank);
 	nextFoodCell.beFood();
 	this.previousFoodCell = nextFoodCell;
 };

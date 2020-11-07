@@ -70,7 +70,7 @@ Worm.prototype.moveHeadTo = function (nextHeadCell) {
 };
 
 Worm.prototype.moveTail = function () {
-    this.tail.beNormal();
+    this.tail.beBlank();
     this.sections.splice(-1, 1);
 };
 
