@@ -1,4 +1,5 @@
 znakeConfig = {
+    debugMode: false,
     gridHeight: 20,  // cells
     gridWidth: 20,  // cells
     movingTimeStep: 120,  // milliseconds
@@ -9,4 +10,5 @@ znakeConfig = {
     keyForRight: 'D',
     keyForDown: 'S',
     keyForLeft: 'A',
+    keyForPause: ' ',
 }
