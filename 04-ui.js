@@ -63,5 +63,5 @@ Button.prototype.beStartButton = function () {
 
 Button.prototype.beRestartButton = function () {
 	this.element.firstChild.textContent = "Restart";
-	this.onmousedown = () => this.game.restart();
+	this.element.onmousedown = () => this.game.restart();
 }

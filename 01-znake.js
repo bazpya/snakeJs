@@ -6,6 +6,8 @@ Game = function (config) {
 	this.importConfig(config);
 	this.initialise();
 	this.bindHandlers();
+	this.runLoopId = 0;
+	this.feedLoopId = 0;
 }
 
 Game.prototype.importConfig = function (znakeConfig) {
@@ -21,9 +23,6 @@ Game.prototype.importConfig = function (znakeConfig) {
 }
 
 Game.prototype.initialise = function () {
-	let me = this;
-	this.runLoopId = 0;
-	this.feedLoopId = 0;
 	this.movingTimeStep = this.config.movingTimeStep;
 	this.feedingTimeStep = this.config.feedingTimeStep;
 
@@ -98,11 +97,13 @@ Game.prototype.initialiseCrosshairs = function () {
 
 Game.prototype.start = function () {
 	this.button.beRestartButton();
+	this.mapKeysForRunning()
 	this.run();
 	this.feed();
 }
 
 Game.prototype.restart = function () {
+	log('restart');
 	this.pauseOverlay.popDown();
 	this.stopRunning();
 	this.stopFeeding();
@@ -110,12 +111,12 @@ Game.prototype.restart = function () {
 	delete this.grid;
 	delete this.worm;
 	this.initialise();
+	this.mapKeysForRunning()
 	this.run();
 	this.feed();
 }
 
 Game.prototype.run = function () {
-	this.mapKeysForRunning()
 	this.runLoopId++;
 	this['runningLoop' + this.runLoopId] = setInterval(() => this.worm.update(), this.movingTimeStep);
 }
@@ -126,22 +127,20 @@ Game.prototype.stopRunning = function () {
 }
 
 Game.prototype.togglePause = function () {
-	(this.isPaused) ? this.unPause() : this.pause();
-}
-
-Game.prototype.pause = function () {
-	this.isPaused = true;
-	this.stopRunning();
-	this.stopFeeding();
-	this.mapKeysForPause();
-	this.pauseOverlay.popUp();
-}
-
-Game.prototype.unPause = function () {
-	this.isPaused = false;
-	this.run();
-	this.feed();
-	this.pauseOverlay.popDown();
+	if (this.isPaused) {
+		this.run();
+		this.feed();
+		this.isPaused = false;
+		this.mapKeysForRunning()
+		this.pauseOverlay.popDown();
+	}
+	else {
+		this.stopRunning();
+		this.stopFeeding();
+		this.isPaused = true;
+		this.mapKeysForPause();
+		this.pauseOverlay.popUp();
+	}
 }
 
 Game.prototype.gameOver = function () {
@@ -152,12 +151,13 @@ Game.prototype.gameOver = function () {
 }
 
 Game.prototype.feed = function () {
+	this.feedLoopId++;
 	this['foodDroppingInterval' + this.feedLoopId] = setInterval(() => this.dropFood(), this.feedingTimeStep);
 }
 
 Game.prototype.stopFeeding = function () {
 	clearInterval(this['foodDroppingInterval' + this.feedLoopId]);
-	delete this['foodDroppingInterval' + this.feedLoopId++];
+	delete this['foodDroppingInterval' + this.feedLoopId];
 }
 
 Game.prototype.dropFood = function () {
@@ -182,8 +182,7 @@ Game.prototype.scoreUp = function (score) {
 Game.prototype.speedUp = function () {
 	if (this.movingTimeStep > this.config.minimumMovingTimeStep) {
 		this.movingTimeStep -= this.config.movingTimeStepDecrement;
-		clearInterval(this['runningLoop' + this.runLoopId]);
-		delete this['runningLoop' + this.runLoopId];
+		this.stopRunning();
 		this.run();
 	}
 }
