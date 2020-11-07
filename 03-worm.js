@@ -8,9 +8,10 @@ Worm = function (game) {
 
 Worm.prototype.update = function () {
     let nextCell = this.getNextCell();
-    if (nextCell.isObstacle || nextCell.isWorm) {    // Forbidden cell
+
+    if (nextCell.isObstacle || nextCell.isWorm)    // Forbidden cell
         this.game.gameOver();
-    }
+
     else if (nextCell.isFood) {    // Food cell
         this.moveHeadTo(nextCell);
         this.game.sound.foodBeep();
@@ -59,8 +60,8 @@ Worm.prototype.moveTail = function () {
 }
 
 Worm.prototype.getNextCell = function () {
-    if (Boolean(this.game.directions.length))
-        this.game.currentDirection = this.game.directions.shift();
+    if (Boolean(this.game.directionQueue.length))
+        this.game.currentDirection = this.game.directionQueue.shift();
     return this.game.nextCellGettingFunctions[this.game.currentDirection]();
 }
 
