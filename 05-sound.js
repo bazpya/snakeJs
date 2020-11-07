@@ -1,48 +1,42 @@
-//#############################  Sound  #############################################
-//###################################################################################
+Sound = function (volume) {
+    this.audioCtx = new AudioContext();
+    this.gainNode = this.audioCtx.createGain();
+    this.gainNode.connect(this.audioCtx.destination);
+    this.gainNode.gain.value = volume;
 
-Game.prototype.initialiseSound = function () {
-    this.sound = {};
-    if (typeof this.sound.audioCtx === 'undefined') {
-        this.sound.audioCtx = new AudioContext();
-        this.sound.gainNode = this.sound.audioCtx.createGain();
-        this.sound.gainNode.connect(this.sound.audioCtx.destination);
-        this.sound.gainNode.gain.value = this.config.soundVolume;
+    this.foodBeepOscillator = this.audioCtx.createOscillator();
+    this.foodBeepOscillator.frequency.value = 2000;
+    this.foodBeepOscillator.connect(this.gainNode);
+    this.foodBeepOscillator.start();
+    this.foodBeepOscillator.disconnect();
 
-        this.sound.foodBeepOscillator = this.sound.audioCtx.createOscillator();
-        this.sound.foodBeepOscillator.frequency.value = 2000;
-        this.sound.foodBeepOscillator.connect(this.sound.gainNode);
-        this.sound.foodBeepOscillator.start();
-        this.sound.foodBeepOscillator.disconnect();
+    this.mouseInBeepOscillator = this.audioCtx.createOscillator();
+    this.mouseInBeepOscillator.frequency.value = 3000;
+    this.mouseInBeepOscillator.connect(this.gainNode);
+    this.mouseInBeepOscillator.start();
+    this.mouseInBeepOscillator.disconnect();
 
-        this.sound.mouseInBeepOscillator = this.sound.audioCtx.createOscillator();
-        this.sound.mouseInBeepOscillator.frequency.value = 3000;
-        this.sound.mouseInBeepOscillator.connect(this.sound.gainNode);
-        this.sound.mouseInBeepOscillator.start();
-        this.sound.mouseInBeepOscillator.disconnect();
+    this.mouseOutBeepOscillator = this.audioCtx.createOscillator();
+    this.mouseOutBeepOscillator.frequency.value = 2500;
+    this.mouseOutBeepOscillator.connect(this.gainNode);
+    this.mouseOutBeepOscillator.start();
+    this.mouseOutBeepOscillator.disconnect();
+}
 
-        this.sound.mouseOutBeepOscillator = this.sound.audioCtx.createOscillator();
-        this.sound.mouseOutBeepOscillator.frequency.value = 2500;
-        this.sound.mouseOutBeepOscillator.connect(this.sound.gainNode);
-        this.sound.mouseOutBeepOscillator.start();
-        this.sound.mouseOutBeepOscillator.disconnect();
-    };
-};
-
-Game.prototype.foodBeep = function () {
+Sound.prototype.foodBeep = function () {
     let me = this;
-    this.sound.foodBeepOscillator.connect(this.sound.gainNode);
-    setTimeout(() => { me.sound.foodBeepOscillator.disconnect() }, 70);
-};
+    this.foodBeepOscillator.connect(this.gainNode);
+    setTimeout(() => { me.foodBeepOscillator.disconnect() }, 70);
+}
 
-Game.prototype.mouseInBeep = function () {
+Sound.prototype.mouseInBeep = function () {
     let me = this;
-    this.sound.mouseInBeepOscillator.connect(this.sound.gainNode);
-    setTimeout(() => { me.sound.mouseInBeepOscillator.disconnect() }, 50);
-};
+    this.mouseInBeepOscillator.connect(this.gainNode);
+    setTimeout(() => { me.mouseInBeepOscillator.disconnect() }, 50);
+}
 
-Game.prototype.mouseOutBeep = function () {
+Sound.prototype.mouseOutBeep = function () {
     let me = this;
-    this.sound.mouseOutBeepOscillator.connect(this.sound.gainNode);
-    setTimeout(() => { me.sound.mouseOutBeepOscillator.disconnect() }, 50);
-};
+    this.mouseOutBeepOscillator.connect(this.gainNode);
+    setTimeout(() => { me.mouseOutBeepOscillator.disconnect() }, 50);
+}

@@ -66,8 +66,8 @@ Cell.prototype.beObstacle = function () {
 }
 
 Object.defineProperties(Cell.prototype, {
-    isWorm: { get: function () { return this.type == cellTypeEnum.worm } },
-    isFood: { get: function () { return this.type == cellTypeEnum.food } },
-    isBlank: { get: function () { return this.type == cellTypeEnum.blank } },
-    isObstacle: { get: function () { return this.type == cellTypeEnum.obstacle } },
+    isWorm: { get: function () { return this.type === cellTypeEnum.worm } },
+    isFood: { get: function () { return this.type === cellTypeEnum.food } },
+    isBlank: { get: function () { return this.type === cellTypeEnum.blank } },
+    isObstacle: { get: function () { return this.type === cellTypeEnum.obstacle } },
 });

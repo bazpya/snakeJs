@@ -73,6 +73,12 @@ Game.prototype.bindHandlers = function () {
 	};
 };
 
+Game.prototype.initialiseSound = function () {
+	if (typeof this.sound === 'undefined' || typeof this.sound.audioCtx === 'undefined') {
+		this.sound = new Sound(this.config.soundVolume);
+	}
+}
+
 Game.prototype.start = function () {
 	this.button.firstChild.textContent = "Restart";
 	this.button.onmousedown = () => this.restart();
@@ -185,8 +191,4 @@ Game.prototype.definePausedKeyCodeMapping = function () {
 Game.prototype.disableKeys = function () {
 	this.definePausedKeyCodeMapping();
 	this.keyMapping[this.config.keyCodeForPause] = function () { };
-};
-
-Game.prototype.foodBeep = function () {
-	log('food beep');
 };

@@ -29,7 +29,7 @@ Worm.prototype.update = function () {
 	}
 	else if (nextCell.isFood) {    // Food cell
 		this.moveHeadTo(nextCell);
-		this.game.foodBeep();
+		this.game.sound.foodBeep();
 		this.game.scoreDisplay.innerHTML = this.length;
 		this.redefineUpdate();
 		this.game.speedUp();
@@ -49,7 +49,7 @@ Worm.prototype.redefineUpdate = function () {
         }
         else if (nextCell.isFood) {    // Food cell
             this.moveHeadTo(nextCell);
-            this.game.foodBeep();
+            this.game.sound.foodBeep();
             this.game.scoreDisplay.innerHTML = this.length;
             clearInterval(this.game['runningLoop' + this.game.runLoopId]);
             delete this.game['runningLoop' + this.game.runLoopId];

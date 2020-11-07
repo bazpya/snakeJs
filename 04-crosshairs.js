@@ -17,7 +17,7 @@ Game.prototype.initialiseCrosshairs = function () {
 		let cornerBottomRight = document.createElement('div');
 		cornerBottomRight.classList.add('corners', 'corner-bottom-right');
 		item.appendChild(cornerBottomRight);
-		item.onmouseenter = () => me.mouseInBeep();  // Could replace with global event listeners!
-		item.onmouseleave = () => me.mouseOutBeep();
+		item.onmouseenter = () => me.sound.mouseInBeep();  // Could replace with global event listeners!
+		item.onmouseleave = () => me.sound.mouseOutBeep();
 	});
 };
