@@ -2,7 +2,8 @@
 //###########################  Grid  ##############################################
 //#################################################################################
 
-Grid = function (height, width) {
+Grid = function (container, height, width) {
+    this.container = container;
     this.element = document.createElement('table');
     this.element.id = 'grid';
     this.cells = [];
@@ -20,10 +21,15 @@ Grid = function (height, width) {
             if (col == 0 || col == width - 1 || row == 0 || row == height - 1) newCell.beObstacle();
             newRow.appendChild(newCell.element);
             this.cells[row].push(newCell);
-        };
+        }
         this.element.appendChild(newRow);
-    };
+    }
+    this.container.appendChild(this.element);
 };
+
+Grid.prototype.erase = function () {
+    this.container.removeChild(this.element);
+}
 
 //############################  Cell  #############################################
 //#################################################################################
@@ -40,25 +46,25 @@ Cell = function (rowNumber, colNumber) {
 };
 
 Object.defineProperties(Cell.prototype, {
-	isNormal: { get: function () { return !(this.isWorm || this.isFood || this.isObstacle) } }
+    isNormal: { get: function () { return !(this.isWorm || this.isFood || this.isObstacle) } }
 });
 
 Cell.prototype.beNormal = function () {
-	this.isObstacle = false; this.isWorm = false; this.isFood = false;
-	this.element.className = 'cell';
+    this.isObstacle = false; this.isWorm = false; this.isFood = false;
+    this.element.className = 'cell';
 };
 
 Cell.prototype.beObstacle = function () {
-	this.isObstacle = true; this.isWorm = false; this.isFood = false;
-	this.element.className = 'obstacle';
+    this.isObstacle = true; this.isWorm = false; this.isFood = false;
+    this.element.className = 'obstacle';
 };
 
 Cell.prototype.beWorm = function () {
-	this.isObstacle = false; this.isWorm = true; this.isFood = false;
-	this.element.className = 'worm';
+    this.isObstacle = false; this.isWorm = true; this.isFood = false;
+    this.element.className = 'worm';
 };
 
 Cell.prototype.beFood = function () {
-	this.isObstacle = false; this.isWorm = false; this.isFood = true;
-	this.element.className = 'food';
+    this.isObstacle = false; this.isWorm = false; this.isFood = true;
+    this.element.className = 'food';
 };

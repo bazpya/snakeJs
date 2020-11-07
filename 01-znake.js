@@ -27,8 +27,7 @@ Game.prototype.initialise = function () {
 	this.movingTimeStep = this.config.movingTimeStep;
 	this.feedingTimeStep = this.config.feedingTimeStep;
 	this.gridContainer = document.getElementById('grid-container');
-	this.grid = new Grid(this.config.gridHeight, this.config.gridWidth);
-	this.gridContainer.appendChild(this.grid.element);
+	this.grid = new Grid(this.gridContainer, this.config.gridHeight, this.config.gridWidth);
 	this.splash = document.getElementById('splash'); //Todo: Refactor to an object type
 	this.button = document.getElementById('button'); //Todo: Refactor to an object
 	this.pauseOverlay = document.getElementById('pause'); //Todo: Refactor to an object
@@ -85,7 +84,7 @@ Game.prototype.restart = function () {
 	this.pauseOverlay.classList.replace((this.config.debugMode) ? 'popup-debug' : 'popup', 'popdown');
 	this.stopRunning();
 	this.stopFeeding();
-	this.gridContainer.removeChild(this.grid.element);
+	this.grid.erase();
 	delete this.grid;
 	delete this.worm;
 	this.initialise();
