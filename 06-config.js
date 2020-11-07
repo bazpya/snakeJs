@@ -11,4 +11,5 @@ znakeConfig = {
     keyForDown: 'S',
     keyForLeft: 'A',
     keyForPause: ' ',
+    soundVolume: 0.2,  // [0~1]
 }
