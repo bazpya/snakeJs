@@ -78,4 +78,5 @@ Object.defineProperties(Cell.prototype, {
     isFood: { get: function () { return this.type === cellTypeEnum.food } },
     isBlank: { get: function () { return this.type === cellTypeEnum.blank } },
     isObstacle: { get: function () { return this.type === cellTypeEnum.obstacle } },
+    isDeadly: { get: function () { return this.type === cellTypeEnum.obstacle || this.type === cellTypeEnum.worm } },
 });

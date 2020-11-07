@@ -115,7 +115,6 @@ Game.prototype.restart = function () {
 }
 
 Game.prototype.run = function () {
-	this.worm.mapKeys()
 	this.mapKeysForRunning()
 	this.runLoopId++;
 	this['runningLoop' + this.runLoopId] = setInterval(() => this.worm.update(), this.movingTimeStep);
@@ -190,7 +189,6 @@ Game.prototype.speedUp = function () {
 }
 
 Game.prototype.mapKeysForRunning = function () {
-	this.worm.mapKeys()
 	let me = this;
 	this.keyMapping[this.config.keyCodeForUp] = function () { me.worm.keyMapping[me.config.keyCodeForUp]() };
 	this.keyMapping[this.config.keyCodeForRight] = function () { me.worm.keyMapping[me.config.keyCodeForRight]() };
