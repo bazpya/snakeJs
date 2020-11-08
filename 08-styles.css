@@ -89,9 +89,7 @@ body {
   background-color: yellow;
 }
 .popup-debug {
-  display: unset;
-  width: unset;
-  height: unset;
+  display: block;
   background-color: red;
 }
 .popdown {

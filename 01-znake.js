@@ -47,7 +47,7 @@ Game.prototype.initialise = function () {
 
 Game.prototype.bindHandlers = function () {
 	let me = this;
-	onkeydown = function (keyDownEvent) {
+	document.onkeydown = function (keyDownEvent) {
 		if (typeof me.keyMapping[keyDownEvent.keyCode] === 'function')
 			me.keyMapping[keyDownEvent.keyCode]();
 	}
@@ -56,9 +56,9 @@ Game.prototype.bindHandlers = function () {
 	document.onmousedown = function (clickEvent) {
 		if (me.config.devMode && clickEvent.target.tagName == 'TD') {
 			switch (clickEvent.which) {
-				case 1: clickEvent.target.element.beFood(); break;  // left click
-				case 2: clickEvent.target.element.beBlank(); break;  // middle click
-				case 3: clickEvent.target.element.beObstacle(); break;  // right click
+				case 1: clickEvent.target.cell.beFood(); break;  // left click
+				case 2: clickEvent.target.cell.beBlank(); break;  // middle click
+				case 3: clickEvent.target.cell.beObstacle(); break;  // right click
 				default: break;
 			}
 		}
