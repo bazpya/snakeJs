@@ -51,9 +51,8 @@ Game.prototype.bindHandlers = function () {
 		if (typeof me.keyMapping[keyDownEvent.keyCode] === 'function')
 			me.keyMapping[keyDownEvent.keyCode]();
 	}
-	document.oncontextmenu = function (clickEvent) {
-		clickEvent.preventDefault();
-	}
+	document.oncontextmenu = (clickEvent) => clickEvent.preventDefault();
+
 	document.onmousedown = function (clickEvent) {
 		if (me.config.devMode && clickEvent.target.tagName == 'TD') {
 			switch (clickEvent.which) {
