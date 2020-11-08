@@ -102,7 +102,10 @@ Game.prototype.start = function () {
 }
 
 Game.prototype.restart = function () {
-	this.pauseOverlay.popDown();
+	if (this.isPaused) {
+		this.pauseOverlay.popDown();
+		this.isPaused = false;
+	}
 	this.stopRunning();
 	this.stopFeeding();
 	this.grid.erase();
