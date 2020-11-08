@@ -164,11 +164,20 @@ Game.prototype.stopFeeding = function () {
 }
 
 Game.prototype.dropFood = function () {
-	if (typeof this.previousFoodCell !== 'undefined' && this.previousFoodCell.isFood)
-		this.previousFoodCell.beBlank();
-	let nextFoodCell = this.grid.getRandomBlankCell();
-	nextFoodCell.beFood();
-	this.previousFoodCell = nextFoodCell;
+	if (typeof this.foodCells !== 'undefined')
+		this.foodCells.forEach(function (cell, index) {
+			if (cell.isFood)
+				cell.beBlank();
+		})
+
+	let blankCells = this.grid.getBlankCells();
+	this.foodCells = [];
+
+	for (let i = 1; i <= this.config.numberOfFoodCellsAtOnce; i++) {
+		let cell = blankCells.pickRandomElement();
+		cell.beFood();
+		this.foodCells.push(cell);
+	}
 }
 
 Game.prototype.scoreUp = function (score) {

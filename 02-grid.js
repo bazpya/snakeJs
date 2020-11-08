@@ -40,10 +40,9 @@ Grid.prototype.getNextCell = function (worm) {
     return this.nextCellGettingFunctions[worm.currentDirection](this, worm.head);
 }
 
-Grid.prototype.getRandomBlankCell = function () {
+Grid.prototype.getBlankCells = function () {
     let flatArrayOfCells = this.cells.flat();
-    let blankCells = flatArrayOfCells.filter((cell, index) => cell.isBlank);
-    return blankCells.pickRandomElement();
+    return flatArrayOfCells.filter((cell, index) => cell.isBlank);
 }
 
 //############################  Cell  #############################################
