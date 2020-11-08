@@ -6,10 +6,10 @@ znakeConfig = {
     movingTimeStepDecrement: 5,  // milliseconds
     minimumMovingTimeStep: 80,  // milliseconds
     feedingTimeStep: 3000,  // milliseconds
-    keyForUp: 'W',
-    keyForRight: 'D',
-    keyForDown: 'S',
-    keyForLeft: 'A',
+    keyForUp: 'E',
+    keyForRight: 'F',
+    keyForDown: 'D',
+    keyForLeft: 'S',
     keyForPause: ' ',
     soundVolume: 0.15,  // [0~1]
 }
