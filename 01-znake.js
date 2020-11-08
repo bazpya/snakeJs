@@ -160,15 +160,10 @@ Game.prototype.stopFeeding = function () {
 	delete this.feedLoopHandle;
 }
 
-Game.prototype.dropFood = function () {  //Todo: Implement proper shuffling algorithm
+Game.prototype.dropFood = function () {
 	if (typeof this.previousFoodCell !== 'undefined' && this.previousFoodCell.isFood)
 		this.previousFoodCell.beBlank();
-	let nextFoodCell;
-	do {
-		let foodVer = 1 + Math.floor(Math.random() * (this.config.gridHeight - 2));
-		let foodHor = 1 + Math.floor(Math.random() * (this.config.gridWidth - 2));
-		nextFoodCell = this.grid.cells[foodHor][foodVer];
-	} while (!nextFoodCell.isBlank);
+	let nextFoodCell = this.grid.getRandomBlankCell();
 	nextFoodCell.beFood();
 	this.previousFoodCell = nextFoodCell;
 }

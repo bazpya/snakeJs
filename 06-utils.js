@@ -16,3 +16,8 @@ Array.prototype.discardElements = function () {
     while (this.hasAny)
         this.takeFirstOut();
 }
+
+Array.prototype.pickRandomElement = function () {
+    let randomIndex = Math.floor(Math.random() * this.length);
+    return this[randomIndex];
+}
