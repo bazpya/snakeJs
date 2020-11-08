@@ -4,7 +4,7 @@ znakeConfig = {
     gridWidth: 20,  // cells
     movingTimeStep: 120,  // milliseconds
     movingTimeStepDecrement: 5,  // milliseconds
-    minimumMovingTimeStep: 80,  // milliseconds
+    minimumMovingTimeStep: 70,  // milliseconds
     feedingTimeStep: 3000,  // milliseconds
     keyForUp: 'E',
     keyForRight: 'F',
