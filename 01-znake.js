@@ -18,11 +18,11 @@ Game.prototype.importConfig = function (znakeConfig) {
 		this.config[key] = znakeConfig[key];
 
 	this.config.keyCodes = {};
-	this.config.keyCodes.up = znakeConfig.keyForUp.charCodeAt(0);
-	this.config.keyCodes.right = znakeConfig.keyForRight.charCodeAt(0);
-	this.config.keyCodes.down = znakeConfig.keyForDown.charCodeAt(0);
-	this.config.keyCodes.left = znakeConfig.keyForLeft.charCodeAt(0);
-	this.config.keyCodes.Pause = znakeConfig.keyForPause.charCodeAt(0);
+	this.config.keyCodes.up = znakeConfig.keys.up.charCodeAt(0);
+	this.config.keyCodes.right = znakeConfig.keys.right.charCodeAt(0);
+	this.config.keyCodes.down = znakeConfig.keys.down.charCodeAt(0);
+	this.config.keyCodes.left = znakeConfig.keys.left.charCodeAt(0);
+	this.config.keyCodes.Pause = znakeConfig.keys.pause.charCodeAt(0);
 }
 
 Game.prototype.initialise = function () {

@@ -49,30 +49,14 @@ Worm.prototype.die = function () {
 
 Worm.prototype.mapKeys = function () {
     let me = this;
-    this.keyMapping[this.game.config.keyCodes.up] = function () {
-        if (me.shouldIgnoreDirection(directionEnum.up))
-            return;
-        me.directionQueue.push(directionEnum.up);
-        me.previousDirection = directionEnum.up;
-    };
-    this.keyMapping[this.game.config.keyCodes.right] = function () {
-        if (me.shouldIgnoreDirection(directionEnum.right))
-            return;
-        me.directionQueue.push(directionEnum.right);
-        me.previousDirection = directionEnum.right;
-    };
-    this.keyMapping[this.game.config.keyCodes.down] = function () {
-        if (me.shouldIgnoreDirection(directionEnum.down))
-            return;
-        me.directionQueue.push(directionEnum.down);
-        me.previousDirection = directionEnum.down;
-    };
-    this.keyMapping[this.game.config.keyCodes.left] = function () {
-        if (me.shouldIgnoreDirection(directionEnum.left))
-            return;
-        me.directionQueue.push(directionEnum.left);
-        me.previousDirection = directionEnum.left;
-    };
+    for (let dir in directionEnum) {
+        this.keyMapping[this.game.config.keyCodes[dir]] = function () {
+            if (me.shouldIgnoreDirection(directionEnum[dir]))
+                return;
+            me.directionQueue.push(directionEnum[dir]);
+            me.previousDirection = directionEnum[dir];
+        };
+    }
 }
 
 Worm.prototype.shouldIgnoreDirection = function (direction) {
