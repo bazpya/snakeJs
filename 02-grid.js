@@ -20,12 +20,11 @@ Grid = function (container, height, width) {
     }
     this.container.appendChild(this.element);
 
-    this.nextCellGettingFunctions = [
-        function (me, wormHead) { return me.cells[wormHead.row - 1][wormHead.column] },
-        function (me, wormHead) { return me.cells[wormHead.row][wormHead.column + 1] },
-        function (me, wormHead) { return me.cells[wormHead.row + 1][wormHead.column] },
-        function (me, wormHead) { return me.cells[wormHead.row][wormHead.column - 1] }
-    ];
+    this.nextCellGettingFunctions = {};
+    this.nextCellGettingFunctions[directionEnum.up] = (me, wormHead) => me.cells[wormHead.row - 1][wormHead.column];
+    this.nextCellGettingFunctions[directionEnum.right] = (me, wormHead) => me.cells[wormHead.row][wormHead.column + 1];
+    this.nextCellGettingFunctions[directionEnum.down] = (me, wormHead) => me.cells[wormHead.row + 1][wormHead.column];
+    this.nextCellGettingFunctions[directionEnum.left] = (me, wormHead) => me.cells[wormHead.row][wormHead.column - 1];
 }
 
 Grid.prototype.erase = function () {
