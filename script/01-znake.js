@@ -1,5 +1,6 @@
 onload = function () {
 	game = new Game(znakeConfig);
+	this.ai = new Ai(this);
 }
 
 Game = function (config) {
@@ -118,9 +119,14 @@ Game.prototype.restart = function () {
 }
 
 Game.prototype.run = function () {
-	this.runLoopId++;
-	let me = this;
-	this.runLoopHandle = setInterval(() => me.worm.update(), me.movingTimeStep);
+	if (this.config.runMode === runModeEnum.manual) {
+		this.runLoopId++;
+		let me = this;
+		this.runLoopHandle = setInterval(() => me.worm.update(), me.movingTimeStep);
+	}
+	else {
+		log("Ai plays");
+	}
 }
 
 Game.prototype.stopRunning = function () {
