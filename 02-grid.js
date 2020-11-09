@@ -1,5 +1,7 @@
 //###########################  Grid  ##############################################
 
+directionEnum = Object.freeze({ "up": 0, "right": 1, "down": 2, "left": 3 });
+
 Grid = function (container, height, width) {
     this.container = container;
     this.element = document.createElement('table');
@@ -41,7 +43,7 @@ Grid.prototype.getBlankCells = function () {
 
 //############################  Cell  #############################################
 
-cellTypeEnum = Object.freeze({ "blank": "blank", "obstacle": "obstacle", "worm": "worm", "food": "food" })
+cellTypeEnum = Object.freeze({ "blank": "blank", "obstacle": "obstacle", "worm": "worm", "food": "food" });
 
 Cell = function (rowNumber, colNumber) {
     this.element = document.createElement('td');
