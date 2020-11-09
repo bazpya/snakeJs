@@ -67,7 +67,7 @@ Game.prototype.bindHandlers = function () {
 }
 
 Game.prototype.initialiseSound = function () {
-	if (typeof this.sound === 'undefined' || typeof this.sound.audioCtx === 'undefined') {
+	if (isUndefined(this.sound) || isUndefined(this.sound.audioCtx)) {
 		this.sound = new Sound(this.config.soundVolume);
 	}
 }
@@ -164,7 +164,7 @@ Game.prototype.stopFeeding = function () {
 }
 
 Game.prototype.dropFood = function () {
-	if (typeof this.foodCells !== 'undefined')
+	if (isDefined(this.foodCells))
 		this.foodCells.forEach(function (cell, index) {
 			if (cell.isFood)
 				cell.beBlank();

@@ -21,3 +21,11 @@ Array.prototype.pickRandomElement = function () {
     let randomIndex = Math.floor(Math.random() * this.length);
     return this[randomIndex];
 }
+
+isDefined = function (variable) {
+    return typeof variable !== 'undefined';
+}
+
+isUndefined = function (variable) {
+    return typeof variable === 'undefined';
+}
