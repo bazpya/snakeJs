@@ -7,6 +7,7 @@ znakeConfig = {
     minimumMovingTimeStep: 70,  // milliseconds
     feedingTimeStep: 3000,  // milliseconds
     numberOfFoodCellsAtOnce: 2,
+    startAtCentre: true,
     keys: {
         up: 'E',
         right: 'F',

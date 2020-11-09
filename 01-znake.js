@@ -30,7 +30,7 @@ Game.prototype.initialise = function () {
 	this.feedingTimeStep = this.config.feedingTimeStep;
 
 	this.gridContainer = document.getElementById('grid-container');
-	this.grid = new Grid(this.gridContainer, this.config.gridHeight, this.config.gridWidth);
+	this.grid = new Grid(this);
 
 	let splashElement = document.getElementById('splash');
 	this.splash = new Splash(this, splashElement);

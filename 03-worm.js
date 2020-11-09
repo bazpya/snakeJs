@@ -2,7 +2,7 @@
 Worm = function (game) {
     this.game = game;
     this.sections = [];
-    this.sections.push(this.game.grid.cells[1][1]);
+    this.sections.push(this.game.grid.getStartCell());
     this.head.beWorm();
     this.directionQueue = [2];
     this.currentDirection = 2;
