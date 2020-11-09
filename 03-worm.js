@@ -7,7 +7,7 @@ Worm = function (game) {
     this.directionQueue = [2];
     this.currentDirection = 2;
     this.previousDirection = 2;
-    this.keyMapping = [];
+    this.keyMapping = {};
     this.mapKeysUnicellular();
 }
 
@@ -51,18 +51,18 @@ Worm.prototype.die = function () {
 
 Worm.prototype.mapKeysUnicellular = function () {
     let me = this;
-    this.keyMapping[this.game.config.keyCodeForUp] = function () { me.directionQueue.push(0); me.previousDirection = 0; };
-    this.keyMapping[this.game.config.keyCodeForRight] = function () { me.directionQueue.push(1); me.previousDirection = 1; };
-    this.keyMapping[this.game.config.keyCodeForDown] = function () { me.directionQueue.push(2); me.previousDirection = 2; };
-    this.keyMapping[this.game.config.keyCodeForLeft] = function () { me.directionQueue.push(3); me.previousDirection = 3; };
+    this.keyMapping[this.game.config.keyCodes.Up] = function () { me.directionQueue.push(0); me.previousDirection = 0; };
+    this.keyMapping[this.game.config.keyCodes.Right] = function () { me.directionQueue.push(1); me.previousDirection = 1; };
+    this.keyMapping[this.game.config.keyCodes.Down] = function () { me.directionQueue.push(2); me.previousDirection = 2; };
+    this.keyMapping[this.game.config.keyCodes.Left] = function () { me.directionQueue.push(3); me.previousDirection = 3; };
 }
 
 Worm.prototype.mapKeysMulticellular = function () {
     let me = this;
-    this.keyMapping[this.game.config.keyCodeForUp] = function () { if (!Boolean(me.previousDirection % 2)) return; me.directionQueue.push(0); me.previousDirection = 0; };
-    this.keyMapping[this.game.config.keyCodeForRight] = function () { if (Boolean(me.previousDirection % 2)) return; me.directionQueue.push(1); me.previousDirection = 1; };
-    this.keyMapping[this.game.config.keyCodeForDown] = function () { if (!Boolean(me.previousDirection % 2)) return; me.directionQueue.push(2); me.previousDirection = 2; };
-    this.keyMapping[this.game.config.keyCodeForLeft] = function () { if (Boolean(me.previousDirection % 2)) return; me.directionQueue.push(3); me.previousDirection = 3; };
+    this.keyMapping[this.game.config.keyCodes.Up] = function () { if (!Boolean(me.previousDirection % 2)) return; me.directionQueue.push(0); me.previousDirection = 0; };
+    this.keyMapping[this.game.config.keyCodes.Right] = function () { if (Boolean(me.previousDirection % 2)) return; me.directionQueue.push(1); me.previousDirection = 1; };
+    this.keyMapping[this.game.config.keyCodes.Down] = function () { if (!Boolean(me.previousDirection % 2)) return; me.directionQueue.push(2); me.previousDirection = 2; };
+    this.keyMapping[this.game.config.keyCodes.Left] = function () { if (Boolean(me.previousDirection % 2)) return; me.directionQueue.push(3); me.previousDirection = 3; };
 }
 
 Object.defineProperties(Worm.prototype, {

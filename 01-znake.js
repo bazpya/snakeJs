@@ -17,11 +17,12 @@ Game.prototype.importConfig = function (znakeConfig) {
 	for (let key in znakeConfig)
 		this.config[key] = znakeConfig[key];
 
-	this.config.keyCodeForUp = znakeConfig.keyForUp.charCodeAt(0);
-	this.config.keyCodeForRight = znakeConfig.keyForRight.charCodeAt(0);
-	this.config.keyCodeForDown = znakeConfig.keyForDown.charCodeAt(0);
-	this.config.keyCodeForLeft = znakeConfig.keyForLeft.charCodeAt(0);
-	this.config.keyCodeForPause = znakeConfig.keyForPause.charCodeAt(0);
+	this.config.keyCodes = {};
+	this.config.keyCodes.Up = znakeConfig.keyForUp.charCodeAt(0);
+	this.config.keyCodes.Right = znakeConfig.keyForRight.charCodeAt(0);
+	this.config.keyCodes.Down = znakeConfig.keyForDown.charCodeAt(0);
+	this.config.keyCodes.Left = znakeConfig.keyForLeft.charCodeAt(0);
+	this.config.keyCodes.Pause = znakeConfig.keyForPause.charCodeAt(0);
 }
 
 Game.prototype.initialise = function () {
@@ -42,7 +43,7 @@ Game.prototype.initialise = function () {
 	this.scoreBoard.reset();
 
 	this.worm = new Worm(this);
-	this.keyMapping = [];
+	this.keyMapping = {};
 }
 
 Game.prototype.bindHandlers = function () {
@@ -195,21 +196,20 @@ Game.prototype.speedUp = function () {
 
 Game.prototype.mapKeysForRunning = function () {
 	let me = this;
-	this.keyMapping[this.config.keyCodeForUp] = function () { me.worm.keyMapping[me.config.keyCodeForUp]() };
-	this.keyMapping[this.config.keyCodeForRight] = function () { me.worm.keyMapping[me.config.keyCodeForRight]() };
-	this.keyMapping[this.config.keyCodeForDown] = function () { me.worm.keyMapping[me.config.keyCodeForDown]() };
-	this.keyMapping[this.config.keyCodeForLeft] = function () { me.worm.keyMapping[me.config.keyCodeForLeft]() };
-	this.keyMapping[this.config.keyCodeForPause] = function () { me.togglePause() };
+	for (let keyCode in this.worm.keyMapping)
+		this.keyMapping[keyCode] = function () { me.worm.keyMapping[keyCode]() };
+
+	this.keyMapping[this.config.keyCodes.Pause] = function () { me.togglePause() };
 }
 
 Game.prototype.mapKeysForPause = function () {
-	this.disableKeys();
-	let me = this;
-	this.keyMapping[this.config.keyCodeForPause] = function () { me.togglePause() };
+	for (let keyCode in this.worm.keyMapping)
+		this.keyMapping[keyCode] = function () { };
 }
 
 Game.prototype.disableKeys = function () {
-	this.keyMapping.discardElements();
+	for (let keyCode in this.keyMapping)
+		this.keyMapping[keyCode] = function () { };
 }
 
 Object.defineProperties(Game.prototype, {
