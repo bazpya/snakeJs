@@ -49,7 +49,7 @@ Game.prototype.initialise = function () {
 Game.prototype.bindHandlers = function () {
 	let me = this;
 	document.onkeydown = function (keyDownEvent) {
-		if (typeof me.keyMapping[keyDownEvent.keyCode] === 'function')
+		if (isDefined(me.keyMapping[keyDownEvent.keyCode]))
 			me.keyMapping[keyDownEvent.keyCode]();
 	}
 	document.oncontextmenu = (clickEvent) => clickEvent.preventDefault();

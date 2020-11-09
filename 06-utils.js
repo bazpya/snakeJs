@@ -29,3 +29,7 @@ isDefined = function (variable) {
 isUndefined = function (variable) {
     return typeof variable === 'undefined';
 }
+
+isFunction = function (variable) {
+    return typeof variable === 'function';
+}
