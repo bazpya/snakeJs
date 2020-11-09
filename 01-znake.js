@@ -18,10 +18,10 @@ Game.prototype.importConfig = function (znakeConfig) {
 		this.config[key] = znakeConfig[key];
 
 	this.config.keyCodes = {};
-	this.config.keyCodes.Up = znakeConfig.keyForUp.charCodeAt(0);
-	this.config.keyCodes.Right = znakeConfig.keyForRight.charCodeAt(0);
-	this.config.keyCodes.Down = znakeConfig.keyForDown.charCodeAt(0);
-	this.config.keyCodes.Left = znakeConfig.keyForLeft.charCodeAt(0);
+	this.config.keyCodes.up = znakeConfig.keyForUp.charCodeAt(0);
+	this.config.keyCodes.right = znakeConfig.keyForRight.charCodeAt(0);
+	this.config.keyCodes.down = znakeConfig.keyForDown.charCodeAt(0);
+	this.config.keyCodes.left = znakeConfig.keyForLeft.charCodeAt(0);
 	this.config.keyCodes.Pause = znakeConfig.keyForPause.charCodeAt(0);
 }
 

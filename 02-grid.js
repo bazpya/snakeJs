@@ -1,6 +1,7 @@
 //###########################  Grid  ##############################################
 
 directionEnum = Object.freeze({ "up": 0, "right": 1, "down": 2, "left": 3 });
+oppositeDirectionEnum = Object.freeze({ 0: 2, 1: 3, 2: 0, 3: 1 });
 
 Grid = function (container, height, width) {
     this.container = container;

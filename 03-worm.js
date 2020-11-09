@@ -8,7 +8,7 @@ Worm = function (game) {
     this.currentDirection = 2;
     this.previousDirection = 2;
     this.keyMapping = {};
-    this.mapKeysUnicellular();
+    this.mapKeys();
 }
 
 Worm.prototype.update = function () {
@@ -18,12 +18,10 @@ Worm.prototype.update = function () {
         this.game.gameOver();
 
     else if (nextCell.isFood) {
-        if (this.isUnicellular)
-            this.mapKeysMulticellular();
         this.moveHeadTo(nextCell);
         this.game.scoreUp(this.length);
     }
-    else {    // Blank cell
+    else {
         this.moveHeadTo(nextCell);
         this.moveTail();
     }
@@ -49,25 +47,45 @@ Worm.prototype.die = function () {
     this.sections.forEach(function (section) { section.beObstacle(); });
 }
 
-Worm.prototype.mapKeysUnicellular = function () {
+Worm.prototype.mapKeys = function () {
     let me = this;
-    this.keyMapping[this.game.config.keyCodes.Up] = function () { me.directionQueue.push(directionEnum.up); me.previousDirection = directionEnum.up; };
-    this.keyMapping[this.game.config.keyCodes.Right] = function () { me.directionQueue.push(directionEnum.right); me.previousDirection = directionEnum.right; };
-    this.keyMapping[this.game.config.keyCodes.Down] = function () { me.directionQueue.push(directionEnum.down); me.previousDirection = directionEnum.down; };
-    this.keyMapping[this.game.config.keyCodes.Left] = function () { me.directionQueue.push(directionEnum.left); me.previousDirection = directionEnum.left; };
+    this.keyMapping[this.game.config.keyCodes.up] = function () {
+        if (me.shouldIgnoreDirection(directionEnum.up))
+            return;
+        me.directionQueue.push(directionEnum.up);
+        me.previousDirection = directionEnum.up;
+    };
+    this.keyMapping[this.game.config.keyCodes.right] = function () {
+        if (me.shouldIgnoreDirection(directionEnum.right))
+            return;
+        me.directionQueue.push(directionEnum.right);
+        me.previousDirection = directionEnum.right;
+    };
+    this.keyMapping[this.game.config.keyCodes.down] = function () {
+        if (me.shouldIgnoreDirection(directionEnum.down))
+            return;
+        me.directionQueue.push(directionEnum.down);
+        me.previousDirection = directionEnum.down;
+    };
+    this.keyMapping[this.game.config.keyCodes.left] = function () {
+        if (me.shouldIgnoreDirection(directionEnum.left))
+            return;
+        me.directionQueue.push(directionEnum.left);
+        me.previousDirection = directionEnum.left;
+    };
 }
 
-Worm.prototype.mapKeysMulticellular = function () {
-    let me = this;
-    this.keyMapping[this.game.config.keyCodes.Up] = function () { if (!Boolean(me.previousDirection % 2)) return; me.directionQueue.push(directionEnum.up); me.previousDirection = directionEnum.up; };
-    this.keyMapping[this.game.config.keyCodes.Right] = function () { if (Boolean(me.previousDirection % 2)) return; me.directionQueue.push(directionEnum.right); me.previousDirection = directionEnum.right; };
-    this.keyMapping[this.game.config.keyCodes.Down] = function () { if (!Boolean(me.previousDirection % 2)) return; me.directionQueue.push(directionEnum.down); me.previousDirection = directionEnum.down; };
-    this.keyMapping[this.game.config.keyCodes.Left] = function () { if (Boolean(me.previousDirection % 2)) return; me.directionQueue.push(directionEnum.left); me.previousDirection = directionEnum.left; };
+Worm.prototype.shouldIgnoreDirection = function (direction) {
+    if (direction === this.previousDirection)
+        return true;
+    if (this.isMulticellular && direction === oppositeDirectionEnum[this.previousDirection]) // No backwards moving
+        return true;
 }
 
 Object.defineProperties(Worm.prototype, {
     head: { get: function () { return this.sections[0] } },
     tail: { get: function () { return this.sections.last } },
     length: { get: function () { return this.sections.length } },
-    isUnicellular: { get: function () { return this.length === 1 } }
+    isUnicellular: { get: function () { return this.length === 1 } },
+    isMulticellular: { get: function () { return this.length !== 1 } },
 });
