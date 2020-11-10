@@ -16,13 +16,6 @@ Game.prototype.importConfig = function (znakeConfig) {
 	this.config = {}
 	for (let key in znakeConfig)
 		this.config[key] = znakeConfig[key];
-
-	this.config.keyCodes = {};
-	this.config.keyCodes.up = znakeConfig.keys.up.charCodeAt(0);
-	this.config.keyCodes.right = znakeConfig.keys.right.charCodeAt(0);
-	this.config.keyCodes.down = znakeConfig.keys.down.charCodeAt(0);
-	this.config.keyCodes.left = znakeConfig.keys.left.charCodeAt(0);
-	this.config.keyCodes.Pause = znakeConfig.keys.pause.charCodeAt(0);
 }
 
 Game.prototype.initialise = function () {
@@ -43,14 +36,23 @@ Game.prototype.initialise = function () {
 	this.scoreBoard.reset();
 
 	this.worm = new Worm(this);
+
 	this.keyMapping = {};
+	this.keyMapping[znakeConfig.keys.up.charCodeAt(0)] = directionEnum.up;
+	this.keyMapping[znakeConfig.keys.right.charCodeAt(0)] = directionEnum.right;
+	this.keyMapping[znakeConfig.keys.down.charCodeAt(0)] = directionEnum.down;
+	this.keyMapping[znakeConfig.keys.left.charCodeAt(0)] = directionEnum.left;
+	this.keyMapping[znakeConfig.keys.pause.charCodeAt(0)] = 4;
+
+	this.keyFuncs = [];
 }
 
 Game.prototype.bindHandlers = function () {
 	let me = this;
 	document.onkeydown = function (keyDownEvent) {
-		if (isDefined(me.keyMapping[keyDownEvent.keyCode]))
-			me.keyMapping[keyDownEvent.keyCode]();
+		let directionCode = me.keyMapping[keyDownEvent.keyCode];
+		if (isDefined(directionCode))
+			me.keyFuncs[directionCode]();
 	}
 	document.oncontextmenu = (clickEvent) => clickEvent.preventDefault();
 
@@ -201,22 +203,26 @@ Game.prototype.speedUp = function () {
 	}
 }
 
-Game.prototype.mapKeysForRunning = function () {
+Game.prototype.mapKeysForRunning = function () {  //Todo: Rename to set keyFuncsForRunning
 	let me = this;
-	for (let keyCode in this.worm.keyMapping)
-		this.keyMapping[keyCode] = function () { me.worm.keyMapping[keyCode]() };
+	for (let directionName in directionEnum) {
+		let directionValue = directionEnum[directionName];
+		this.keyFuncs[directionValue] = function () { me.worm.directionFuncs[directionValue]() };
+	}
 
-	this.keyMapping[this.config.keyCodes.Pause] = function () { me.togglePause() };
+	this.keyFuncs[4] = function () { me.togglePause() };
 }
 
 Game.prototype.mapKeysForPause = function () {
-	for (let keyCode in this.worm.keyMapping)
-		this.keyMapping[keyCode] = function () { };
+	for (let directionName in directionEnum) {
+		let directionValue = directionEnum[directionName];
+		this.keyFuncs[directionValue] = function () { };
+	}
 }
 
 Game.prototype.disableKeys = function () {
-	for (let keyCode in this.keyMapping)
-		this.keyMapping[keyCode] = function () { };
+	for (let key in this.keyFuncs)
+		this.keyFuncs[key] = function () { };
 }
 
 Object.defineProperties(Game.prototype, {

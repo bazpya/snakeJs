@@ -6,7 +6,7 @@ Worm = function (game) {
     this.directionQueue = [2];
     this.currentDirection = 2;
     this.previousDirection = 2;
-    this.keyMapping = {};
+    this.directionFuncs = {};
     this.mapKeys();
 }
 
@@ -48,12 +48,13 @@ Worm.prototype.die = function () {
 
 Worm.prototype.mapKeys = function () {
     let me = this;
-    for (let dir in directionEnum) {
-        this.keyMapping[this.game.config.keyCodes[dir]] = function () {
-            if (me.shouldIgnoreDirection(directionEnum[dir]))
+    for (let directionName in directionEnum) {
+        let directionValue = directionEnum[directionName];
+        this.directionFuncs[directionValue] = function () {
+            if (me.shouldIgnoreDirection(directionValue))
                 return;
-            me.directionQueue.push(directionEnum[dir]);
-            me.previousDirection = directionEnum[dir];
+            me.directionQueue.push(directionValue);
+            me.previousDirection = directionValue;
         };
     }
 }
