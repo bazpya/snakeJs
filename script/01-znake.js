@@ -21,24 +21,16 @@ Game.prototype.initialise = function () {
 	this.movingTimeStep = this.config.movingTimeStep;
 	this.feedingTimeStep = this.config.feedingTimeStep;
 
-	this.gridContainer = document.getElementById('grid-container');
-	this.grid = new Grid(this);
-
-	let splashElement = document.getElementById('splash');
-	this.splash = new Splash(this, splashElement);
-
-	let pauseOverlayElement = document.getElementById('pause');
-	this.pauseOverlay = new PauseOverlay(this, pauseOverlayElement);
-
-	let scoreBoardElement = document.getElementById('score');
-	this.scoreBoard = new ScoreBoard(this, scoreBoardElement);
+	this.grid = new Grid(this, document.getElementById('grid-container'));
+	this.splash = new Splash(this, document.getElementById('splash'));
+	this.pauseOverlay = new PauseOverlay(this, document.getElementById('pause'));
+	this.scoreBoard = new ScoreBoard(this, document.getElementById('score'));
 
 	this.kboard = new Kboard(this);
 	this.mouse = new Mouse(this);
 	this.worm = new Worm(this);
 
-	let buttonElement = document.getElementById('button');
-	this.button = new Button(this, buttonElement);
+	this.button = new Button(this, document.getElementById('button'));
 }
 
 Game.prototype.initialiseSound = function () {
