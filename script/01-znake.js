@@ -1,5 +1,7 @@
 onload = function () {
 	game = new Game(znakeConfig);
+	if (znakeConfig.runMode === runModeEnum.auto)
+		ai = new Ai(game);
 }
 
 Game = function (config) {
@@ -38,7 +40,7 @@ Game.prototype.initialise = function () {
 	this.worm = new Worm(this);
 
 	this.keyMapping = {};
-	this.keyMapping[znakeConfig.keys.up.charCodeAt(0)] = directionEnum.up;
+	this.keyMapping[znakeConfig.keys.up.charCodeAt(0)] = directionEnum.up; //Todo: Replace with a loop
 	this.keyMapping[znakeConfig.keys.right.charCodeAt(0)] = directionEnum.right;
 	this.keyMapping[znakeConfig.keys.down.charCodeAt(0)] = directionEnum.down;
 	this.keyMapping[znakeConfig.keys.left.charCodeAt(0)] = directionEnum.left;
@@ -120,14 +122,13 @@ Game.prototype.restart = function () {
 }
 
 Game.prototype.run = function () {
-	if (this.config.runMode === runModeEnum.manual) {
+	if (this.config.runMode === runModeEnum.auto) {
+		ai.run();
+	}
+	else {
 		this.runLoopId++;
 		let me = this;
 		this.runLoopHandle = setInterval(() => me.worm.update(), me.movingTimeStep);
-	}
-	else {
-		log("Ai plays");
-		ai = new Ai(game);
 	}
 }
 
@@ -206,8 +207,8 @@ Game.prototype.speedUp = function () {
 Game.prototype.mapKeysForRunning = function () {  //Todo: Rename to set keyFuncsForRunning
 	let me = this;
 	for (let directionName in directionEnum) {
-		let directionValue = directionEnum[directionName];
-		this.keyFuncs[directionValue] = function () { me.worm.directionFuncs[directionValue]() };
+		let directionCode = directionEnum[directionName];
+		this.keyFuncs[directionCode] = function () { me.worm.directionFuncs[directionCode]() };
 	}
 
 	this.keyFuncs[0] = function () { me.togglePause() };
@@ -215,8 +216,8 @@ Game.prototype.mapKeysForRunning = function () {  //Todo: Rename to set keyFuncs
 
 Game.prototype.mapKeysForPause = function () {
 	for (let directionName in directionEnum) {
-		let directionValue = directionEnum[directionName];
-		this.keyFuncs[directionValue] = function () { };
+		let directionCode = directionEnum[directionName];
+		this.keyFuncs[directionCode] = function () { };
 	}
 }
 

@@ -49,20 +49,20 @@ Worm.prototype.die = function () {
 Worm.prototype.mapKeys = function () {
     let me = this;
     for (let directionName in directionEnum) {
-        let directionValue = directionEnum[directionName];
-        this.directionFuncs[directionValue] = function () {
-            if (me.shouldIgnoreDirection(directionValue))
+        let directionCode = directionEnum[directionName];
+        this.directionFuncs[directionCode] = function () {
+            if (me.shouldIgnoreDirection(directionCode))
                 return;
-            me.directionQueue.push(directionValue);
-            me.previousDirection = directionValue;
+            me.directionQueue.push(directionCode);
+            me.previousDirection = directionCode;
         };
     }
 }
 
-Worm.prototype.shouldIgnoreDirection = function (direction) {
-    if (direction === this.previousDirection)
+Worm.prototype.shouldIgnoreDirection = function (dirCode) {
+    if (dirCode === this.previousDirection)
         return true;
-    if (this.isMulticellular && direction === oppositeDirectionEnum[this.previousDirection]) // No backwards moving
+    if (this.isMulticellular && dirCode === oppositeDirectionEnum[this.previousDirection]) // No backwards moving
         return true;
 }
 
