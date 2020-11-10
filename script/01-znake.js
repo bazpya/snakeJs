@@ -22,7 +22,7 @@ Game.prototype.initialise = function () {
 	this.splash = new Splash(this, document.getElementById('splash'));
 	this.pauseOverlay = new PauseOverlay(this, document.getElementById('pause'));
 	this.scoreBoard = new ScoreBoard(this, document.getElementById('score'));
-	this.kboard = new Kboard(this);
+	this.control = new Control(this);
 	this.mouse = new Mouse(this);
 	this.worm = new Worm(this);
 	this.feeder = new Feeder(this);
@@ -37,7 +37,7 @@ Game.prototype.initialiseSound = function () {
 
 Game.prototype.start = function () {
 	this.button.beRestartButton();
-	this.kboard.setForRunning()
+	this.control.setForRunning()
 	this.run();
 	this.feeder.feed();
 }
@@ -53,7 +53,7 @@ Game.prototype.restart = function () {
 	this.grid.erase();
 	this.initialise();
 	this.button.beRestartButton();
-	this.kboard.setForRunning()
+	this.control.setForRunning()
 	this.run();
 	this.feeder.feed();
 }
@@ -78,14 +78,14 @@ Game.prototype.togglePause = function () {
 		this.run();
 		this.feeder.feed();
 		this.isPaused = false;
-		this.kboard.setForRunning();
+		this.control.setForRunning();
 		this.pauseOverlay.popDown();
 	}
 	else {
 		this.stopRunning();
 		this.feeder.stopFeeding();
 		this.isPaused = true;
-		this.kboard.setForPause();
+		this.control.setForPause();
 		this.pauseOverlay.popUp();
 	}
 }
@@ -93,7 +93,7 @@ Game.prototype.togglePause = function () {
 Game.prototype.gameOver = function () {
 	this.stopRunning();
 	this.feeder.stopFeeding();
-	this.kboard.disable();
+	this.control.disable();
 	this.worm.die();
 }
 
