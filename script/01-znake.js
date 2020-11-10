@@ -7,11 +7,8 @@ onload = function () {
 Game = function (config) {
 	this.importConfig(config);
 	this.initialise();
-	this.bindHandlers();
 	this.runLoopId = 0;
 	this.feedLoopId = 0;
-	let buttonElement = document.getElementById('button');
-	this.button = new Button(this, buttonElement);
 }
 
 Game.prototype.importConfig = function (znakeConfig) {
@@ -35,26 +32,13 @@ Game.prototype.initialise = function () {
 
 	let scoreBoardElement = document.getElementById('score');
 	this.scoreBoard = new ScoreBoard(this, scoreBoardElement);
-	this.scoreBoard.reset();
 
 	this.kboard = new Kboard(this);
+	this.mouse = new Mouse(this);
 	this.worm = new Worm(this);
-}
 
-Game.prototype.bindHandlers = function () {
-	let me = this;
-	document.oncontextmenu = (clickEvent) => clickEvent.preventDefault();
-
-	document.onmousedown = function (clickEvent) {
-		if (me.config.devMode && clickEvent.target.tagName == 'TD') {
-			switch (clickEvent.which) {
-				case 1: clickEvent.target.cell.beFood(); break;  // left click
-				case 2: clickEvent.target.cell.beBlank(); break;  // middle click
-				case 3: clickEvent.target.cell.beObstacle(); break;  // right click
-				default: break;
-			}
-		}
-	}
+	let buttonElement = document.getElementById('button');
+	this.button = new Button(this, buttonElement);
 }
 
 Game.prototype.initialiseSound = function () {
@@ -75,12 +59,14 @@ Game.prototype.restart = function () {
 		this.pauseOverlay.popDown();
 		this.isPaused = false;
 	}
+	this.mouse.unbindAll();
 	this.stopRunning();
 	this.stopFeeding();
 	this.grid.erase();
 	delete this.grid;
 	delete this.worm;
 	this.initialise();
+	this.button.beRestartButton();
 	this.kboard.setForRunning()
 	this.run();
 	this.feed();

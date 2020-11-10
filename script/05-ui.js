@@ -36,6 +36,7 @@ PauseOverlay.prototype.popDown = function () {
 ScoreBoard = function (game, element) {
 	this.game = game;
 	this.element = element;
+	this.reset();
 }
 
 ScoreBoard.prototype.update = function (number) {
@@ -55,11 +56,11 @@ Button = function (game, element) {
 
 Button.prototype.beStartButton = function () {
 	let me = this;
-	this.element.onmousedown = () => me.game.start();
+	this.game.mouse.bindById(this.element.id, () => me.game.start());
 }
 
 Button.prototype.beRestartButton = function () {
 	this.element.firstChild.textContent = "Restart";
 	let me = this;
-	this.element.onmousedown = () => me.game.restart();
+	this.game.mouse.bindById(this.element.id, () => me.game.restart());
 }

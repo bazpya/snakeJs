@@ -14,6 +14,11 @@ isFunction = function (variable) {
     return typeof variable === 'function';
 }
 
+ifFunctionRun = function (variable) {
+    if (isFunction(variable))
+        variable();
+}
+
 //###########################  Array  ############################################
 
 Array.prototype.takeFirstOut = function () {
