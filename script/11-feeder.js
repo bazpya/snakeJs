@@ -13,7 +13,6 @@ Feeder.prototype.feed = function () {
 
 Feeder.prototype.stopFeeding = function () {
 	clearInterval(this.loopHandle);
-	delete this.loopHandle;
 }
 
 Feeder.prototype.dropFood = function () {

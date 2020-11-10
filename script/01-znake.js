@@ -71,7 +71,6 @@ Game.prototype.run = function () {
 
 Game.prototype.stopRunning = function () {
 	clearInterval(this.loopHandle);
-	delete this.loopHandle;
 }
 
 Game.prototype.togglePause = function () {
