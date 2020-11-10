@@ -65,7 +65,7 @@ Game.prototype.initialiseSound = function () {
 
 Game.prototype.start = function () {
 	this.button.beRestartButton();
-	this.kboard.mapKeysForRunning()
+	this.kboard.setForRunning()
 	this.run();
 	this.feed();
 }
@@ -81,7 +81,7 @@ Game.prototype.restart = function () {
 	delete this.grid;
 	delete this.worm;
 	this.initialise();
-	this.kboard.mapKeysForRunning()
+	this.kboard.setForRunning()
 	this.run();
 	this.feed();
 }
@@ -107,14 +107,14 @@ Game.prototype.togglePause = function () {
 		this.run();
 		this.feed();
 		this.isPaused = false;
-		this.kboard.mapKeysForRunning();
+		this.kboard.setForRunning();
 		this.pauseOverlay.popDown();
 	}
 	else {
 		this.stopRunning();
 		this.stopFeeding();
 		this.isPaused = true;
-		this.kboard.mapKeysForPause();
+		this.kboard.setForPause();
 		this.pauseOverlay.popUp();
 	}
 }
@@ -122,7 +122,7 @@ Game.prototype.togglePause = function () {
 Game.prototype.gameOver = function () {
 	this.stopRunning();
 	this.stopFeeding();
-	this.kboard.disableKeys();
+	this.kboard.disable();
 	this.worm.die();
 }
 
