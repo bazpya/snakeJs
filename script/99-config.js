@@ -16,5 +16,5 @@ znakeConfig = {
         pause: ' ',
     },
     soundVolume: 0.15,  // [0~1]
-    runMode: runModeEnum.auto,  // 0 = manual 1 = autoplay
+    runMode: runModeEnum.manual,  // 0 = manual 1 = autoplay
 }

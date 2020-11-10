@@ -37,25 +37,12 @@ Game.prototype.initialise = function () {
 	this.scoreBoard = new ScoreBoard(this, scoreBoardElement);
 	this.scoreBoard.reset();
 
+	this.kboard = new Kboard(this);
 	this.worm = new Worm(this);
-
-	this.keyMapping = {};
-	this.keyMapping[znakeConfig.keys.up.charCodeAt(0)] = directionEnum.up; //Todo: Replace with a loop
-	this.keyMapping[znakeConfig.keys.right.charCodeAt(0)] = directionEnum.right;
-	this.keyMapping[znakeConfig.keys.down.charCodeAt(0)] = directionEnum.down;
-	this.keyMapping[znakeConfig.keys.left.charCodeAt(0)] = directionEnum.left;
-	this.keyMapping[znakeConfig.keys.pause.charCodeAt(0)] = 0;
-
-	this.keyFuncs = [];
 }
 
 Game.prototype.bindHandlers = function () {
 	let me = this;
-	document.onkeydown = function (keyDownEvent) {
-		let directionCode = me.keyMapping[keyDownEvent.keyCode];
-		if (isDefined(directionCode))
-			me.keyFuncs[directionCode]();
-	}
 	document.oncontextmenu = (clickEvent) => clickEvent.preventDefault();
 
 	document.onmousedown = function (clickEvent) {
@@ -76,31 +63,9 @@ Game.prototype.initialiseSound = function () {
 	}
 }
 
-Game.prototype.initialiseCrosshairs = function () {
-	let targets = document.getElementsByClassName('target');
-	let me = this;
-
-	Array.prototype.forEach.call(targets, function (item) {
-		let cornerTopLeft = document.createElement('div');
-		cornerTopLeft.classList.add('corners', 'corner-top-left');
-		item.appendChild(cornerTopLeft);
-		let cornerTopRight = document.createElement('div');
-		cornerTopRight.classList.add('corners', 'corner-top-right');
-		item.appendChild(cornerTopRight);
-		let cornerBottomLeft = document.createElement('div');
-		cornerBottomLeft.classList.add('corners', 'corner-bottom-left');
-		item.appendChild(cornerBottomLeft);
-		let cornerBottomRight = document.createElement('div');
-		cornerBottomRight.classList.add('corners', 'corner-bottom-right');
-		item.appendChild(cornerBottomRight);
-		item.onmouseenter = () => me.sound.mouseInBeep();  // Could replace with global event listeners!
-		item.onmouseleave = () => me.sound.mouseOutBeep();
-	});
-}
-
 Game.prototype.start = function () {
 	this.button.beRestartButton();
-	this.mapKeysForRunning()
+	this.kboard.mapKeysForRunning()
 	this.run();
 	this.feed();
 }
@@ -116,7 +81,7 @@ Game.prototype.restart = function () {
 	delete this.grid;
 	delete this.worm;
 	this.initialise();
-	this.mapKeysForRunning()
+	this.kboard.mapKeysForRunning()
 	this.run();
 	this.feed();
 }
@@ -142,14 +107,14 @@ Game.prototype.togglePause = function () {
 		this.run();
 		this.feed();
 		this.isPaused = false;
-		this.mapKeysForRunning();
+		this.kboard.mapKeysForRunning();
 		this.pauseOverlay.popDown();
 	}
 	else {
 		this.stopRunning();
 		this.stopFeeding();
 		this.isPaused = true;
-		this.mapKeysForPause();
+		this.kboard.mapKeysForPause();
 		this.pauseOverlay.popUp();
 	}
 }
@@ -157,7 +122,7 @@ Game.prototype.togglePause = function () {
 Game.prototype.gameOver = function () {
 	this.stopRunning();
 	this.stopFeeding();
-	this.disableKeys();
+	this.kboard.disableKeys();
 	this.worm.die();
 }
 
@@ -202,28 +167,6 @@ Game.prototype.speedUp = function () {
 		this.stopRunning();
 		this.run();
 	}
-}
-
-Game.prototype.mapKeysForRunning = function () {  //Todo: Rename to set keyFuncsForRunning
-	let me = this;
-	for (let directionName in directionEnum) {
-		let directionCode = directionEnum[directionName];
-		this.keyFuncs[directionCode] = function () { me.worm.directionFuncs[directionCode]() };
-	}
-
-	this.keyFuncs[0] = function () { me.togglePause() };
-}
-
-Game.prototype.mapKeysForPause = function () {
-	for (let directionName in directionEnum) {
-		let directionCode = directionEnum[directionName];
-		this.keyFuncs[directionCode] = function () { };
-	}
-}
-
-Game.prototype.disableKeys = function () {
-	for (let key in this.keyFuncs)
-		this.keyFuncs[key] = function () { };
 }
 
 Object.defineProperties(Game.prototype, {
