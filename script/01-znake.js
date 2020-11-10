@@ -7,8 +7,7 @@ onload = function () {
 Game = function (config) {
 	this.importConfig(config);
 	this.initialise();
-	this.runLoopId = 0;
-	this.feedLoopId = 0;
+	this.loopId = 0;  //Todo: Rename to loopId
 }
 
 Game.prototype.importConfig = function (znakeConfig) {
@@ -19,7 +18,6 @@ Game.prototype.importConfig = function (znakeConfig) {
 
 Game.prototype.initialise = function () {
 	this.movingTimeStep = this.config.movingTimeStep;
-	this.feedingTimeStep = this.config.feedingTimeStep;
 
 	this.grid = new Grid(this, document.getElementById('grid-container'));
 	this.splash = new Splash(this, document.getElementById('splash'));
@@ -29,6 +27,7 @@ Game.prototype.initialise = function () {
 	this.kboard = new Kboard(this);
 	this.mouse = new Mouse(this);
 	this.worm = new Worm(this);
+	this.feeder = new Feeder(this);
 
 	this.button = new Button(this, document.getElementById('button'));
 }
@@ -43,7 +42,7 @@ Game.prototype.start = function () {
 	this.button.beRestartButton();
 	this.kboard.setForRunning()
 	this.run();
-	this.feed();
+	this.feeder.feed();
 }
 
 Game.prototype.restart = function () {
@@ -53,7 +52,7 @@ Game.prototype.restart = function () {
 	}
 	this.mouse.unbindAll();
 	this.stopRunning();
-	this.stopFeeding();
+	this.feeder.stopFeeding();
 	this.grid.erase();
 	delete this.grid;
 	delete this.worm;
@@ -61,7 +60,7 @@ Game.prototype.restart = function () {
 	this.button.beRestartButton();
 	this.kboard.setForRunning()
 	this.run();
-	this.feed();
+	this.feeder.feed();
 }
 
 Game.prototype.run = function () {
@@ -69,28 +68,28 @@ Game.prototype.run = function () {
 		ai.run();
 	}
 	else {
-		this.runLoopId++;
+		this.loopId++;
 		let me = this;
-		this.runLoopHandle = setInterval(() => me.worm.update(), me.movingTimeStep);
+		this.loopHandle = setInterval(() => me.worm.update(), me.movingTimeStep);
 	}
 }
 
 Game.prototype.stopRunning = function () {
-	clearInterval(this.runLoopHandle);
-	delete this.runLoopHandle;
+	clearInterval(this.loopHandle);
+	delete this.loopHandle;
 }
 
 Game.prototype.togglePause = function () {
 	if (this.isPaused) {
 		this.run();
-		this.feed();
+		this.feeder.feed();
 		this.isPaused = false;
 		this.kboard.setForRunning();
 		this.pauseOverlay.popDown();
 	}
 	else {
 		this.stopRunning();
-		this.stopFeeding();
+		this.feeder.stopFeeding();
 		this.isPaused = true;
 		this.kboard.setForPause();
 		this.pauseOverlay.popUp();
@@ -99,38 +98,9 @@ Game.prototype.togglePause = function () {
 
 Game.prototype.gameOver = function () {
 	this.stopRunning();
-	this.stopFeeding();
+	this.feeder.stopFeeding();
 	this.kboard.disable();
 	this.worm.die();
-}
-
-Game.prototype.feed = function () {
-	this.feedLoopId++;
-	let me = this;
-	this.feedLoopHandle = setInterval(() => me.dropFood(), me.feedingTimeStep);
-}
-
-Game.prototype.stopFeeding = function () {
-	clearInterval(this.feedLoopHandle);
-	delete this.feedLoopHandle;
-}
-
-Game.prototype.dropFood = function () {
-	if (isDefined(this.foodCells))
-		this.foodCells.forEach(function (cell, index) {
-			if (cell.isFood)
-				cell.beBlank();
-		})
-
-	let blankCells = this.grid.getBlankCells();
-	this.foodCells = [];
-
-	for (let i = 1; i <= this.config.numberOfFoodCellsAtOnce; i++) {
-		let myRandom = new Random();
-		let cell = myRandom.pickElement(blankCells);
-		cell.beFood();
-		this.foodCells.push(cell);
-	}
 }
 
 Game.prototype.scoreUp = function (score) {
@@ -148,12 +118,8 @@ Game.prototype.speedUp = function () {
 }
 
 Object.defineProperties(Game.prototype, {
-	runLoopHandle: {
-		get: function () { return this['runningLoop' + this.runLoopId]; },
-		set: function (val) { this['runningLoop' + this.runLoopId] = val; }
+	loopHandle: {
+		get: function () { return this['runningLoop' + this.loopId]; },
+		set: function (val) { this['runningLoop' + this.loopId] = val; }
 	},
-	feedLoopHandle: {
-		get: function () { return this['feedingLoop' + this.feedLoopId]; },
-		set: function (val) { this['feedingLoop' + this.feedLoopId] = val; }
-	}
 });
