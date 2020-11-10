@@ -1,5 +1,3 @@
-//###########################  Grid  ##############################################
-
 directionEnum = Object.freeze({ "up": 0, "right": 1, "down": 2, "left": 3 });
 oppositeDirectionEnum = Object.freeze({ 0: 2, 1: 3, 2: 0, 3: 1 });
 
@@ -56,44 +54,3 @@ Grid.prototype.getBlankCells = function () {
 Grid.prototype.erase = function () {
     this.container.removeChild(this.element);
 }
-
-//############################  Cell  #############################################
-
-cellTypeEnum = Object.freeze({ "blank": "blank", "obstacle": "obstacle", "worm": "worm", "food": "food" });
-
-Cell = function (rowNumber, colNumber) {
-    this.element = document.createElement('td');
-    this.element.className = 'cell';
-    this.element.cell = this;
-    this.row = rowNumber;
-    this.column = colNumber;
-    this.type = cellTypeEnum.blank;
-}
-
-Cell.prototype.beWorm = function () {
-    this.type = cellTypeEnum.worm;
-    this.element.className = 'worm';
-}
-
-Cell.prototype.beFood = function () {
-    this.type = cellTypeEnum.food;
-    this.element.className = 'food';
-}
-
-Cell.prototype.beBlank = function () {
-    this.type = cellTypeEnum.blank;
-    this.element.className = 'cell';
-}
-
-Cell.prototype.beObstacle = function () {
-    this.type = cellTypeEnum.obstacle;
-    this.element.className = 'obstacle';
-}
-
-Object.defineProperties(Cell.prototype, {
-    isWorm: { get: function () { return this.type === cellTypeEnum.worm } },
-    isFood: { get: function () { return this.type === cellTypeEnum.food } },
-    isBlank: { get: function () { return this.type === cellTypeEnum.blank } },
-    isObstacle: { get: function () { return this.type === cellTypeEnum.obstacle } },
-    isDeadly: { get: function () { return this.type === cellTypeEnum.obstacle || this.type === cellTypeEnum.worm } },
-});

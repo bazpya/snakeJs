@@ -1,5 +1,4 @@
 //###########################  Splash  ############################################
-
 Splash = function (game, element) {
 	this.game = game;
 	this.element = element;
@@ -20,7 +19,6 @@ Splash.prototype.popDown = function () {
 }
 
 //###########################  Pause Overlay  #####################################
-
 PauseOverlay = function (game, element) {
 	this.game = game;
 	this.element = element;
@@ -35,7 +33,6 @@ PauseOverlay.prototype.popDown = function () {
 }
 
 //############################  Score Board  ######################################
-
 ScoreBoard = function (game, element) {
 	this.game = game;
 	this.element = element;
@@ -50,7 +47,6 @@ ScoreBoard.prototype.reset = function () {
 }
 
 //############################  Button  ######################################
-
 Button = function (game, element) {
 	this.game = game;
 	this.element = element;

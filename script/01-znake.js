@@ -1,6 +1,6 @@
 onload = function () {
 	game = new Game(znakeConfig);
-	this.ai = new Ai(this);
+	ai = new Ai(game);
 }
 
 Game = function (config) {
