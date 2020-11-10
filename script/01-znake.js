@@ -7,7 +7,7 @@ onload = function () {
 Game = function (config) {
 	this.importConfig(config);
 	this.initialise();
-	this.loopId = 0;  //Todo: Rename to loopId
+	this.loopId = 0;
 }
 
 Game.prototype.importConfig = function (znakeConfig) {
@@ -18,17 +18,14 @@ Game.prototype.importConfig = function (znakeConfig) {
 
 Game.prototype.initialise = function () {
 	this.movingTimeStep = this.config.movingTimeStep;
-
 	this.grid = new Grid(this, document.getElementById('grid-container'));
 	this.splash = new Splash(this, document.getElementById('splash'));
 	this.pauseOverlay = new PauseOverlay(this, document.getElementById('pause'));
 	this.scoreBoard = new ScoreBoard(this, document.getElementById('score'));
-
 	this.kboard = new Kboard(this);
 	this.mouse = new Mouse(this);
 	this.worm = new Worm(this);
 	this.feeder = new Feeder(this);
-
 	this.button = new Button(this, document.getElementById('button'));
 }
 
@@ -54,8 +51,6 @@ Game.prototype.restart = function () {
 	this.stopRunning();
 	this.feeder.stopFeeding();
 	this.grid.erase();
-	delete this.grid;
-	delete this.worm;
 	this.initialise();
 	this.button.beRestartButton();
 	this.kboard.setForRunning()

@@ -34,7 +34,7 @@ Feeder.prototype.dropFood = function () {
 }
 
 Object.defineProperties(Feeder.prototype, {
-	loopHandle: {  //Todo: Rename too loopHandle
+	loopHandle: {
 		get: function () { return this['feedingLoop' + this.loopId]; },
 		set: function (val) { this['feedingLoop' + this.loopId] = val; }
 	},

@@ -48,7 +48,6 @@ Ai.prototype.run = function () {
 
 Ai.prototype.stopRunning = function () {
     clearInterval(this.runLoopHandle);
-    delete this.runLoopHandle;
 }
 
 Ai.prototype.visualise = function (matrix) {
