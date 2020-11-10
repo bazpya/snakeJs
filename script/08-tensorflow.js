@@ -7,14 +7,8 @@ Ai = function (game) {
     log("tf core version: " + tf.version["tfjs-core"]);
     log("tf backend: " + tf.getBackend());
 
-    tfvis.visor();
     let inputMatrix = this.getInputValues();
-
-    const inputObj = {
-        values: inputMatrix
-    };
-    const surface = { name: "Dasoo heatmap", tab: "Dasoo charts" }
-    tfvis.render.heatmap(surface, inputObj);
+    this.visualise(inputMatrix);
     log(this.getNextDirection());
 }
 
@@ -41,3 +35,13 @@ Ai.prototype.getNextDirection = function (cell) {
     return myRandom.pickElement(Object.values(directionEnum));
 }
 
+Ai.prototype.run = function () {
+    //Todo: implement
+}
+
+Ai.prototype.visualise = function (matrix) {
+    tfvis.visor();
+    const inputObj = { values: matrix };
+    const surface = { name: "dasoo name", tab: "dasoo tab" }
+    tfvis.render.heatmap(surface, inputObj);
+}

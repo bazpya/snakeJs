@@ -1,6 +1,5 @@
 onload = function () {
 	game = new Game(znakeConfig);
-	ai = new Ai(game);
 }
 
 Game = function (config) {
@@ -126,6 +125,7 @@ Game.prototype.run = function () {
 	}
 	else {
 		log("Ai plays");
+		ai = new Ai(game);
 	}
 }
 
