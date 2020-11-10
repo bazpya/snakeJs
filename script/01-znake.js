@@ -180,7 +180,8 @@ Game.prototype.dropFood = function () {
 	this.foodCells = [];
 
 	for (let i = 1; i <= this.config.numberOfFoodCellsAtOnce; i++) {
-		let cell = blankCells.pickRandomElement();
+		let myRandom = new Random();
+		let cell = myRandom.pickElement(blankCells);
 		cell.beFood();
 		this.foodCells.push(cell);
 	}

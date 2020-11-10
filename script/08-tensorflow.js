@@ -15,6 +15,7 @@ Ai = function (game) {
     };
     const surface = { name: "Dasoo heatmap", tab: "Dasoo charts" }
     tfvis.render.heatmap(surface, inputObj);
+    log(this.getNextDirection());
 }
 
 Ai.prototype.getInputValues = function () {
@@ -36,6 +37,7 @@ Ai.prototype.getCellValue = function (cell) {
 }
 
 Ai.prototype.getNextDirection = function (cell) {
-    //Implement
+    let myRandom = new Random();
+    return myRandom.pickElement(Object.values(directionEnum));
 }
 
