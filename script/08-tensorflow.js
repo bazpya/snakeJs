@@ -2,16 +2,35 @@ runModeEnum = Object.freeze({ "manual": "manual", "auto": "auto" });
 
 Ai = function (game) {
     this.game = game;
-    log("tf version:");
-    log(tf.version);
-    log("tf backend:");
-    log(tf.getBackend());
+    this.game.splash.element.click();
 
-    // this.game.splash.element.click();
-    // tfvis.visor();
-    // const inputMatrix = {
-    //     values: this.game.grid.cells
-    // };
-    // const surface = { name: "Dasoo heatmap", tab: "Dasoo charts" }
-    // tfvis.render.heatmap(surface, inputMatrix);
+    log("tf core version: " + tf.version["tfjs-core"]);
+    log("tf backend: " + tf.getBackend());
+
+    tfvis.visor();
+    let inputMatrix = this.getInputValues();
+
+    const inputObj = {
+        values: inputMatrix
+    };
+    const surface = { name: "Dasoo heatmap", tab: "Dasoo charts" }
+    tfvis.render.heatmap(surface, inputObj);
+}
+
+Ai.prototype.getInputValues = function () {
+    let gridCells = this.game.grid.cells;
+    let values = [];
+    for (let row of gridCells)
+        values.push(row.map(this.cellValueFunc));
+
+    return values;
+}
+
+Ai.prototype.cellValueFunc = function (cell) {
+    if (cell.isBlank)
+        return 0;
+    if (cell.isFood)
+        return 1;
+    if (cell.isDeadly)
+        return 2;
 }
