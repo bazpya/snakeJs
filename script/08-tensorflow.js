@@ -21,12 +21,12 @@ Ai.prototype.getInputValues = function () {
     let gridCells = this.game.grid.cells;
     let values = [];
     for (let row of gridCells)
-        values.push(row.map(this.cellValueFunc));
+        values.push(row.map(this.getCellValue));
 
     return values;
 }
 
-Ai.prototype.cellValueFunc = function (cell) {
+Ai.prototype.getCellValue = function (cell) {
     if (cell.isBlank)
         return 0;
     if (cell.isFood)
@@ -34,3 +34,8 @@ Ai.prototype.cellValueFunc = function (cell) {
     if (cell.isDeadly)
         return 2;
 }
+
+Ai.prototype.getNextDirection = function (cell) {
+    //Implement
+}
+
