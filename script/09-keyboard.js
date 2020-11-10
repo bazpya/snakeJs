@@ -7,14 +7,12 @@ Kboard = function (game) {
 }
 
 Kboard.prototype.mapKeys = function () {
-	this.mapping[this.game.config.keys.up.charCodeAt(0)] = directionEnum.up; //Todo: Replace with a loop
-	this.mapping[this.game.config.keys.right.charCodeAt(0)] = directionEnum.right;
-	this.mapping[this.game.config.keys.down.charCodeAt(0)] = directionEnum.down;
-	this.mapping[this.game.config.keys.left.charCodeAt(0)] = directionEnum.left;
+	for (let directionName in directionEnum)
+		this.mapping[this.game.config.keys[directionName].charCodeAt(0)] = directionEnum[directionName];
 	this.mapping[this.game.config.keys.pause.charCodeAt(0)] = 0;
 }
 
-Kboard.prototype.setForRunning = function () {  //Todo: Rename to setFuncsForRunning
+Kboard.prototype.setForRunning = function () {
 	let me = this;
 	for (let directionName in directionEnum) {
 		let directionCode = directionEnum[directionName];
@@ -24,14 +22,14 @@ Kboard.prototype.setForRunning = function () {  //Todo: Rename to setFuncsForRun
 	this.funcs[0] = function () { me.game.togglePause() };
 }
 
-Kboard.prototype.setForPause = function () {  //Todo: Rename to setFuncsForPause
+Kboard.prototype.setForPause = function () {
 	for (let directionName in directionEnum) {
 		let directionCode = directionEnum[directionName];
 		this.funcs[directionCode] = function () { };
 	}
 }
 
-Kboard.prototype.disable = function () {  //Todo: Rename to disable
+Kboard.prototype.disable = function () {
 	for (let key in this.funcs)
 		this.funcs[key] = function () { };
 }
