@@ -42,7 +42,7 @@ Game.prototype.initialise = function () {
 	this.keyMapping[znakeConfig.keys.right.charCodeAt(0)] = directionEnum.right;
 	this.keyMapping[znakeConfig.keys.down.charCodeAt(0)] = directionEnum.down;
 	this.keyMapping[znakeConfig.keys.left.charCodeAt(0)] = directionEnum.left;
-	this.keyMapping[znakeConfig.keys.pause.charCodeAt(0)] = 4;
+	this.keyMapping[znakeConfig.keys.pause.charCodeAt(0)] = 0;
 
 	this.keyFuncs = [];
 }
@@ -210,7 +210,7 @@ Game.prototype.mapKeysForRunning = function () {  //Todo: Rename to set keyFuncs
 		this.keyFuncs[directionValue] = function () { me.worm.directionFuncs[directionValue]() };
 	}
 
-	this.keyFuncs[4] = function () { me.togglePause() };
+	this.keyFuncs[0] = function () { me.togglePause() };
 }
 
 Game.prototype.mapKeysForPause = function () {

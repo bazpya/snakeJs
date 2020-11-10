@@ -1,5 +1,5 @@
-directionEnum = Object.freeze({ "up": 0, "right": 1, "down": 2, "left": 3 });
-oppositeDirectionEnum = Object.freeze({ 0: 2, 1: 3, 2: 0, 3: 1 });
+directionEnum = Object.freeze({ "up": 1, "right": 2, "down": 3, "left": 4 });
+oppositeDirectionEnum = Object.freeze({ 1: 3, 2: 4, 3: 1, 4: 2 });
 
 Grid = function (game) {
     this.game = game;
