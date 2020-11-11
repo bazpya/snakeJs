@@ -8,9 +8,8 @@ Splash = function (game, element) {
 Splash.prototype.bindHandler = function () {
 	let me = this;
 	this.element.onclick = function () {
-		me.game.initialiseSound();
-		me.game.initialiseCrosshairs();
 		me.popDown();
+		me.game.splashClicked();
 	}
 }
 
@@ -36,7 +35,6 @@ PauseOverlay.prototype.popDown = function () {
 ScoreBoard = function (game, element) {
 	this.game = game;
 	this.element = element;
-	this.reset();
 }
 
 ScoreBoard.prototype.update = function (number) {

@@ -8,6 +8,7 @@ Worm = function (game) {
     this.previousDirection = 2;
     this.directionFuncs = {};
     this.mapKeys();
+    this.game.scoreBoard.update(this.length);
 }
 
 Worm.prototype.update = function () {
@@ -18,7 +19,10 @@ Worm.prototype.update = function () {
 
     else if (nextCell.isFood) {
         this.moveHeadTo(nextCell);
-        this.game.scoreUp(this.length);
+        this.game.sound.foodBeep();
+        this.game.scoreBoard.update(this.length);
+        this.game.speedUp();
+
     }
     else {
         this.moveHeadTo(nextCell);
@@ -43,7 +47,18 @@ Worm.prototype.getNextCell = function () {
 }
 
 Worm.prototype.die = function () {
-    this.sections.forEach(function (section) { section.beObstacle(); });
+    this.doToAllSections(s => s.beObstacle());
+}
+
+Worm.prototype.reset = function () {
+    this.doToAllSections(s => s.beBlank());
+    this.sections = [];
+    this.sections.push(this.game.grid.getStartCell());
+    this.head.beWorm();
+    this.game.scoreBoard.update(this.length);
+    this.directionQueue = [directionEnum.right];
+    this.currentDirection = directionEnum.right;
+    this.previousDirection = directionEnum.right;
 }
 
 Worm.prototype.mapKeys = function () {
@@ -64,6 +79,10 @@ Worm.prototype.shouldIgnoreDirection = function (dirCode) {
         return true;
     if (this.isMulticellular && dirCode === oppositeDirectionEnum[this.previousDirection]) // No backwards moving
         return true;
+}
+
+Worm.prototype.doToAllSections = function (func) {
+    this.sections.forEach(function (section) { func(section); });
 }
 
 Object.defineProperties(Worm.prototype, {

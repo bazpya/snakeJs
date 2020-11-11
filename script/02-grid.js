@@ -4,17 +4,17 @@ oppositeDirectionEnum = Object.freeze({ 1: 3, 2: 4, 3: 1, 4: 2 });
 Grid = function (game, container) {
     this.game = game;
     this.container = container;
-    let height = this.game.config.gridHeight;
-    let width = this.game.config.gridWidth;
+    this.height = this.game.config.gridHeight;
+    this.width = this.game.config.gridWidth;
     this.element = document.createElement('table');
     this.element.id = 'grid';
     this.cells = [];
-    for (let row = 0; row < height; row++) {
+    for (let row = 0; row < this.height; row++) {
         let newRow = document.createElement('tr');
         this.cells.push([]);
-        for (let col = 0; col < width; col++) {
+        for (let col = 0; col < this.width; col++) {
             let newCell = new Cell(row, col);
-            if (col == 0 || col == width - 1 || row == 0 || row == height - 1) newCell.beObstacle();
+            if (col == 0 || col == this.lastColIndex || row == 0 || row == this.lastRowIndex) newCell.beObstacle();
             newRow.appendChild(newCell.element);
             this.cells[row].push(newCell);
         }
@@ -51,6 +51,7 @@ Grid.prototype.getBlankCells = function () {
     return flatArrayOfCells.filter((cell, index) => cell.isBlank);
 }
 
-Grid.prototype.erase = function () {
-    this.container.removeChild(this.element);
-}
+Object.defineProperties(Grid.prototype, {
+    lastRowIndex: { get: function () { return this.height - 1 } },
+    lastColIndex: { get: function () { return this.width - 1 } },
+});

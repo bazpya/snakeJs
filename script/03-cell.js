@@ -5,7 +5,7 @@ Cell = function (rowNumber, colNumber) {
     this.element.className = 'cell';
     this.element.cell = this;
     this.row = rowNumber;
-    this.column = colNumber;
+    this.column = colNumber;  //Todo: Rename to col
     this.type = cellTypeEnum.blank;
 }
 

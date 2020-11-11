@@ -24,9 +24,14 @@ Game.prototype.initialise = function () {
 	this.scoreBoard = new ScoreBoard(this, document.getElementById('score'));
 	this.control = new Control(this);
 	this.mouse = new Mouse(this);
-	this.worm = new Worm(this);
 	this.feeder = new Feeder(this);
 	this.button = new Button(this, document.getElementById('button'));
+}
+
+Game.prototype.splashClicked = function () {
+	this.initialiseSound();
+	this.initialiseCrosshairs();
+	this.worm = new Worm(this);
 }
 
 Game.prototype.initialiseSound = function () {
@@ -46,14 +51,13 @@ Game.prototype.restart = function () {
 	if (this.isPaused) {
 		this.pauseOverlay.popDown();
 		this.isPaused = false;
+	} else {
+		this.stopRunning();
+		this.feeder.stopFeeding();
 	}
-	this.mouse.unbindAll();
-	this.stopRunning();
-	this.feeder.stopFeeding();
-	this.grid.erase();
-	this.initialise();
-	this.button.beRestartButton();
-	this.control.setForRunning()
+	this.movingTimeStep = this.config.movingTimeStep;
+	this.worm.reset();
+	this.control.setForRunning();
 	this.run();
 	this.feeder.feed();
 }
@@ -95,12 +99,6 @@ Game.prototype.gameOver = function () {
 	this.feeder.stopFeeding();
 	this.control.disable();
 	this.worm.die();
-}
-
-Game.prototype.scoreUp = function (score) {
-	this.sound.foodBeep();
-	this.scoreBoard.update(score);
-	this.speedUp();
 }
 
 Game.prototype.speedUp = function () {
