@@ -2,7 +2,7 @@ runModeEnum = Object.freeze({ "manual": "manual", "auto": "auto" });
 
 Ai = function (game) {
     this.game = game;
-    this.game.splash.element.click();
+    // this.game.splash.element.click();
     this.runLoopId = 0;
 
     log("tf core version: " + tf.version["tfjs-core"]);

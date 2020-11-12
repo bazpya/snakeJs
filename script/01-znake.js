@@ -19,11 +19,11 @@ Game.prototype.importConfig = function (znakeConfig) {
 Game.prototype.initialise = function () {
 	this.movingTimeStep = this.config.movingTimeStep;
 	this.grid = new Grid(this, document.getElementById('grid-container'));
-	this.splash = new Splash(this, document.getElementById('splash'));
-	this.pauseOverlay = new PauseOverlay(this, document.getElementById('pause'));
+	this.pauseOverlay = new PauseOverlay(this);
 	this.scoreBoard = new ScoreBoard(this, document.getElementById('score'));
 	this.control = new Control(this);
 	this.mouse = new Mouse(this);
+	this.splash = new Splash(this);
 	this.feeder = new Feeder(this);
 	this.button = new Button(this, document.getElementById('button'));
 }
