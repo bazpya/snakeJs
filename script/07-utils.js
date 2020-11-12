@@ -2,6 +2,10 @@ function log(message) {
     console.log(message);
 }
 
+function dasoo() {
+    log('dasoo');
+}
+
 isDefined = function (variable) {
     return typeof variable !== 'undefined';
 }

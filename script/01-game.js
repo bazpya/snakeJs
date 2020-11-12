@@ -1,13 +1,14 @@
-Game = function (config) {
-	this.importConfig(config);
+Game = function (znakeConf) {
+	dasoo();
+	this.importConfig(znakeConf);
 	this.initialise();
 	this.loopId = 0;
 }
 
-Game.prototype.importConfig = function (znakeConfig) {
+Game.prototype.importConfig = function (znakeConf) {
 	this.config = {}
-	for (let key in znakeConfig)
-		this.config[key] = znakeConfig[key];
+	for (let key in znakeConf)
+		this.config[key] = znakeConf[key];
 }
 
 Game.prototype.initialise = function () {
@@ -57,14 +58,9 @@ Game.prototype.restart = function () {
 }
 
 Game.prototype.run = function () {
-	if (this.config.runMode === runModeEnum.auto) {
-		ai.run();
-	}
-	else {
-		this.loopId++;
-		let me = this;
-		this.loopHandle = setInterval(() => me.worm.update(), me.movingTimeStep);
-	}
+	this.loopId++;
+	let me = this;
+	this.loopHandle = setInterval(() => me.worm.update(), me.movingTimeStep);
 }
 
 Game.prototype.stopRunning = function () {
@@ -89,17 +85,10 @@ Game.prototype.togglePause = function () {
 }
 
 Game.prototype.gameOver = function () {
-	if (this.config.runMode === runModeEnum.auto) {
-		ai.stopRunning();
-		this.worm.reset();
-		ai.run();
-	}
-	else {
-		this.stopRunning();
-		this.feeder.stopFeeding();
-		this.control.disable();
-		this.worm.die();
-	}
+	this.stopRunning();
+	this.feeder.stopFeeding();
+	this.control.disable();
+	this.worm.die();
 }
 
 Game.prototype.speedUp = function () {

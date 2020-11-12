@@ -1,113 +1,60 @@
-AiGame = function (config) {
-	this.importConfig(config);
-	this.initialise();
-	this.loopId = 0;
+AiGame = function (znakeConf) {
+	Game.call(this, znakeConf);
+	this.ai = new Ai(this);
 }
 
-AiGame.prototype.importConfig = function (znakeConfig) {
-	this.config = {}
-	for (let key in znakeConfig)
-		this.config[key] = znakeConfig[key];
+// AiGame.prototype = new Game();
+AiGame.prototype.constructor = Game;
+
+AiGame.prototype.importConfig = function (znakeConf) {
+	Game.prototype.importConfig.call(this, znakeConf);
 }
 
 AiGame.prototype.initialise = function () {
-	this.movingTimeStep = this.config.movingTimeStep;
-	this.grid = new Grid(this, document.getElementById('grid-container'));
-	this.pauseOverlay = new PauseOverlay(this);
-	this.scoreBoard = new ScoreBoard(this, document.getElementById('score'));
-	this.control = new Control(this);
-	this.mouse = new Mouse(this);
-	this.splash = new Splash(this);
-	this.feeder = new Feeder(this);
-	this.button = new Button(this, document.getElementById('button'));
+	Game.prototype.initialise.call(this);
+}
+
+AiGame.prototype.initialiseCrosshairs = function () {
+	Game.prototype.initialiseCrosshairs.call(this);
 }
 
 AiGame.prototype.splashClicked = function () {
-	this.initialiseSound();
-	this.initialiseCrosshairs();
-	this.worm = new Worm(this);
+	Game.prototype.splashClicked.call(this);
 }
 
 AiGame.prototype.initialiseSound = function () {
-	if (isUndefined(this.sound) || isUndefined(this.sound.audioCtx)) {
-		this.sound = new Sound(this.config.soundVolume);
-	}
+	Game.prototype.initialiseSound.call(this);
 }
 
 AiGame.prototype.start = function () {
-	this.button.beRestartButton();
-	this.control.setForRunning()
-	this.run();
-	this.feeder.feed();
+	Game.prototype.start.call(this);
 }
 
 AiGame.prototype.restart = function () {
-	if (this.isPaused) {
-		this.pauseOverlay.popDown();
-		this.isPaused = false;
-	} else {
-		this.stopRunning();
-		this.feeder.stopFeeding();
-	}
-	this.movingTimeStep = this.config.movingTimeStep;
-	this.worm.reset();
-	this.control.setForRunning();
-	this.run();
-	this.feeder.feed();
+	Game.prototype.restart.call(this);
 }
 
 AiGame.prototype.run = function () {
-	if (this.config.runMode === runModeEnum.auto) {
-		ai.run();
-	}
-	else {
-		this.loopId++;
-		let me = this;
-		this.loopHandle = setInterval(() => me.worm.update(), me.movingTimeStep);
-	}
+	this.ai.run();
 }
 
 AiGame.prototype.stopRunning = function () {
-	clearInterval(this.loopHandle);
+	Game.prototype.stopRunning.call(this);
 }
 
 AiGame.prototype.togglePause = function () {
-	if (this.isPaused) {
-		this.run();
-		this.feeder.feed();
-		this.isPaused = false;
-		this.control.setForRunning();
-		this.pauseOverlay.popDown();
-	}
-	else {
-		this.stopRunning();
-		this.feeder.stopFeeding();
-		this.isPaused = true;
-		this.control.setForPause();
-		this.pauseOverlay.popUp();
-	}
+	Game.prototype.togglePause.call(this);
 }
 
 AiGame.prototype.gameOver = function () {
-	if (this.config.runMode === runModeEnum.auto) {
-        ai.stopRunning();
-        this.worm.reset();
-		ai.run();
-	}
-	else {
-        this.stopRunning();
-        this.feeder.stopFeeding();
-        this.control.disable();
-        this.worm.die();
-	}
+	this.ai.stopRunning();
+	log("start over");
+	this.worm.reset();
+	this.ai.run();
 }
 
 AiGame.prototype.speedUp = function () {
-	if (this.movingTimeStep > this.config.minimumMovingTimeStep) {
-		this.movingTimeStep -= this.config.movingTimeStepDecrement;
-		this.stopRunning();
-		this.run();
-	}
+	Game.prototype.speedUp.call(this);
 }
 
 Object.defineProperties(AiGame.prototype, {
