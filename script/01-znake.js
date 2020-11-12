@@ -95,10 +95,17 @@ Game.prototype.togglePause = function () {
 }
 
 Game.prototype.gameOver = function () {
-	this.stopRunning();
-	this.feeder.stopFeeding();
-	this.control.disable();
-	this.worm.die();
+	if (this.config.runMode === runModeEnum.auto) {
+        ai.stopRunning();
+        this.worm.reset();
+		ai.run();
+	}
+	else {
+        this.stopRunning();
+        this.feeder.stopFeeding();
+        this.control.disable();
+        this.worm.die();
+	}
 }
 
 Game.prototype.speedUp = function () {
