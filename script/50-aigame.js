@@ -1,6 +1,5 @@
 AiGame = function (znakeConf) {
 	Game.call(this, znakeConf);
-	this.ai = new Ai(this);
 }
 
 // AiGame.prototype = new Game();
@@ -20,6 +19,7 @@ AiGame.prototype.initialiseCrosshairs = function () {
 
 AiGame.prototype.splashClicked = function () {
 	Game.prototype.splashClicked.call(this);
+	this.ai = new Ai(this);
 }
 
 AiGame.prototype.initialiseSound = function () {

@@ -1,7 +1,7 @@
 znakeConfig = {
     devMode: false,
-    gridHeight: 20,  // cells
-    gridWidth: 20,  // cells
+    gridHeight: 4,  // cells
+    gridWidth: 4,  // cells
     movingTimeStep: 120,  // milliseconds
     movingTimeStepDecrement: 5,  // milliseconds
     minimumMovingTimeStep: 70,  // milliseconds

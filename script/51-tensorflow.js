@@ -3,15 +3,24 @@ Ai = function (game) {
     this.runLoopId = 0;
 
     this.initialise();
-    let inputMatrix = this.getInputValues();
+    let inputMatrix = this.getInputMatrix();
     this.visualise(inputMatrix);
 }
 
 Ai.prototype.initialise = function () {
-    log("initialise");
+    this.model = tf.sequential();
+    this.inputVectorSize = this.game.grid.width * this.game.grid.height;
+    this.model.add(tf.layers.dense({ units: 90, inputShape: [this.inputVectorSize] }));
+    this.model.add(tf.layers.dense({ units: 20 }));
+    this.model.add(tf.layers.dense({ units: 4 }));
+    log("Output shape: " + JSON.stringify(this.model.outputs[0].shape));
 }
 
 Ai.prototype.run = function () {
+    let inputVector = this.getInputVector();
+    let inputTensor = tf.tensor(inputVector, [this.inputVectorSize]).print();
+    this.model.predict(inputTensor, args = { batchSize: 1 }).print();
+
     this.runLoopId++;
     let me = this;
     this.runLoopHandle = setInterval(function () {
@@ -30,19 +39,23 @@ Ai.prototype.stopRunning = function () {
     clearInterval(this.runLoopHandle);
 }
 
-Ai.prototype.getInputValues = function () {
+Ai.prototype.getInputMatrix = function () {
     let gridCells = this.game.grid.cells;
     let values = [];
     for (let row of gridCells)
         values.push(row.map(this.getCellValue));
-
+    //Todo: Do we really need to add moving direction to inputs?
     return values;
 }
 
+Ai.prototype.getInputVector = function () {
+    return this.game.grid.cells.flat().map(this.getCellValue);
+}
+
 Ai.prototype.getCellValue = function (cell) {
-    if (cell.isBlank)
-        return 0;
     if (cell.isFood)
+        return 0;
+    if (cell.isBlank)
         return 1;
     if (cell.isDeadly)
         return 2;
