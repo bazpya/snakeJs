@@ -56,10 +56,3 @@ AiGame.prototype.gameOver = function () {
 AiGame.prototype.speedUp = function () {
 	Game.prototype.speedUp.call(this);
 }
-
-Object.defineProperties(AiGame.prototype, {
-	loopHandle: {
-		get: function () { return this['runningLoop' + this.loopId]; },
-		set: function (val) { this['runningLoop' + this.loopId] = val; }
-	},
-});

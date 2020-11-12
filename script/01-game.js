@@ -1,5 +1,4 @@
 Game = function (znakeConf) {
-	dasoo();
 	this.importConfig(znakeConf);
 	this.initialise();
 	this.loopId = 0;
