@@ -48,11 +48,10 @@ AiGame.prototype.togglePause = function () {
 
 AiGame.prototype.gameOver = function () {
 	this.ai.stopRunning();
-	log("start over");
 	this.worm.reset();
 	this.ai.run();
 }
 
 AiGame.prototype.speedUp = function () {
-	Game.prototype.speedUp.call(this);
+	return null;
 }
