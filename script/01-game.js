@@ -1,9 +1,3 @@
-onload = function () {
-	game = new Game(znakeConfig);
-	if (znakeConfig.runMode === runModeEnum.auto)
-		ai = new Ai(game);
-}
-
 Game = function (config) {
 	this.importConfig(config);
 	this.initialise();
@@ -96,15 +90,15 @@ Game.prototype.togglePause = function () {
 
 Game.prototype.gameOver = function () {
 	if (this.config.runMode === runModeEnum.auto) {
-        ai.stopRunning();
-        this.worm.reset();
+		ai.stopRunning();
+		this.worm.reset();
 		ai.run();
 	}
 	else {
-        this.stopRunning();
-        this.feeder.stopFeeding();
-        this.control.disable();
-        this.worm.die();
+		this.stopRunning();
+		this.feeder.stopFeeding();
+		this.control.disable();
+		this.worm.die();
 	}
 }
 
