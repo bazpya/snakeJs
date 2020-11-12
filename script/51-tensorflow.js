@@ -1,14 +1,33 @@
-runModeEnum = Object.freeze({ "manual": "manual", "auto": "auto" });
-
 Ai = function (game) {
     this.game = game;
     this.runLoopId = 0;
 
-    log("tf core version: " + tf.version["tfjs-core"]);
-    log("tf backend: " + tf.getBackend());
-
+    this.initialise();
     let inputMatrix = this.getInputValues();
     this.visualise(inputMatrix);
+}
+
+Ai.prototype.initialise = function () {
+    log("initialise");
+}
+
+Ai.prototype.run = function () {
+    this.runLoopId++;
+    let me = this;
+    this.runLoopHandle = setInterval(function () {
+        let directionCode = me.getNextDirection();
+        me.game.control.funcs[directionCode]();
+        me.game.worm.update();
+    }, me.game.movingTimeStep);
+}
+
+Ai.prototype.getNextDirection = function (cell) {
+    let myRandom = new Random();
+    return myRandom.pickElement(Object.values(directionEnum));
+}
+
+Ai.prototype.stopRunning = function () {
+    clearInterval(this.runLoopHandle);
 }
 
 Ai.prototype.getInputValues = function () {
@@ -27,25 +46,6 @@ Ai.prototype.getCellValue = function (cell) {
         return 1;
     if (cell.isDeadly)
         return 2;
-}
-
-Ai.prototype.getNextDirection = function (cell) {
-    let myRandom = new Random();
-    return myRandom.pickElement(Object.values(directionEnum));
-}
-
-Ai.prototype.run = function () {
-    this.runLoopId++;
-    let me = this;
-    this.runLoopHandle = setInterval(function () {
-        let directionCode = me.getNextDirection();
-        me.game.control.funcs[directionCode]();
-        me.game.worm.update();
-    }, me.game.movingTimeStep);
-}
-
-Ai.prototype.stopRunning = function () {
-    clearInterval(this.runLoopHandle);
 }
 
 Ai.prototype.visualise = function (matrix) {

@@ -5,3 +5,5 @@ onload = function () {
 		game = new AiGame(znakeConfig);
 	}
 }
+
+runModeEnum = Object.freeze({ "manual": "manual", "auto": "auto" });
