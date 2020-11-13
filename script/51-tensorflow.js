@@ -13,7 +13,11 @@ Ai.prototype.initialise = function () {
     this.model.add(tf.layers.dense({ units: 90, inputShape: [this.inputVectorSize] }));
     this.model.add(tf.layers.dense({ units: 20 }));
     this.model.add(tf.layers.dense({ units: 4 }));
-    log("Output shape: " + JSON.stringify(this.model.outputs[0].shape));
+    // log("Output shape: " + JSON.stringify(this.model.outputs[0].shape));
+    // this.model.summary();
+
+    // const optimiser = tf.train.sgd(0.1);
+    // this.model.compile({ loss: "meanSquaredError", optimizer: optimiser });
 }
 
 Ai.prototype.run = function () {
