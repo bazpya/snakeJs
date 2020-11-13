@@ -16,20 +16,19 @@ Feeder.prototype.stopFeeding = function () {
 }
 
 Feeder.prototype.dropFood = function () {
-	this.foodCells.forEach(function (cell, index) {
+	this.foodCells.forEach(function (cell) {
 		if (cell.isFood)
 			cell.beBlank();
 	})
 
 	let blankCells = this.game.grid.getBlankCells();
-	this.foodCells = [];
-
-	for (let i = 1; i <= this.game.config.numberOfFoodCellsAtOnce; i++) {
-		let myRandom = new Random();
-		let cell = myRandom.pickElement(blankCells);
-		cell.beFood();
-		this.foodCells.push(cell);
+	if (this.game.config.numberOfFoodCellsAtOnce === 1) {
+		this.foodCells = [];
+		this.foodCells.push(blankCells.pickRandom());
+	} else {
+		this.foodCells = blankCells.pickRandom(this.game.config.numberOfFoodCellsAtOnce);
 	}
+	this.foodCells.forEach((cell) => cell.beFood());
 }
 
 Object.defineProperties(Feeder.prototype, {

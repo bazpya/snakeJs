@@ -30,6 +30,28 @@ Array.prototype.takeFirstOut = function () {
     return firstElement;
 }
 
+Array.prototype.pickRandom = function (batchSize) {
+    if (isUndefined(batchSize) || batchSize === 1) {
+        let randomIndex = Math.floor(Math.random() * this.length);
+        return this[randomIndex];
+    }
+    else {
+        let clone = this.clone();
+        let rand = new Random();
+        for (let i = 1; i < clone.length; i++) {
+            let ind = rand.getInt(0, i - 1);
+            let temp = clone[ind];
+            clone[ind] = clone[i];
+            clone[i] = temp;
+        }
+        return clone.slice(0, batchSize);
+    }
+}
+
+Array.prototype.clone = function () {
+    return this.slice(0, this.length);
+}
+
 Array.prototype.discardElements = function () {
     while (this.hasAny)
         this.takeFirstOut();
@@ -65,9 +87,4 @@ Random = function () {
 
 Random.prototype.getInt = function (lower, upper) {  // Inclusive of boundaries
     return lower + Math.floor(Math.random() * (upper - lower + 1));
-}
-
-Random.prototype.pickElement = function (array) {
-    let randomIndex = Math.floor(Math.random() * array.length);
-    return array[randomIndex];
 }
