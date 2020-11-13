@@ -3,15 +3,16 @@ Ai = function (game) {
     this.runLoopId = 0;
 
     this.initialise();
-    let inputMatrix = this.getInputMatrix();
-    this.visualise(inputMatrix);
+    // let inputMatrix = this.getInputMatrix();
+    // this.visualise(inputMatrix);
 }
 
 Ai.prototype.initialise = function () {
     this.model = tf.sequential();
     this.inputVectorSize = this.game.grid.width * this.game.grid.height;
-    this.model.add(tf.layers.dense({ units: 90, inputShape: [this.inputVectorSize] }));
-    this.model.add(tf.layers.dense({ units: 20 }));
+    log(this.inputVectorSize);
+    this.model.add(tf.layers.dense({ units: 8, inputShape: [this.inputVectorSize] }));
+    // this.model.add(tf.layers.dense({ units: 20 }));
     this.model.add(tf.layers.dense({ units: 4 }));
     // log("Output shape: " + JSON.stringify(this.model.outputs[0].shape));
     // this.model.summary();
@@ -22,16 +23,16 @@ Ai.prototype.initialise = function () {
 
 Ai.prototype.run = function () {
     let inputVector = this.getInputVector();
-    let inputTensor = tf.tensor(inputVector, [this.inputVectorSize]).print();
+    let inputTensor = tf.tensor(inputVector, [1, this.inputVectorSize]);
     this.model.predict(inputTensor, args = { batchSize: 1 }).print();
 
-    this.runLoopId++;
-    let me = this;
-    this.runLoopHandle = setInterval(function () {
-        let directionCode = me.getNextDirection();
-        me.game.control.funcs[directionCode]();
-        me.game.worm.update();
-    }, me.game.movingTimeStep);
+    // this.runLoopId++;
+    // let me = this;
+    // this.runLoopHandle = setInterval(function () {
+    //     let directionCode = me.getNextDirection();
+    //     me.game.control.funcs[directionCode]();
+    //     me.game.worm.update();
+    // }, me.game.movingTimeStep);
 }
 
 Ai.prototype.getNextDirection = function (cell) {
