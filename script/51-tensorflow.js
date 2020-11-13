@@ -10,34 +10,38 @@ Ai = function (game) {
 Ai.prototype.initialise = function () {
     this.model = tf.sequential();
     this.inputVectorSize = this.game.grid.width * this.game.grid.height;
-    log(this.inputVectorSize);
-    this.model.add(tf.layers.dense({ units: 8, inputShape: [this.inputVectorSize] }));
-    // this.model.add(tf.layers.dense({ units: 20 }));
+    this.model.add(tf.layers.dense({ units: 90, inputShape: [this.inputVectorSize] }));
+    this.model.add(tf.layers.dense({ units: 20 }));
     this.model.add(tf.layers.dense({ units: 4 }));
-    // log("Output shape: " + JSON.stringify(this.model.outputs[0].shape));
-    // this.model.summary();
-
     // const optimiser = tf.train.sgd(0.1);
     // this.model.compile({ loss: "meanSquaredError", optimizer: optimiser });
 }
 
 Ai.prototype.run = function () {
-    let inputVector = this.getInputVector();
-    let inputTensor = tf.tensor(inputVector, [1, this.inputVectorSize]);
-    this.model.predict(inputTensor, args = { batchSize: 1 }).print();
-
-    // this.runLoopId++;
-    // let me = this;
-    // this.runLoopHandle = setInterval(function () {
-    //     let directionCode = me.getNextDirection();
-    //     me.game.control.funcs[directionCode]();
-    //     me.game.worm.update();
-    // }, me.game.movingTimeStep);
+    this.runLoopId++;
+    let me = this;
+    this.runLoopHandle = setInterval(function () {
+        let direction = me.getNextDirection();
+        me.game.control.funcs[direction]();
+        me.game.worm.update();
+    }, me.game.movingTimeStep);
 }
 
 Ai.prototype.getNextDirection = function (cell) {
-    let myRandom = new Random();
-    return myRandom.pickElement(Object.values(directionEnum));
+    // let myRandom = new Random();
+    // return myRandom.pickElement(Object.values(directionEnum));
+    let inputVector = this.getInputVector();
+    let inputTensor = tf.tensor(inputVector, [1, this.inputVectorSize]);
+    let modelOutput = this.model.predict(inputTensor, args = { batchSize: 1 });
+    let direction = this.getDirectionFromOutput(modelOutput);
+    return direction;
+}
+
+Ai.prototype.getDirectionFromOutput = function (tensor) {
+    // tensor.print();
+    let array = tensor.arraySync()[0];
+    let indexOfMax = array.getIndexOfMax();
+    return indexOfMax + 1;  // because directions start from 1
 }
 
 Ai.prototype.stopRunning = function () {

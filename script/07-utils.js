@@ -35,6 +35,23 @@ Array.prototype.discardElements = function () {
         this.takeFirstOut();
 }
 
+Array.prototype.getMax = function () {
+    let index = this.getIndexOfMax();
+    return this[index];
+}
+
+Array.prototype.getIndexOfMax = function () {
+    let index = 0;
+    let max = this[0];
+    for (let i = 1; i < this.length; i++) {
+        if (this[i] > max) {
+            index = i;
+            max = this[i];
+        }
+    }
+    return index;
+}
+
 Object.defineProperties(Array.prototype, {
     last: { get: function () { return this[this.length - 1] } },
     hasAny: { get: function () { return Boolean(this.length) } },
