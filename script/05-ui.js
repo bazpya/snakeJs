@@ -1,56 +1,69 @@
-//###########################  Splash  ############################################
-Splash = function (game) {
+//###########################  Overlay  ############################################
+Overlay = function (game) {
     this.game = game;
-    let elementId;
-    if (this.game.config.runMode === runModeEnum.auto)
-        elementId = 'splash-ai';
-    else if (this.game.config.devMode)
-        elementId = 'splash-dev';
-    else
-        elementId = 'splash-manual';
+    this.element = document.getElementById('overlay');
 
-    this.element = document.getElementById(elementId);
+    if (game.config.runMode === runModeEnum.auto) {
+        this.element.classList.add('overlay-ai');
+        this.line2 = "AI autoplay!";
+    }
+    else if (this.game.config.devMode) {
+        this.element.classList.add('overlay-dev');
+        this.line2 = "Developer mode";
+    }
+    else {
+        this.element.classList.add('overlay-manual');
+        this.line2 = "Manual mode";
+    }
+
     this.bindHandler();
-    this.popUp();
+    this.splash();
 }
 
-Splash.prototype.bindHandler = function () {
+Overlay.prototype.bindHandler = function () {
     let me = this;
     this.element.onclick = function () {
         me.popDown();
+        me.unbindHandler();
+        me.element.classList.add("translucent");
+        me.line1 = "PAUSE";
+        me.line2 = "";
+        me.line3 = "";
         me.game.splashClicked();
     };
 }
 
-Splash.prototype.popUp = function () {
+Overlay.prototype.unbindHandler = function () {
+    this.element.onclick = null;
+}
+
+Overlay.prototype.splash = function () {
     this.element.classList.replace('popdown', 'popup');
 }
 
-Splash.prototype.popDown = function () {
+Overlay.prototype.pauseUp = function () {
+    this.element.classList.replace('popdown', 'popup');
+    // this.element.
+}
+
+Overlay.prototype.popDown = function () {
     this.element.classList.replace('popup', 'popdown');
 }
 
-//###########################  Pause Overlay  #####################################
-PauseOverlay = function (game) {
-    this.game = game;
-    let elementId;
-    if (this.game.config.runMode === runModeEnum.auto)
-        elementId = 'pause-ai';
-    else if (this.game.config.devMode)
-        elementId = 'pause-dev';
-    else
-        elementId = 'pause-manual';
-
-    this.element = document.getElementById(elementId);
-}
-
-PauseOverlay.prototype.popUp = function () {
-    this.element.classList.replace('popdown', (this.game.config.devMode) ? 'popup' : 'popup');
-}
-
-PauseOverlay.prototype.popDown = function () {
-    this.element.classList.replace((this.game.config.devMode) ? 'popup' : 'popup', 'popdown');
-}
+Object.defineProperties(Overlay.prototype, {
+    line1: {
+        get: function () { return document.getElementById('overlay-line1').innerText },
+        set: function (val) { document.getElementById('overlay-line1').innerText = val; }
+    },
+    line2: {
+        get: function () { return document.getElementById('overlay-line2').innerText },
+        set: function (val) { document.getElementById('overlay-line2').innerText = val; }
+    },
+    line3: {
+        get: function () { return document.getElementById('overlay-line3').innerText },
+        set: function (val) { document.getElementById('overlay-line3').innerText = val; }
+    },
+});
 
 //############################  Score Board  ######################################
 ScoreBoard = function (game, element) {

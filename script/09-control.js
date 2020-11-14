@@ -37,6 +37,7 @@ Control.prototype.disable = function () {
 Control.prototype.bind = function () {
 	let me = this;
 	document.onkeydown = function (keyDownEvent) {
+		//Todo: Instead of this check if the corresponding func is defined. Otherwise it gives error before starting the game
 		let directionCode = me.mapping[keyDownEvent.keyCode];
 		if (isDefined(directionCode))
 			me.funcs[directionCode]();

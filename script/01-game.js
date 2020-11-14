@@ -13,11 +13,10 @@ Game.prototype.importConfig = function (znakeConf) {
 Game.prototype.initialise = function () {
 	this.movingTimeStep = this.config.movingTimeStep;
 	this.grid = new Grid(this, document.getElementById('grid-container'));
-	this.pauseOverlay = new PauseOverlay(this);
 	this.scoreBoard = new ScoreBoard(this, document.getElementById('score'));
 	this.control = new Control(this);
 	this.mouse = new Mouse(this);
-	this.splash = new Splash(this);
+	this.overlay = new Overlay(this);
 	this.feeder = new Feeder(this);
 	this.button = new Button(this, document.getElementById('button'));
 }
@@ -43,7 +42,7 @@ Game.prototype.start = function () {
 
 Game.prototype.restart = function () {
 	if (this.isPaused) {
-		this.pauseOverlay.popDown();
+		this.overlay.popDown();
 		this.isPaused = false;
 	} else {
 		this.stopRunning();
@@ -72,14 +71,14 @@ Game.prototype.togglePause = function () {
 		this.feeder.feed();
 		this.isPaused = false;
 		this.control.setForRunning();
-		this.pauseOverlay.popDown();
+		this.overlay.popDown();
 	}
 	else {
 		this.stopRunning();
 		this.feeder.stopFeeding();
 		this.isPaused = true;
 		this.control.setForPause();
-		this.pauseOverlay.popUp();
+		this.overlay.pauseUp();
 	}
 }
 
