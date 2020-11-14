@@ -78,7 +78,7 @@ Game.prototype.togglePause = function () {
 		this.feeder.stopFeeding();
 		this.isPaused = true;
 		this.control.setForPause();
-		this.overlay.pauseUp();
+		this.overlay.popUp();
 	}
 }
 

@@ -17,7 +17,7 @@ Overlay = function (game) {
     }
 
     this.bindHandler();
-    this.splash();
+    this.popUp();
 }
 
 Overlay.prototype.bindHandler = function () {
@@ -37,13 +37,8 @@ Overlay.prototype.unbindHandler = function () {
     this.element.onclick = null;
 }
 
-Overlay.prototype.splash = function () {
+Overlay.prototype.popUp = function () {
     this.element.classList.replace('popdown', 'popup');
-}
-
-Overlay.prototype.pauseUp = function () {
-    this.element.classList.replace('popdown', 'popup');
-    // this.element.
 }
 
 Overlay.prototype.popDown = function () {
