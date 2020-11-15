@@ -53,7 +53,6 @@ Ai.prototype.getInputMatrix = function () {
     let values = [];
     for (let row of gridCells)
         values.push(row.map(this.getCellValue));
-    //Todo: Do we really need to add moving direction to inputs?
     return values;
 }
 
