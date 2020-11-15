@@ -157,6 +157,7 @@ td.worm {
 td.food {
   background-color: var(--food-colour);
 }
+
 .target {
   position: relative;
 }

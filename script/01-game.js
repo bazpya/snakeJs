@@ -23,13 +23,14 @@ Game.prototype.initialise = function () {
 
 Game.prototype.splashClicked = function () {
 	this.initialiseSound();
-	this.initialiseCrosshairs();
+	let me = this;
+	Crosshairs("target", () => me.sound.mouseInBeep(), () => me.sound.mouseOutBeep());
 	this.worm = new Worm(this);
 }
 
 Game.prototype.initialiseSound = function () {
 	if (isUndefined(this.sound) || isUndefined(this.sound.audioCtx)) {
-		this.sound = new Sound(this.config.soundVolume);
+		this.sound = new znakeSound(this.config.soundVolume);
 	}
 }
 

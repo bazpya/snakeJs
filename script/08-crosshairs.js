@@ -1,7 +1,5 @@
-//Todo: Refactor to separate type
-Game.prototype.initialiseCrosshairs = function () {
-	let targets = document.getElementsByClassName('target');
-	let me = this;
+Crosshairs = function (elementsClass, mouseInAction, mouseOutAction) {
+	this.targets = document.getElementsByClassName(elementsClass);
 
 	Array.prototype.forEach.call(targets, function (item) {
 		let cornerTopLeft = document.createElement('div');
@@ -16,7 +14,9 @@ Game.prototype.initialiseCrosshairs = function () {
 		let cornerBottomRight = document.createElement('div');
 		cornerBottomRight.classList.add('corners', 'corner-bottom-right');
 		item.appendChild(cornerBottomRight);
-		item.onmouseenter = () => me.sound.mouseInBeep();  // Could replace with global event listeners!
-		item.onmouseleave = () => me.sound.mouseOutBeep();
+		if (isFunction(mouseInAction))
+			item.onmouseenter = () => mouseInAction();
+		if (isFunction(mouseOutAction))
+			item.onmouseleave = () => mouseOutAction();
 	});
 }

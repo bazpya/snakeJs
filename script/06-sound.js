@@ -4,7 +4,7 @@ soundDefinitions = Object.freeze({
     "mouseOutBeep": [2500, 50]
 });
 
-Sound = function (volume) {
+znakeSound = function (volume) {
     this.audioCtx = new AudioContext();
     this.gainNode = this.audioCtx.createGain();
     this.gainNode.connect(this.audioCtx.destination);
