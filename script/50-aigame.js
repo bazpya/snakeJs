@@ -60,7 +60,7 @@ AiGame.prototype.gameOver = function () {
 			this.lifeCount = 0;
 			this.restart();
 		} else {
-			log('done');
+			this.ai.generationFinished();
 		}
 	}
 }

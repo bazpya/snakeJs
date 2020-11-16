@@ -17,6 +17,14 @@ Ai.prototype.initialise = function () {
     this.currentModel = this.generation[0];
 }
 
+Ai.prototype.generationFinished = function () {
+    log('done');
+}
+
+Ai.prototype.populateNextGeneration = function () {
+    //Implement
+}
+
 Ai.prototype.createModel = function () {
     let model = tf.sequential();
     model.add(tf.layers.dense({ units: 90, inputShape: [this.inputVectorSize] }));  //Todo: Make units a function of the grid size
