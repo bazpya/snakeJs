@@ -47,7 +47,9 @@ AiGame.prototype.togglePause = function () {
 }
 
 AiGame.prototype.gameOver = function () {
-	this.restart();
+	Game.prototype.gameOver.call(this);
+	if (this.lifeCount < this.config.autorunLifeCount)
+		this.restart();
 }
 
 AiGame.prototype.speedUp = function () {
