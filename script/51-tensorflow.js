@@ -31,8 +31,10 @@ Ai.prototype.getNextDirection = function (cell) {
     // let myRandom = new Random();
     // return myRandom.pickElement(Object.values(directionEnum));
     let inputVector = this.getInputVector();
-    let inputTensor = tf.tensor(inputVector, [1, this.inputVectorSize]);
-    let modelOutput = this.model.predict(inputTensor, args = { batchSize: 1 });
+    let modelOutput = tf.tidy(() => {
+        let inputTensor = tf.tensor(inputVector, [1, this.inputVectorSize]);
+        return this.model.predict(inputTensor, args = { batchSize: 1 });
+    });
     let direction = this.getDirectionFromOutput(modelOutput);
     return direction;
 }

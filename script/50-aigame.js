@@ -39,7 +39,7 @@ AiGame.prototype.run = function () {
 }
 
 AiGame.prototype.stopRunning = function () {
-	Game.prototype.stopRunning.call(this);
+	this.ai.stopRunning();
 }
 
 AiGame.prototype.togglePause = function () {
