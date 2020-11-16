@@ -34,10 +34,14 @@ example.prototype.crossOver = function (a, b) {
     return this.setBias(a, this.exchangeBias(biasA, biasB));
 }
 
- //Remember tidy? We’re operating over the tensors we got in the crossover function.
+//Remember tidy? We’re operating over the tensors we got in the crossover function.
 example.prototype.exchangeBias = function (tensorA, tensorB) {
     const size = Math.ceil(tensorA.size / 2);
-    return tf.tidy(() => { const a = tensorA.slice([0], [size]); const b = tensorB.slice([size], [size]); return a.concat(b); });
+    return tf.tidy(() => {
+        const a = tensorA.slice([0], [size]);
+        const b = tensorB.slice([size], [size]);
+        return a.concat(b);
+    });
 }
 // Because I don’t want to change the original bias, I’m copying it.
 // Note that TensforFlow.js’ objects are immutable, so the function write will return a new tensor, rather than setting it.
