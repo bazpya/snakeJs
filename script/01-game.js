@@ -8,6 +8,10 @@ Game.prototype.importConfig = function (znakeConf) {
 	this.config = {}
 	for (let key in znakeConf)
 		this.config[key] = znakeConf[key];
+	if (this.config["gridHeight"] < 4)
+		throw "Grid height must be at least 4"
+	if (this.config["gridWidth"] < 4)
+		throw "Grid width must be at least 4"
 }
 
 Game.prototype.initialise = function () {
