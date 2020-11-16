@@ -60,18 +60,23 @@ Object.defineProperties(Overlay.prototype, {
     },
 });
 
-//############################  Score Board  ######################################
-ScoreBoard = function (game, element) {
+//############################  Info Board  ######################################
+InfoBoard = function (game) {
     this.game = game;
-    this.element = element;
+    this.score = document.getElementById('score');
+    this.lifeCount = document.getElementById('life-count');
 }
 
-ScoreBoard.prototype.update = function (number) {
-    this.element.innerHTML = number;
+InfoBoard.prototype.updateScore = function (number) {
+    this.score.innerHTML = number;
 }
 
-ScoreBoard.prototype.reset = function () {
-    this.update(1); // Minimum length
+InfoBoard.prototype.life = function (number) {
+    this.lifeCount.innerHTML = number;
+}
+
+InfoBoard.prototype.reset = function () {
+    this.updateScore(1); // Minimum length
 }
 
 //############################  Button  ######################################

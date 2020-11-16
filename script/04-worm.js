@@ -8,7 +8,7 @@ Worm = function (game) {
     this.previousDirection = 2;
     this.directionFuncs = {};
     this.mapKeys();
-    this.game.scoreBoard.update(this.length);
+    this.game.infoboard.updateScore(this.length);
 }
 
 Worm.prototype.update = function () {
@@ -20,7 +20,7 @@ Worm.prototype.update = function () {
     else if (nextCell.isFood) {
         this.moveHeadTo(nextCell);
         this.game.sound.foodBeep();
-        this.game.scoreBoard.update(this.length);
+        this.game.infoboard.updateScore(this.length);
         this.game.speedUp();
 
     }
@@ -55,7 +55,7 @@ Worm.prototype.reset = function () {
     this.sections = [];
     this.sections.push(this.game.grid.getStartCell());
     this.head.beWorm();
-    this.game.scoreBoard.update(this.length);
+    this.game.infoboard.updateScore(this.length);
     this.directionQueue = [directionEnum.right];
     this.currentDirection = directionEnum.right;
     this.previousDirection = directionEnum.right;

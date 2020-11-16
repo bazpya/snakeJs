@@ -15,9 +15,10 @@ Game.prototype.importConfig = function (znakeConf) {
 }
 
 Game.prototype.initialise = function () {
+	this.lifeCount = 0;
 	this.movingTimeStep = this.config.movingTimeStep;
 	this.grid = new Grid(this, document.getElementById('grid-container'));
-	this.scoreBoard = new ScoreBoard(this, document.getElementById('score'));
+	this.infoboard = new InfoBoard(this);
 	this.control = new Control(this);
 	this.mouse = new Mouse(this);
 	this.overlay = new Overlay(this);
@@ -39,6 +40,8 @@ Game.prototype.initialiseSound = function () {
 }
 
 Game.prototype.start = function () {
+	this.lifeCount = 1;
+	this.infoboard.life(this.lifeCount);
 	this.button.beRestartButton();
 	this.control.setForRunning()
 	this.run();
@@ -46,6 +49,9 @@ Game.prototype.start = function () {
 }
 
 Game.prototype.restart = function () {
+	this.lifeCount++;
+	this.infoboard.life(this.lifeCount);
+
 	if (this.isPaused) {
 		this.overlay.popDown();
 		this.isPaused = false;
