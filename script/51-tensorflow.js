@@ -10,7 +10,7 @@ Ai = function (game) {
 Ai.prototype.initialise = function () {
     this.model = tf.sequential();
     this.inputVectorSize = this.game.grid.width * this.game.grid.height;
-    this.model.add(tf.layers.dense({ units: 90, inputShape: [this.inputVectorSize] }));
+    this.model.add(tf.layers.dense({ units: 90, inputShape: [this.inputVectorSize] }));  //Todo: Make this a function of the grid size
     this.model.add(tf.layers.dense({ units: 20 }));
     this.model.add(tf.layers.dense({ units: 4 }));
     // const optimiser = tf.train.sgd(0.1);
