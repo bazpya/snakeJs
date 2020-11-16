@@ -1,6 +1,9 @@
 Ai = function (game) {
     this.game = game;
     this.runLoopId = 0;
+    this.generation = [];
+    this.generationCount = this.game.config.ai.generationCount;
+    this.inputVectorSize = this.game.grid.width * this.game.grid.height;
 
     this.initialise();
     // let inputMatrix = this.getInputMatrix();
@@ -8,37 +11,38 @@ Ai = function (game) {
 }
 
 Ai.prototype.initialise = function () {
-    this.inputVectorSize = this.game.grid.width * this.game.grid.height;
-    this.model = this.getModel();
+    for (let i = 0; i < this.generationCount; i++)
+        this.generation.push(this.createModel());
+    this.currentModelIndex = 0;
+    this.currentModel = this.generation[0];
 }
 
-Ai.prototype.getModel = function () {
+Ai.prototype.createModel = function () {
     let model = tf.sequential();
     model.add(tf.layers.dense({ units: 90, inputShape: [this.inputVectorSize] }));  //Todo: Make units a function of the grid size
     model.add(tf.layers.dense({ units: 20 }));
     model.add(tf.layers.dense({ units: 4 }));
     // const optimiser = tf.train.sgd(0.1);
-    // this.model.compile({ loss: "meanSquaredError", optimizer: optimiser });
+    // this.currentModel.compile({ loss: "meanSquaredError", optimizer: optimiser });
     return model;
 }
 
-Ai.prototype.run = function () {
-    this.runLoopId++;
-    let me = this;
-    this.runLoopHandle = setInterval(function () {
-        let direction = me.getNextDirection();
-        me.game.control.funcs[direction]();
-        me.game.worm.update();
-    }, me.game.movingTimeStep);
+Ai.prototype.pickNextModel = function () {
+    this.currentModelIndex++;
+    if (this.currentModelIndex < this.generationCount) {
+        this.currentModel = this.generation[this.currentModelIndex];
+        return true;
+    }
+    else return false;
 }
 
-Ai.prototype.getNextDirection = function (cell) {
+Ai.prototype.getNextDirection = function () {
     // let myRandom = new Random();
     // return myRandom.pickElement(Object.values(directionEnum));
     let inputVector = this.getInputVector();
     let modelOutput = tf.tidy(() => {
         let inputTensor = tf.tensor(inputVector, [1, this.inputVectorSize]);
-        return this.model.predict(inputTensor, args = { batchSize: 1 });
+        return this.currentModel.predict(inputTensor, args = { batchSize: 1 });
     });
     let direction = this.getDirectionFromOutput(modelOutput);
     return direction;
@@ -49,10 +53,6 @@ Ai.prototype.getDirectionFromOutput = function (tensor) {
     let array = tensor.arraySync()[0];
     let indexOfMax = array.getIndexOfMax();
     return indexOfMax + 1;  // because directions start from 1
-}
-
-Ai.prototype.stopRunning = function () {
-    clearInterval(this.runLoopHandle);
 }
 
 Ai.prototype.getInputMatrix = function () {

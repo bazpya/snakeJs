@@ -2,7 +2,6 @@ AiGame = function (znakeConf) {
 	Game.call(this, znakeConf);
 }
 
-// AiGame.prototype = new Game();
 AiGame.prototype.constructor = Game;
 
 AiGame.prototype.importConfig = function (znakeConf) {
@@ -11,6 +10,7 @@ AiGame.prototype.importConfig = function (znakeConf) {
 
 AiGame.prototype.initialise = function () {
 	Game.prototype.initialise.call(this);
+	this.ai = new Ai(this);
 }
 
 AiGame.prototype.initialiseCrosshairs = function () {
@@ -19,7 +19,6 @@ AiGame.prototype.initialiseCrosshairs = function () {
 
 AiGame.prototype.splashClicked = function () {
 	Game.prototype.splashClicked.call(this);
-	this.ai = new Ai(this);
 }
 
 AiGame.prototype.initialiseSound = function () {
@@ -35,11 +34,17 @@ AiGame.prototype.restart = function () {
 }
 
 AiGame.prototype.run = function () {
-	this.ai.run();
+	this.runLoopId++;
+	let me = this;
+	this.runLoopHandle = setInterval(function () {
+		let direction = me.ai.getNextDirection();
+		me.control.funcs[direction]();
+		me.worm.update();
+	}, me.movingTimeStep);
 }
 
 AiGame.prototype.stopRunning = function () {
-	this.ai.stopRunning();
+	clearInterval(this.runLoopHandle);
 }
 
 AiGame.prototype.togglePause = function () {
@@ -48,8 +53,16 @@ AiGame.prototype.togglePause = function () {
 
 AiGame.prototype.gameOver = function () {
 	Game.prototype.gameOver.call(this);
-	if (this.lifeCount < this.config.autorunLifeCount)
+	if (this.lifeCount < this.config.ai.lifeCount)
 		this.restart();
+	else {
+		if (this.ai.pickNextModel()) {
+			this.lifeCount = 0;
+			this.restart();
+		} else {
+			log('done');
+		}
+	}
 }
 
 AiGame.prototype.speedUp = function () {

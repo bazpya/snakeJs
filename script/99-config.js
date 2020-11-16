@@ -17,7 +17,10 @@ znakeConfig = {
     },
     soundVolume: 0.15,  // [0~1]
     runMode: runModeEnum.auto,  // 0 = manual 1 = auto
-    autorunLifeCount: 30,
+    ai: {
+        lifeCount: 1,
+        generationCount: 8,
+    }
 }
 
 //Todo: Add option to only drop food upon initialisation based on a given pattern
