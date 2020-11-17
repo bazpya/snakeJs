@@ -9,8 +9,8 @@
     <script src="script/04-worm.js"></script>
     <script src="script/05-overlay.js"></script>
     <script src="script/06-sound.js"></script>
-    <script src="script/07-ui.js"></script>
-    <script src="script/08-crosshairs.js"></script>
+    <script src="script/07-infobar.js"></script>
+    <script src="script/08-button.js"></script>
     <script src="script/09-control.js"></script>
     <script src="script/10-mouse.js"></script>
     <script src="script/11-feeder.js"></script>
@@ -19,9 +19,11 @@
     <script src="../bazJS/console.js"></script>
     <script src="../bazJS/random.js"></script>
     <script src="../bazJS/variables.js"></script>
+    <script src="../bazJS/crosshairs/crosshairs.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis"></script>
     <link href="znake.css" rel="stylesheet">
+    <link href="../bazJS/crosshairs/crosshairs.css" rel="stylesheet">
     <title>Znake</title>
 </head>
 
@@ -38,7 +40,7 @@
     </div>
 
     <div class='fullwidth-row' id='controls-row'>
-        <button class='spread-elements target' id='button'>Start</button>
+        <button class='spread-elements ch-target' id='button'>Start</button>
         <div class='spread-elements info'>Use E, F, D and S to steer.<br> Space bar to pause/unpause.</div>
     </div>
 
