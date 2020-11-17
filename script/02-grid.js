@@ -27,6 +27,8 @@ Grid = function (game, container) {
     this.nextCellGettingFunctions[directionEnum.right] = (me, wormHead) => me.cells[wormHead.row][wormHead.column + 1];
     this.nextCellGettingFunctions[directionEnum.down] = (me, wormHead) => me.cells[wormHead.row + 1][wormHead.column];
     this.nextCellGettingFunctions[directionEnum.left] = (me, wormHead) => me.cells[wormHead.row][wormHead.column - 1];
+
+    this.bindHandlers();
 }
 
 Grid.prototype.getStartCell = function () {
@@ -49,6 +51,20 @@ Grid.prototype.getNextCell = function (worm) {
 Grid.prototype.getBlankCells = function () {
     let flatArrayOfCells = this.cells.flat();
     return flatArrayOfCells.filter((cell, index) => cell.isBlank);
+}
+
+Grid.prototype.bindHandlers = function () {
+    if (this.game.config.devMode !== true)
+        return;
+    let me = this;
+    this.game.mouse.bindByTag('TD', (clickEvent) => {
+        switch (clickEvent.which) {
+            case 1: clickEvent.target.cell.beFood(); break;  // left click
+            case 2: clickEvent.target.cell.beBlank(); break;  // middle click
+            case 3: clickEvent.target.cell.beObstacle(); break;  // right click
+            default: break;
+        }
+    });
 }
 
 Object.defineProperties(Grid.prototype, {
