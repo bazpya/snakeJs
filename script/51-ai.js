@@ -25,18 +25,19 @@ Ai.prototype.generationFinished = function () {
 }
 
 Ai.prototype.populateNextGeneration = function () {
-    log("Next gen");
     let winners = this.getWinners();
     const crossover1 = this.crossOver(winners[0], winners[1]);
     const crossover2 = this.crossOver(winners[2], winners[3]);
-    const mutatedWinners = this.mutateBias(winners);
+    // const mutatedWinners = this.mutateBias(winners);
+    const mutatedWinners = [this.createModel(), this.createModel()];
     this.generation = [crossover1, ...winners, crossover2, ...mutatedWinners];
     this.currentModelIndex = 0;
+    log("Next gen: " + this.generation.length);
     this.currentModel = this.generation[0];
 }
 
 Ai.prototype.getWinners = function () {
-    return this.generation.getWithHighest(m => m.score, 4);
+    return this.generation.getWithHighest(m => m.score, this.fertileCount);
 }
 
 Ai.prototype.crossOver = function (a, b) {
@@ -46,9 +47,8 @@ Ai.prototype.crossOver = function (a, b) {
 }
 
 Ai.prototype.setBias = function (model, bias) {
-    const newModel = Object.assign({}, model);
-    newModel.layers[0].bias = newModel.layers[0].bias.write(bias);
-    return newModel;
+    model.layers[0].bias.write(bias);
+    return model;
 }
 
 Ai.prototype.exchangeBias = function (tensorA, tensorB) {
@@ -60,21 +60,25 @@ Ai.prototype.exchangeBias = function (tensorA, tensorB) {
     });
 }
 
-Ai.prototype.mutateBias = function () {
-    let me = this;
-    let rand = new Random();
-    return this.generation.map(model => {
-        const hiddenLayer = tf.layers.dense({
-            units: me.neurons,
-            inputShape: [2],
-            activation: 'sigmoid',
-            kernelInitializer: 'leCunNormal',
-            useBias: true,
-            biasInitializer: tf.initializers.constant({ value: rand.getInRange(-2, 2), }),
-        });
-        return this.createModel(model.index, hiddenLayer);
-    });
-}
+// Ai.prototype.mutateBias = function (models) {
+//     let me = this;
+//     let rand = new Random();
+//     return models.map(item => {
+//         let model = tf.sequential();
+//         model.add(tf.layers.dense({
+//             units: 90,
+//             inputShape: [this.inputVectorSize],
+//             activation: 'sigmoid',
+//             kernelInitializer: 'leCunNormal',
+//             useBias: true,
+//             biasInitializer: tf.initializers.constant({ value: rand.getInRange(-2, 2), }),
+//         }));
+//         model.add(tf.layers.dense({ units: 20 }));
+//         model.add(tf.layers.dense({ units: 4 }));
+
+//         return model;
+//     });
+// }
 
 Ai.prototype.createModel = function () {
     let model = tf.sequential();
@@ -99,10 +103,11 @@ Ai.prototype.pickNextModel = function (score) {
 Ai.prototype.getNextDirection = function () {
     // let myRandom = new Random();
     // return myRandom.pickElement(Object.values(directionEnum));
+    let me = this;
     let inputVector = this.getInputVector();
     let modelOutput = tf.tidy(() => {
-        let inputTensor = tf.tensor(inputVector, [1, this.inputVectorSize]);
-        return this.currentModel.predict(inputTensor, args = { batchSize: 1 });
+        let inputTensor = tf.tensor(inputVector, [1, me.inputVectorSize]);
+        return me.currentModel.predict(inputTensor, args = { batchSize: 1 });
     });
     let direction = this.getDirectionFromOutput(modelOutput);
     return direction;
