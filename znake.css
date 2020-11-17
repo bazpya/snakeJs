@@ -3,7 +3,6 @@
   --food-colour: yellow;
   --obstacle-colour: orangered;
   --corner-percentage: 20%;
-  --crosshair-movement-time: 0.2s;
   --cell-dimension: 20px;
 }
 * {
