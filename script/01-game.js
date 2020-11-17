@@ -101,11 +101,10 @@ Game.prototype.togglePause = function () {
 	}
 }
 
-Game.prototype.gameOver = function () {
+Game.prototype.wormDied = function () {
 	this.stopRunning();
 	this.feeder.stopFeeding();
 	this.control.disable();
-	this.worm.die();
 }
 
 Game.prototype.foodEaten = function () {
