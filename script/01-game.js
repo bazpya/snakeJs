@@ -100,6 +100,12 @@ Game.prototype.gameOver = function () {
 	this.worm.die();
 }
 
+Game.prototype.foodEaten = function () {
+	this.sound.foodBeep();
+	this.infoboard.updateScore(this.worm.length);
+	this.speedUp();
+}
+
 Game.prototype.speedUp = function () {
 	if (this.movingTimeStep > this.config.minimumMovingTimeStep) {
 		this.movingTimeStep -= this.config.movingTimeStepDecrement;
