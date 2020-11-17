@@ -30,8 +30,8 @@ Array.prototype.takeFirstOut = function () {
     return firstElement;
 }
 
-Array.prototype.pickRandom = function (batchSize) {
-    if (isUndefined(batchSize) || batchSize === 1) {
+Array.prototype.pickRandom = function (batchSize = 1) {
+    if (batchSize === 1) {
         let randomIndex = Math.floor(Math.random() * this.length);
         return this[randomIndex];
     }
@@ -48,8 +48,10 @@ Array.prototype.pickRandom = function (batchSize) {
     }
 }
 
-Array.prototype.clone = function () {
-    return this.slice(0, this.length);
+Array.prototype.clone = function (i = 0, elementCount) {
+    if (isUndefined(elementCount))
+        elementCount = this.length;
+    return this.slice(i, elementCount);
 }
 
 Array.prototype.discardElements = function () {
@@ -72,6 +74,20 @@ Array.prototype.getIndexOfMax = function () {
         }
     }
     return index;
+}
+
+Array.prototype.sortAscending = function (valueGetter) {
+    this.sort((a, b) => valueGetter(a) - valueGetter(b));
+}
+
+Array.prototype.sortDescending = function (valueGetter) {
+    this.sort((a, b) => valueGetter(b) - valueGetter(a));
+}
+
+Array.prototype.getWithHighest = function (valueGetter, elementCount) {
+    let temp = this.clone();
+    temp.sortDescending(valueGetter);
+    return temp.clone(0, elementCount);
 }
 
 Object.defineProperties(Array.prototype, {
