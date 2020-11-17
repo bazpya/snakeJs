@@ -22,7 +22,6 @@ Worm.prototype.update = function () {
         this.game.sound.foodBeep();
         this.game.infoboard.updateScore(this.length);
         this.game.speedUp();
-
     }
     else {
         this.moveHeadTo(nextCell);

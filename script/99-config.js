@@ -23,8 +23,7 @@ znakeConfig = {
     }
 }
 
-//Todo: Add option to only drop food upon initialisation based on a given pattern
-//Todo: Add option to prevent worm growth
+
 //Todo: Experiment with model save, load, etc.
 //Todo: Experiment with model history, crossover, genetic algorithm, etc.
 //Todo: Use the tidy() function for model operations

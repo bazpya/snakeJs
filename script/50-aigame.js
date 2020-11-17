@@ -13,10 +13,6 @@ AiGame.prototype.initialise = function () {
 	this.ai = new Ai(this);
 }
 
-AiGame.prototype.initialiseCrosshairs = function () {
-	Game.prototype.initialiseCrosshairs.call(this);
-}
-
 AiGame.prototype.splashClicked = function () {
 	Game.prototype.splashClicked.call(this);
 }
@@ -27,6 +23,7 @@ AiGame.prototype.initialiseSound = function () {
 
 AiGame.prototype.start = function () {
 	Game.prototype.start.call(this);
+	this.feeder.dropFood();
 }
 
 AiGame.prototype.restart = function () {
@@ -66,5 +63,5 @@ AiGame.prototype.gameOver = function () {
 }
 
 AiGame.prototype.speedUp = function () {
-	return null;
+	this.feeder.dropFood();
 }

@@ -21,14 +21,18 @@ Ai.prototype.initialise = function () {
 
 Ai.prototype.generationFinished = function () {
     this.populateNextGeneration();
+    this.game.restart();
 }
 
 Ai.prototype.populateNextGeneration = function () {
+    log("Next gen");
     let winners = this.getWinners();
     const crossover1 = this.crossOver(winners[0], winners[1]);
     const crossover2 = this.crossOver(winners[2], winners[3]);
     const mutatedWinners = this.mutateBias(winners);
-    this.Population = [crossover1, ...Winners, crossover2, ...mutatedWinners];
+    this.generation = [crossover1, ...winners, crossover2, ...mutatedWinners];
+    this.currentModelIndex = 0;
+    this.currentModel = this.generation[0];
 }
 
 Ai.prototype.getWinners = function () {
@@ -58,6 +62,7 @@ Ai.prototype.exchangeBias = function (tensorA, tensorB) {
 
 Ai.prototype.mutateBias = function () {
     let me = this;
+    let rand = new Random();
     return this.generation.map(model => {
         const hiddenLayer = tf.layers.dense({
             units: me.neurons,
@@ -65,7 +70,7 @@ Ai.prototype.mutateBias = function () {
             activation: 'sigmoid',
             kernelInitializer: 'leCunNormal',
             useBias: true,
-            biasInitializer: tf.initializers.constant({ value: this.random(-2, 2), }),
+            biasInitializer: tf.initializers.constant({ value: rand.getInRange(-2, 2), }),
         });
         return this.createModel(model.index, hiddenLayer);
     });
