@@ -5,6 +5,7 @@ znakeConfig = {
     movingTimeStep: 120,  // milliseconds
     movingTimeStepDecrement: 5,  // milliseconds
     minimumMovingTimeStep: 70,  // milliseconds
+    feedPeriodically: false,
     feedingTimeStep: 3000,  // milliseconds
     numberOfFoodCellsAtOnce: 1,
     startAtCentre: true,
