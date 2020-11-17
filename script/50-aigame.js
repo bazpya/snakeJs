@@ -56,7 +56,7 @@ AiGame.prototype.gameOver = function () {
 	if (this.lifeCount < this.config.ai.lifeCount)
 		this.restart();
 	else {
-		if (this.ai.pickNextModel()) {
+		if (this.ai.pickNextModel(this.worm.length)) {
 			this.lifeCount = 0;
 			this.restart();
 		} else {
