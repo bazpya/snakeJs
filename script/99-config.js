@@ -2,9 +2,9 @@ znakeConfig = {
     devMode: false,
     gridHeight: 20,  // cells >= 4
     gridWidth: 20,  // cells >= 4
-    movingTimeStep: 120,  // milliseconds
-    movingTimeStepDecrement: 5,  // milliseconds
-    minimumMovingTimeStep: 70,  // milliseconds
+    wormStepTime: 120,  // milliseconds
+    wormStepTimeMin: 70,  // milliseconds
+    wormStepTimeDecrement: 5,  // milliseconds
     feedPeriodically: false,
     feedingTimeStep: 3000,  // milliseconds
     numberOfFoodCellsAtOnce: 1,

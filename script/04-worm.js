@@ -12,13 +12,13 @@ Worm = function (game) {
     this.game.infoboard.updateScore(this.length);
 }
 
-Worm.prototype.update = function () {
+Worm.prototype.step = function () {
     this.age++;
     let nextCell = this.getNextCell();
 
     if (nextCell.isDeadly) {
         this.game.wormDied();
-        this.sections.doToAllWithTimeGap(s => s.beObstacle(), this.game.movingTimeStep);
+        this.sections.doToAllWithTimeGap(s => s.beObstacle(), this.game.wormStepTime);
     }
     else if (nextCell.isFood) {
         this.moveHeadTo(nextCell);
