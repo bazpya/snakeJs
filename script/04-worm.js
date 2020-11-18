@@ -32,7 +32,7 @@ Worm.prototype.update = function () {
 }
 
 Worm.prototype.moveHeadTo = function (nextHeadCell) {
-    this.sections.unshift(nextHeadCell);  //Todo: replace with addToBeginning
+    this.sections.addToFront(nextHeadCell);
     this.head.beWorm();
 }
 
