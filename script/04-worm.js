@@ -18,7 +18,7 @@ Worm.prototype.update = function () {
 
     if (nextCell.isDeadly) {
         this.game.wormDied();
-        this.sections.doToAll(s => s.beObstacle());
+        this.sections.doToAllWithTimeGap(s => s.beObstacle(), this.game.movingTimeStep);
     }
     else if (nextCell.isFood) {
         this.moveHeadTo(nextCell);
