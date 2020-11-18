@@ -63,7 +63,8 @@ Game.prototype.restart = function () {
 		this.feeder.stopFeeding();
 	}
 	this.movingTimeStep = this.config.movingTimeStep;
-	this.worm.reset();
+	this.worm.disappear();
+	this.worm = new Worm(this);
 	this.control.setForRunning();
 	this.run();
 	if (this.config.feedPeriodically)
