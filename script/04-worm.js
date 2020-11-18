@@ -17,8 +17,8 @@ Worm.prototype.update = function () {
     let nextCell = this.getNextCell();
 
     if (nextCell.isDeadly) {
-        this.sections.doToAll(s => s.beObstacle());
         this.game.wormDied();
+        this.sections.doToAll(s => s.beObstacle());
     }
     else if (nextCell.isFood) {
         this.moveHeadTo(nextCell);
@@ -30,6 +30,12 @@ Worm.prototype.update = function () {
     }
 }
 
+Worm.prototype.getNextCell = function () {
+    if (this.directionQueue.hasAny)
+        this.currentDirection = this.directionQueue.takeFirstOut();
+    return this.game.grid.getNextCell(this.head, this.currentDirection);
+}
+
 Worm.prototype.moveHeadTo = function (nextHeadCell) {
     this.sections.addToFront(nextHeadCell);
     this.head.beWorm();
@@ -38,12 +44,6 @@ Worm.prototype.moveHeadTo = function (nextHeadCell) {
 Worm.prototype.moveTail = function () {
     this.tail.beBlank();
     this.sections.takeLastOut();
-}
-
-Worm.prototype.getNextCell = function () {
-    if (this.directionQueue.hasAny)
-        this.currentDirection = this.directionQueue.takeFirstOut();
-    return this.game.grid.getNextCell(this);
 }
 
 Worm.prototype.disappear = function (nextHeadCell) {
