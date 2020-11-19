@@ -1,6 +1,6 @@
 Feeder = function (game) {
 	this.game = game;
-	this.feedingTimeStep = game.config.feedingTimeStep;
+	this.feedingPeriod = game.config.feedingPeriod;
 	this.loopId = 0;
 	this.foodCells = [];
 }
@@ -8,7 +8,7 @@ Feeder = function (game) {
 Feeder.prototype.feed = function () {
 	this.loopId++;
 	let me = this;
-	this.loopHandle = setInterval(() => me.dropFood(), me.feedingTimeStep);
+	this.loopHandle = setInterval(() => me.dropFood(), me.feedingPeriod);
 }
 
 Feeder.prototype.stopFeeding = function () {

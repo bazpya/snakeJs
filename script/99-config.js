@@ -6,7 +6,7 @@ znakeConfig = {
     wormStepTimeMin: 70,  // milliseconds
     wormStepTimeDecrement: 5,  // milliseconds
     feedPeriodically: false,
-    feedingTimeStep: 3000,  // milliseconds
+    feedingPeriod: 3000,  // milliseconds
     numberOfFoodCellsAtOnce: 1,
     startAtCentre: true,
     keys: {
