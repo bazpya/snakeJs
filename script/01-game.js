@@ -42,10 +42,7 @@ Game.prototype.start = function () {
 	this.button.beRestartButton();
 	this.control.setForRunning()
 	this.run();
-	if (this.config.feedPeriodically)
-		this.feeder.feed();
-	else
-		this.feeder.dropFood();
+	this.feeder.dropFoodInitial();
 }
 
 Game.prototype.restart = function () {
@@ -54,17 +51,12 @@ Game.prototype.restart = function () {
 		this.isPaused = false;
 	} else {
 		this.stopRunning();
-		this.feeder.stopFeeding();
 	}
 	this.wormStepTime = this.config.wormStepTime;
 	this.worm.disappear();
 	this.worm = new Worm(this);
 	this.control.setForRunning();
 	this.run();
-	if (this.config.feedPeriodically)
-		this.feeder.feed();
-	else
-		this.feeder.dropFood();
 }
 
 Game.prototype.run = function () {
@@ -83,15 +75,12 @@ Game.prototype.stopRunning = function () {
 Game.prototype.togglePause = function () {
 	if (this.isPaused) {
 		this.run();
-		if (this.config.feedPeriodically)
-			this.feeder.feed();
 		this.isPaused = false;
 		this.control.setForRunning();
 		this.overlay.popDown();
 	}
 	else {
 		this.stopRunning();
-		this.feeder.stopFeeding();
 		this.isPaused = true;
 		this.control.setForPause();
 		this.overlay.popUp();
@@ -100,16 +89,14 @@ Game.prototype.togglePause = function () {
 
 Game.prototype.wormDied = function () {
 	this.stopRunning();
-	this.feeder.stopFeeding();
 	this.control.disable();
 }
 
-Game.prototype.foodEaten = function () {
+Game.prototype.foodEaten = function (foodCell) {
 	this.sound.foodBeep();
 	this.infoboard.updateScore(this.worm.length);
 	this.speedUp();
-	if (this.config.feedPeriodically === false)
-		this.feeder.dropFood();
+	this.feeder.dropFood();
 }
 
 Game.prototype.speedUp = function () {
