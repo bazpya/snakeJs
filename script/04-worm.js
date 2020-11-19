@@ -7,9 +7,9 @@ Worm = function (game) {
     this.head.beWorm();
     if (originIsFood)
         this.game.feeder.dropFood();
-    this.directionQueue = [2];
-    this.currentDirection = 2;
-    this.previousDirection = 2;
+    this.directionQueue = [directionEnum.right];
+    this.currentDirection = directionEnum.right;
+    this.previousDirection = directionEnum.right;
     this.age = 0;
     this.directionFuncs = {};
     this.mapKeys();
