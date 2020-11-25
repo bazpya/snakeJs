@@ -8,14 +8,14 @@ Game.prototype.importConfig = function (znakeConf) {
 	this.config = {}
 	for (let key in znakeConf)
 		this.config[key] = znakeConf[key];
-	if (this.config["gridHeight"] < 4)
+	if (this.config["grid.height"] < 4)
 		throw "Grid height must be at least 4"
-	if (this.config["gridWidth"] < 4)
+	if (this.config["grid.width"] < 4)
 		throw "Grid width must be at least 4"
 }
 
 Game.prototype.initialise = function () {
-	this.wormStepTime = this.config.wormStepTime;
+	this.wormStepTime = this.config.worm.stepTime;
 	this.mouse = new Mouse(this);
 	this.grid = new Grid(this, document.getElementById('grid-container'));
 	this.infoboard = new InfoBoard(this);
@@ -52,7 +52,7 @@ Game.prototype.restart = function () {
 	} else {
 		this.stopRunning();
 	}
-	this.wormStepTime = this.config.wormStepTime;
+	this.wormStepTime = this.config.worm.stepTime;
 	this.worm.disappear();
 	this.worm = new Worm(this);
 	this.control.setForRunning();
@@ -100,8 +100,8 @@ Game.prototype.foodEaten = function (foodCell) {
 }
 
 Game.prototype.speedUp = function () {
-	if (this.wormStepTime > this.config.wormStepTimeMin) {
-		this.wormStepTime -= this.config.wormStepTimeDecrement;
+	if (this.wormStepTime > this.config.worm.stepTimeMin) {
+		this.wormStepTime -= this.config.worm.stepTimeDecrement;
 		this.stopRunning();
 		this.run();
 	}
