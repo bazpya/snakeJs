@@ -15,7 +15,7 @@ Game.prototype.importConfig = function (znakeConf) {
 }
 
 Game.prototype.initialise = function () {
-	this.wormStepTime = this.config.worm.stepTime;
+	this.stepTime = this.config.stepTime.initial;
 	this.mouse = new Mouse(this);
 	this.grid = new Grid(this, document.getElementById('grid-container'));
 	this.infoboard = new InfoBoard(this);
@@ -52,7 +52,7 @@ Game.prototype.restart = function () {
 	} else {
 		this.stopRunning();
 	}
-	this.wormStepTime = this.config.worm.stepTime;
+	this.stepTime = this.config.stepTime.initial;
 	this.worm.disappear();
 	this.worm = new Worm(this);
 	this.control.setForRunning();
@@ -65,7 +65,7 @@ Game.prototype.run = function () {
 	this.loopHandle = setInterval(() => {
 		me.worm.step();
 		me.infoboard.updateAge(me.worm.age);
-	}, me.wormStepTime);
+	}, me.stepTime);
 }
 
 Game.prototype.stopRunning = function () {
@@ -100,8 +100,8 @@ Game.prototype.foodEaten = function (foodCell) {
 }
 
 Game.prototype.speedUp = function () {
-	if (this.wormStepTime > this.config.worm.stepTimeMin) {
-		this.wormStepTime -= this.config.worm.stepTimeDecrement;
+	if (this.stepTime > this.config.stepTime.min) {
+		this.stepTime -= this.config.stepTime.decrement;
 		this.stopRunning();
 		this.run();
 	}
