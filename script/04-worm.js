@@ -22,7 +22,7 @@ Worm.prototype.step = function () {
 
     if (nextCell.isDeadly) {
         this.game.wormDied();
-        this.sections.doToAllWithTimeGap(s => s.beObstacle(), this.game.stepTime); //Todo: Add callback here
+        this.sections.doToAllWithTimeGap(s => s.beObstacle(), this.game.stepTime);
     }
     else if (nextCell.isFood) {
         this.moveHeadTo(nextCell);
