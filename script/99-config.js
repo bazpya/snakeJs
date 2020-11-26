@@ -2,14 +2,14 @@ znakeConfig = {
     devMode: false,
     startAtCentre: true,
     numberOfFoodCellsAtOnce: 1,
+    stepTime: {
+        initial: 120,  // milliseconds
+        decrement: 5,  // milliseconds
+        min: 70,  // milliseconds
+    },
     grid: {
         height: 20,  // cells >= 4
         width: 20,  // cells >= 4
-    },
-    worm: {
-        stepTime: 120,  // milliseconds
-        stepTimeMin: 70,  // milliseconds
-        stepTimeDecrement: 5,  // milliseconds
     },
     keys: {
         up: 'E',
