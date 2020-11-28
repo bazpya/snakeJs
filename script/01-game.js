@@ -1,7 +1,6 @@
 Game = function (znakeConf) {
 	this.importConfig(znakeConf);
 	this.initialise();
-	this.loopId = 0;
 }
 
 Game.prototype.importConfig = function (znakeConf) {
@@ -15,7 +14,6 @@ Game.prototype.importConfig = function (znakeConf) {
 }
 
 Game.prototype.initialise = function () {
-	this.stepTime = this.config.stepTime.initial;
 	this.mouse = new Mouse(this);
 	this.grid = new Grid(this, document.getElementById('grid-container'));
 	this.infoboard = new InfoBoard(this);
@@ -23,6 +21,11 @@ Game.prototype.initialise = function () {
 	this.overlay = new Overlay(this);
 	this.feeder = new Feeder(this);
 	this.button = new Button(this, document.getElementById('button'));
+	let me = this;
+	this.intervaller = new Intervaller(() => { //Todo: Move to worm
+		me.worm.step();
+		me.infoboard.updateAge(me.worm.age);
+	}, this.config.stepTime.initial);
 }
 
 Game.prototype.splashClicked = function () {
@@ -52,24 +55,18 @@ Game.prototype.restart = function () {
 	} else {
 		this.stopRunning();
 	}
-	this.stepTime = this.config.stepTime.initial;
 	this.worm.disappear();
 	this.worm = new Worm(this);
 	this.control.setForRunning();
-	this.run();
+	this.intervaller.setPeriod(this.config.stepTime.initial);
 }
 
 Game.prototype.run = function () {
-	this.loopId++;
-	let me = this;
-	this.loopHandle = setInterval(() => {
-		me.worm.step();
-		me.infoboard.updateAge(me.worm.age);
-	}, me.stepTime);
+	this.intervaller.run();
 }
 
 Game.prototype.stopRunning = function () {
-	clearInterval(this.loopHandle);
+	this.intervaller.stop();
 }
 
 Game.prototype.togglePause = function () {
@@ -100,16 +97,8 @@ Game.prototype.foodEaten = function (foodCell) {
 }
 
 Game.prototype.speedUp = function () {
-	if (this.stepTime > this.config.stepTime.min) {
-		this.stepTime -= this.config.stepTime.decrement;
-		this.stopRunning();
-		this.run();
+	if (this.intervaller.period > this.config.stepTime.min) {
+		const newPeriod = this.intervaller.period - this.config.stepTime.decrement;
+		this.intervaller.setPeriod(newPeriod);
 	}
 }
-
-Object.defineProperties(Game.prototype, {
-	loopHandle: {
-		get: function () { return this['runningLoop' + this.loopId]; },
-		set: function (val) { this['runningLoop' + this.loopId] = val; }
-	},
-});

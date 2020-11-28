@@ -24,7 +24,7 @@ Worm.prototype.step = function () {
 
     if (nextCell.isDeadly) {
         this.game.wormDied();
-        this.sections.doToAllWithTimeGap(s => s.beObstacle(), this.game.stepTime);
+        this.sections.doToAllWithTimeGap(s => s.beObstacle(), this.game.intervaller.period);
     }
     else if (nextCell.isFood) {
         this.moveHeadTo(nextCell);
@@ -52,7 +52,7 @@ Worm.prototype.moveTail = function () {
     this.sections.takeLastOut();
 }
 
-Worm.prototype.disappear = function (nextHeadCell) {
+Worm.prototype.disappear = function () {
     this.sections.doToAll(s => s.beBlank());
 }
 
