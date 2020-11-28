@@ -7,11 +7,13 @@ Worm = function (game) {
     this.head.beWorm();
     if (originIsFood)
         this.game.feeder.dropFood();
-    this.directionQueue = [directionEnum.right];
-    this.currentDirection = directionEnum.right;
-    this.previousDirection = directionEnum.right;
+    this.direction = {
+        queue: [directionEnum.right],
+        current: directionEnum.right,
+        lastInput: directionEnum.right,
+        funcs: {},
+    };
     this.age = 0;
-    this.directionFuncs = {};
     this.mapKeys();
     this.game.infoboard.updateScore(this.length);
 }
@@ -35,9 +37,9 @@ Worm.prototype.step = function () {
 }
 
 Worm.prototype.getNextCell = function () {
-    if (this.directionQueue.hasAny)
-        this.currentDirection = this.directionQueue.takeFirstOut();
-    return this.game.grid.getNextCell(this.head, this.currentDirection);
+    if (this.direction.queue.hasAny)
+        this.direction.current = this.direction.queue.takeFirstOut();
+    return this.game.grid.getNextCell(this.head, this.direction.current);
 }
 
 Worm.prototype.moveHeadTo = function (nextHeadCell) {
@@ -58,19 +60,19 @@ Worm.prototype.mapKeys = function () {
     let me = this;
     for (let directionName in directionEnum) {
         let directionCode = directionEnum[directionName];
-        this.directionFuncs[directionCode] = function () {
+        this.direction.funcs[directionCode] = function () {
             if (me.shouldIgnoreDirection(directionCode))
                 return;
-            me.directionQueue.push(directionCode);
-            me.previousDirection = directionCode;
+            me.direction.queue.push(directionCode);
+            me.direction.lastInput = directionCode;
         };
     }
 }
 
 Worm.prototype.shouldIgnoreDirection = function (dirCode) {
-    if (dirCode === this.previousDirection)
+    if (dirCode === this.direction.lastInput)
         return true;
-    if (this.isMulticellular && dirCode === oppositeDirectionEnum[this.previousDirection]) // No backwards moving
+    if (this.isMulticellular && dirCode === oppositeDirectionEnum[this.direction.lastInput]) // No backwards moving
         return true;
 }
 

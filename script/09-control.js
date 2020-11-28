@@ -16,7 +16,7 @@ Control.prototype.setForRunning = function () {
 	let me = this;
 	for (let directionName in directionEnum) {
 		let directionCode = directionEnum[directionName];
-		this.funcs[directionCode] = function () { me.game.worm.directionFuncs[directionCode]() };
+		this.funcs[directionCode] = function () { me.game.worm.direction.funcs[directionCode]() };
 	}
 
 	this.funcs[0] = function () { me.game.togglePause() };
