@@ -24,7 +24,7 @@ Worm.prototype.step = function () {
 
     if (nextCell.isDeadly) {
         this.game.wormDied();
-        this.sections.doToAllWithTimeGap(s => s.beObstacle(), this.game.intervaller.period);
+        this.sections.forEachInterval(s => s.beObstacle(), this.game.intervaller.period);
     }
     else if (nextCell.isFood) {
         this.moveHeadTo(nextCell);
@@ -53,7 +53,7 @@ Worm.prototype.moveTail = function () {
 }
 
 Worm.prototype.disappear = function () {
-    this.sections.doToAll(s => s.beBlank());
+    this.sections.forEach(s => s.beBlank());
 }
 
 Worm.prototype.mapKeys = function () {
