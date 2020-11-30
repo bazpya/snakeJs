@@ -18,5 +18,5 @@ znakeConfig = {
         left: 'S',
         pause: ' ',
     },
-    soundVolume: 0.15,  // [0~1]
+    soundVolume: 0.05,  // [0~1]
 }

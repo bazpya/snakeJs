@@ -9,7 +9,6 @@
     <script src="script/04-worm.js"></script>
     <script src="script/05-overlay.js"></script>
     <script src="script/06-sound.js"></script>
-    <script src="script/07-infoboard.js"></script>
     <script src="script/08-button.js"></script>
     <script src="script/09-control.js"></script>
     <script src="script/10-mouse.js"></script>
@@ -20,8 +19,10 @@
     <script src="../bazJS/random.js"></script>
     <script src="../bazJS/variables.js"></script>
     <script src="../bazJS/intervaller.js"></script>
+    <script src="../bazJS/infoboard/infoboard.js"></script>
     <script src="../bazJS/crosshairs/crosshairs.js"></script>
     <link href="znake.css" rel="stylesheet">
+    <link href="../bazJS/infoboard/infoboard.css" rel="stylesheet">
     <link href="../bazJS/crosshairs/crosshairs.css" rel="stylesheet">
     <title>Znake</title>
 </head>
@@ -45,11 +46,7 @@
 
     <div class='fullwidth-row'>
         <div id='grid-container'></div>
-        <div class='spread-elements info' id='stats'>
-            <b class='info-label'>Score: <span class='info-text' id='score'>0</span></b>
-            <br>
-            <b class='info-label'>Age: <span class='info-text' id='age'>0</span></b>
-        </div>
+        <div class='spread-elements info' id='stats'></div>
     </div>
 
 </body>
