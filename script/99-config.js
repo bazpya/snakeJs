@@ -20,3 +20,5 @@ znakeConfig = {
     },
     soundVolume: 0.05,  // [0~1]
 }
+
+infoboardKeysEnum = Object.freeze({ Score: "Score", Age: "Age" });

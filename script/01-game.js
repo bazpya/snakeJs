@@ -16,7 +16,7 @@ Game.prototype.importConfig = function (znakeConf) {
 Game.prototype.initialise = function () {
 	this.mouse = new Mouse(this);
 	this.grid = new Grid(this, document.getElementById('grid-container'));
-	this.infoboard = new Infoboard('stats', ["Score"], ["Age", 0]);
+	this.infoboard = new Infoboard('stats', [infoboardKeysEnum.Score], [infoboardKeysEnum.Age, 0]);
 	this.control = new Control(this);
 	this.overlay = new Overlay(this);
 	this.feeder = new Feeder(this);
@@ -24,7 +24,7 @@ Game.prototype.initialise = function () {
 	let me = this;
 	this.intervaller = new Intervaller(() => { //Todo: Move to worm
 		me.worm.step();
-		me.infoboard.setAge(me.worm.age);
+		me.infoboard.set(infoboardKeysEnum.Age, me.worm.age);
 	}, this.config.stepTime.initial);
 }
 
@@ -91,7 +91,7 @@ Game.prototype.wormDied = function () {
 
 Game.prototype.foodEaten = function (foodCell) {
 	this.sound.foodBeep();
-	this.infoboard.setScore(this.worm.length);
+	this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	this.speedUp();
 	this.feeder.dropFood();
 }

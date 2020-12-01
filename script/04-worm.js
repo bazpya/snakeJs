@@ -15,7 +15,7 @@ Worm = function (game) {
     };
     this.age = 0;
     this.mapKeys();
-    this.game.infoboard.setScore(this.length); //Todo: Not worm's concern
+    this.game.infoboard.set(infoboardKeysEnum.Score, this.length); //Todo: Not worm's concern
 }
 
 Worm.prototype.step = function () {
