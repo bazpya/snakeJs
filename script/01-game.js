@@ -33,6 +33,7 @@ Game.prototype.splashClicked = function () {
 	let me = this;
 	Crosshairs(() => me.sound.mouseInBeep(), () => me.sound.mouseOutBeep());
 	this.worm = new Worm(this);
+	this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 }
 
 Game.prototype.initialiseSound = function () {
@@ -57,6 +58,7 @@ Game.prototype.restart = function () {
 	}
 	this.worm.disappear();
 	this.worm = new Worm(this);
+	this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	this.control.setForRunning();
 	this.intervaller.setPeriod(this.config.stepTime.initial);
 }
