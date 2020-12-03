@@ -1,4 +1,4 @@
-cellTypeEnum = Object.freeze({ blank: "blank", obstacle: "obstacle", worm: "worm", food: "food" });
+cellTypeEnum = Object.freeze({ blank: "blank", wall: "wall", worm: "worm", food: "food" });
 
 Cell = function (rowNumber, colNumber) {
     this.element = document.createElement('td');
@@ -24,15 +24,15 @@ Cell.prototype.beBlank = function () {
     this.element.className = 'cell';
 }
 
-Cell.prototype.beObstacle = function () {
-    this.type = cellTypeEnum.obstacle;
-    this.element.className = 'obstacle';
+Cell.prototype.beWall = function () {
+    this.type = cellTypeEnum.wall;
+    this.element.className = 'wall';
 }
 
 Object.defineProperties(Cell.prototype, {
     isWorm: { get: function () { return this.type === cellTypeEnum.worm } },
     isFood: { get: function () { return this.type === cellTypeEnum.food } },
     isBlank: { get: function () { return this.type === cellTypeEnum.blank } },
-    isObstacle: { get: function () { return this.type === cellTypeEnum.obstacle } },
-    isDeadly: { get: function () { return this.isObstacle || this.isWorm } },
+    isWall: { get: function () { return this.type === cellTypeEnum.wall } },
+    isDeadly: { get: function () { return this.isWall || this.isWorm } },
 });

@@ -23,7 +23,7 @@ Worm.prototype.step = function () {
 
     if (nextCell.isDeadly) {
         this.game.wormDied();
-        this.sections.forEachInterval(s => s.beObstacle(), this.game.intervaller.period);
+        this.sections.forEachInterval(s => s.beWall(), this.game.intervaller.period);
     }
     else if (nextCell.isFood) {
         this.moveHeadTo(nextCell);
