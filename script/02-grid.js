@@ -9,24 +9,29 @@ Grid = function (game, container) {
     this.element = document.createElement('table');
     this.element.id = 'grid';
     this.cells = [];
-    for (let row = 0; row < this.height; row++) {
-        let newRow = document.createElement('tr');
+    for (let col = 0; col < this.width; col++) {
         this.cells.push([]);
-        for (let col = 0; col < this.width; col++) {
+        for (let row = 0; row < this.height; row++) {
             let newCell = new Cell(row, col);
             if (col == 0 || col == this.lastColIndex || row == 0 || row == this.lastRowIndex) newCell.beWall();
-            newRow.appendChild(newCell.element);
-            this.cells[row].push(newCell);
+            this.cells[col].push(newCell);
+        }
+    }
+    for (let row = 0; row < this.height; row++) {
+        let newRow = document.createElement('tr');
+        for (let col = 0; col < this.width; col++) {
+            let cell = this.cells[col][row];
+            newRow.appendChild(cell.element);
         }
         this.element.appendChild(newRow);
     }
     this.container.appendChild(this.element);
 
     this.nextCellGettingFunctions = {};
-    this.nextCellGettingFunctions[directionEnum.up] = (me, wormHead) => me.cells[wormHead.row - 1][wormHead.col];
-    this.nextCellGettingFunctions[directionEnum.right] = (me, wormHead) => me.cells[wormHead.row][wormHead.col + 1];
-    this.nextCellGettingFunctions[directionEnum.down] = (me, wormHead) => me.cells[wormHead.row + 1][wormHead.col];
-    this.nextCellGettingFunctions[directionEnum.left] = (me, wormHead) => me.cells[wormHead.row][wormHead.col - 1];
+    this.nextCellGettingFunctions[directionEnum.up] = (me, wormHead) => me.cells[wormHead.col][wormHead.row - 1];
+    this.nextCellGettingFunctions[directionEnum.right] = (me, wormHead) => me.cells[wormHead.col + 1][wormHead.row];
+    this.nextCellGettingFunctions[directionEnum.down] = (me, wormHead) => me.cells[wormHead.col][wormHead.row + 1];
+    this.nextCellGettingFunctions[directionEnum.left] = (me, wormHead) => me.cells[wormHead.col - 1][wormHead.row];
 
     this.bindHandlers();
 }
@@ -41,7 +46,7 @@ Grid.prototype.getStartCell = function () {
 Grid.prototype.getCentreCell = function () {
     let row = Math.floor((this.game.config.grid.height - 1) / 2); //Because indexes are zero based
     let col = Math.floor((this.game.config.grid.width - 1) / 2);
-    return this.cells[row][col];
+    return this.cells[col][row];
 }
 
 Grid.prototype.getNextCell = function (wormHead, direction) {
