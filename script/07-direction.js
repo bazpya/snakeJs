@@ -4,7 +4,12 @@ class Direction {
     }
 
     static #ENUM = Object.freeze({ up: "up", right: "right", down: "down", left: "left" });
-    static #OPPOSITE_ENUM = Object.freeze({ up: "down", right: "left", down: "up", left: "right" });
+    static #OPPOSITE_ENUM = Object.freeze({
+        up: Direction.#ENUM.down,
+        right: Direction.#ENUM.left,
+        down: Direction.#ENUM.up,
+        left: Direction.#ENUM.right
+    });
 
     static get up() { return Direction.#ENUM.up }
     static get right() { return Direction.#ENUM.right }

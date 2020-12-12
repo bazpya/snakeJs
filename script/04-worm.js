@@ -61,17 +61,12 @@ class Worm {
     }
 
     input(dir) {
-        if (this.shouldIgnoreDirection(dir))
+        if (dir === this.direction.lastInput)
+            return;
+        if (this.isMulticellular && Direction.areOpposite(dir, this.direction.lastInput)) // No backwards moving
             return;
 
         this.direction.queue.push(dir);
-        this.direction.lastInput = dir; //Todo: Use .last property
-    }
-
-    shouldIgnoreDirection(dirCode) {
-        if (dirCode === this.direction.lastInput)
-            return true;
-        if (this.isMulticellular && Direction.areOpposite(dirCode, this.direction.lastInput)) // No backwards moving
-            return true;
+        this.direction.lastInput = dir;
     }
 } 
