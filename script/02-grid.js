@@ -25,12 +25,6 @@ class Grid {
         }
         this.container.appendChild(this.element);
 
-        this.nextCellGettingFunctions = {};
-        this.nextCellGettingFunctions[directionEnum.up] = (me, wormHead) => me.cells[wormHead.col][wormHead.row - 1];
-        this.nextCellGettingFunctions[directionEnum.right] = (me, wormHead) => me.cells[wormHead.col + 1][wormHead.row];
-        this.nextCellGettingFunctions[directionEnum.down] = (me, wormHead) => me.cells[wormHead.col][wormHead.row + 1];
-        this.nextCellGettingFunctions[directionEnum.left] = (me, wormHead) => me.cells[wormHead.col - 1][wormHead.row];
-
         this.bindHandlers();
     }
 
@@ -51,7 +45,10 @@ class Grid {
     }
 
     getNextCell = function (wormHead, direction) {
-        return this.nextCellGettingFunctions[direction](this, wormHead);
+        if (direction == directionEnum.up) return this.cells[wormHead.col][wormHead.row - 1];
+        else if (direction == directionEnum.right) return this.cells[wormHead.col + 1][wormHead.row];
+        else if (direction == directionEnum.down) return this.cells[wormHead.col][wormHead.row + 1];
+        else if (direction == directionEnum.left) return this.cells[wormHead.col - 1][wormHead.row];
     }
 
     getBlankCells = function () {
