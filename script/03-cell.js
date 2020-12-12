@@ -14,22 +14,22 @@ class Cell {
     get isWall() { return this.type === cellTypeEnum.wall }
     get isDeadly() { return this.isWall || this.isWorm }
 
-    beWorm = function () {
+    beWorm() {
         this.type = cellTypeEnum.worm;
         this.element.className = 'worm';
     }
 
-    beFood = function () {
+    beFood() {
         this.type = cellTypeEnum.food;
         this.element.className = 'food';
     }
 
-    beBlank = function () {
+    beBlank() {
         this.type = cellTypeEnum.blank;
         this.element.className = 'cell';
     }
 
-    beWall = function () {
+    beWall() {
         this.type = cellTypeEnum.wall;
         this.element.className = 'wall';
     }

@@ -24,7 +24,7 @@ class Worm {
     get isUnicellular() { return this.length === 1 }
     get isMulticellular() { return this.length !== 1 }
 
-    step = function () {
+    step() {
         this.age++;
         let nextCell = this.getNextCell();
 
@@ -42,27 +42,27 @@ class Worm {
         }
     }
 
-    getNextCell = function () {
+    getNextCell() {
         if (this.direction.queue.hasAny)
             this.direction.current = this.direction.queue.takeFirstOut();
         return this.game.grid.getNextCell(this.head, this.direction.current);
     }
 
-    moveHeadTo = function (nextHeadCell) {
+    moveHeadTo(nextHeadCell) {
         this.sections.addToFront(nextHeadCell);
         this.head.beWorm();
     }
 
-    moveTail = function () {
+    moveTail() {
         this.tail.beBlank();
         this.sections.takeLastOut();
     }
 
-    disappear = function () {
+    disappear() {
         this.sections.forEach(s => s.beBlank());
     }
 
-    mapKeys = function () {
+    mapKeys() {
         let me = this;
         this.direction.funcs[Direction.up] = function () {
             if (me.shouldIgnoreDirection(Direction.up))
@@ -90,7 +90,7 @@ class Worm {
         };
     }
 
-    shouldIgnoreDirection = function (dirCode) {
+    shouldIgnoreDirection(dirCode) {
         if (dirCode === this.direction.lastInput)
             return true;
         if (this.isMulticellular && Direction.areOpposite(dirCode, this.direction.lastInput)) // No backwards moving

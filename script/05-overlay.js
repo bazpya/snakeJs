@@ -19,7 +19,7 @@ class Overlay {
     get line3() { return document.getElementById('overlay-line3').innerText }
     set line3(val) { document.getElementById('overlay-line3').innerText = val; }
 
-    bindHandler = function () {
+    bindHandler() {
         let me = this;
         this.element.onclick = function () {
             me.popDown();
@@ -32,15 +32,15 @@ class Overlay {
         };
     }
 
-    unbindHandler = function () {
+    unbindHandler() {
         this.element.onclick = null;
     }
 
-    popUp = function () {
+    popUp() {
         this.element.classList.replace('popdown', 'popup');
     }
 
-    popDown = function () {
+    popDown() {
         this.element.classList.replace('popup', 'popdown');
     }
 }

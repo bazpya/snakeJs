@@ -31,32 +31,32 @@ class Grid {
     get lastRowIndex() { return this.height - 1 }
     get lastColIndex() { return this.width - 1 }
 
-    getStartCell = function () {
+    getStartCell() {
         if (this.game.config.startAtCentre)
             return this.getCentreCell();
         else
             return this.getBlankCells()[0];
     }
 
-    getCentreCell = function () {
+    getCentreCell() {
         let row = Math.floor((this.game.config.grid.height - 1) / 2); //Because indexes are zero based
         let col = Math.floor((this.game.config.grid.width - 1) / 2);
         return this.cells[col][row];
     }
 
-    getNextCell = function (wormHead, direction) {
+    getNextCell(wormHead, direction) {
         if (direction == Direction.up) return this.cells[wormHead.col][wormHead.row - 1];
         else if (direction == Direction.right) return this.cells[wormHead.col + 1][wormHead.row];
         else if (direction == Direction.down) return this.cells[wormHead.col][wormHead.row + 1];
         else if (direction == Direction.left) return this.cells[wormHead.col - 1][wormHead.row];
     }
 
-    getBlankCells = function () {
+    getBlankCells() {
         let flatArrayOfCells = this.cells.flat();
         return flatArrayOfCells.filter((cell, index) => cell.isBlank);
     }
 
-    bindHandlers = function () {
+    bindHandlers() {
         if (this.game.config.devMode !== true)
             return;
         let me = this;

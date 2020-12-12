@@ -4,13 +4,13 @@ class Feeder {
 		this.numberOfFoodCellsAtOnce = this.game.config.numberOfFoodCellsAtOnce;
 	}
 
-	dropFood = function () {
+	dropFood() {
 		let blankCells = this.game.grid.getBlankCells();
 		let nextFoodCell = blankCells.pickRandom();
 		nextFoodCell.beFood();
 	}
 
-	dropFoodInitial = function () {
+	dropFoodInitial() {
 		let blankCells = this.game.grid.getBlankCells();
 		let newFoods;
 		if (this.numberOfFoodCellsAtOnce === 1) {

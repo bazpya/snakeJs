@@ -40,8 +40,8 @@ class Control {
 	bind() {
 		let me = this;
 		document.onkeydown = function (keyDownEvent) {
-			let directionCode = me.mapping[keyDownEvent.keyCode];
-			ifFunctionRun(me.funcs[directionCode]);
+			let direction = me.mapping[keyDownEvent.keyCode];
+			ifFunctionRun(me.funcs[direction]);
 		}
 	}
 }
