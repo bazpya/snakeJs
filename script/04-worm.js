@@ -12,10 +12,8 @@ class Worm {
             queue: [Direction.right],
             current: Direction.right,
             lastInput: Direction.right,
-            funcs: {},
         };
         this.age = 0;
-        this.mapKeys();
     }
 
     get head() { return this.sections[0] }
@@ -62,32 +60,12 @@ class Worm {
         this.sections.forEach(s => s.beBlank());
     }
 
-    mapKeys() {
-        let me = this;
-        this.direction.funcs[Direction.up] = function () {
-            if (me.shouldIgnoreDirection(Direction.up))
-                return;
-            me.direction.queue.push(Direction.up);
-            me.direction.lastInput = Direction.up;
-        };
-        this.direction.funcs[Direction.right] = function () {
-            if (me.shouldIgnoreDirection(Direction.right))
-                return;
-            me.direction.queue.push(Direction.right);
-            me.direction.lastInput = Direction.right;
-        };
-        this.direction.funcs[Direction.down] = function () {
-            if (me.shouldIgnoreDirection(Direction.down))
-                return;
-            me.direction.queue.push(Direction.down);
-            me.direction.lastInput = Direction.down;
-        };
-        this.direction.funcs[Direction.left] = function () {
-            if (me.shouldIgnoreDirection(Direction.left))
-                return;
-            me.direction.queue.push(Direction.left);
-            me.direction.lastInput = Direction.left;
-        };
+    input(dir) {
+        if (this.shouldIgnoreDirection(dir))
+            return;
+
+        this.direction.queue.push(dir);
+        this.direction.lastInput = dir; //Todo: Use .last property
     }
 
     shouldIgnoreDirection(dirCode) {

@@ -17,10 +17,10 @@ class Control {
 
 	setForRunning() {
 		let me = this;
-		this.funcs[Direction.up] = function () { me.game.worm.direction.funcs[Direction.up]() };
-		this.funcs[Direction.right] = function () { me.game.worm.direction.funcs[Direction.right]() };
-		this.funcs[Direction.down] = function () { me.game.worm.direction.funcs[Direction.down]() };
-		this.funcs[Direction.left] = function () { me.game.worm.direction.funcs[Direction.left]() };
+		this.funcs[Direction.up] = function () { me.game.worm.input(Direction.up) };
+		this.funcs[Direction.right] = function () { me.game.worm.input(Direction.right) };
+		this.funcs[Direction.down] = function () { me.game.worm.input(Direction.down) };
+		this.funcs[Direction.left] = function () { me.game.worm.input(Direction.left) };
 
 		this.funcs[0] = function () { me.game.togglePause() };
 	}
