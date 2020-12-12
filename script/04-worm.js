@@ -9,9 +9,9 @@ class Worm {
         if (originIsFood)
             this.game.feeder.dropFood();
         this.direction = {
-            queue: [directionEnum.right],
-            current: directionEnum.right,
-            lastInput: directionEnum.right,
+            queue: [Direction.right],
+            current: Direction.right,
+            lastInput: Direction.right,
             funcs: {},
         };
         this.age = 0;
@@ -64,21 +64,36 @@ class Worm {
 
     mapKeys = function () {
         let me = this;
-        for (let directionName in directionEnum) {
-            let directionCode = directionEnum[directionName];
-            this.direction.funcs[directionCode] = function () {
-                if (me.shouldIgnoreDirection(directionCode))
-                    return;
-                me.direction.queue.push(directionCode);
-                me.direction.lastInput = directionCode;
-            };
-        }
+        this.direction.funcs[Direction.up] = function () {
+            if (me.shouldIgnoreDirection(Direction.up))
+                return;
+            me.direction.queue.push(Direction.up);
+            me.direction.lastInput = Direction.up;
+        };
+        this.direction.funcs[Direction.right] = function () {
+            if (me.shouldIgnoreDirection(Direction.right))
+                return;
+            me.direction.queue.push(Direction.right);
+            me.direction.lastInput = Direction.right;
+        };
+        this.direction.funcs[Direction.down] = function () {
+            if (me.shouldIgnoreDirection(Direction.down))
+                return;
+            me.direction.queue.push(Direction.down);
+            me.direction.lastInput = Direction.down;
+        };
+        this.direction.funcs[Direction.left] = function () {
+            if (me.shouldIgnoreDirection(Direction.left))
+                return;
+            me.direction.queue.push(Direction.left);
+            me.direction.lastInput = Direction.left;
+        };
     }
 
     shouldIgnoreDirection = function (dirCode) {
         if (dirCode === this.direction.lastInput)
             return true;
-        if (this.isMulticellular && dirCode === oppositeDirectionEnum[this.direction.lastInput]) // No backwards moving
+        if (this.isMulticellular && Direction.areOpposite(dirCode, this.direction.lastInput)) // No backwards moving
             return true;
     }
 } 

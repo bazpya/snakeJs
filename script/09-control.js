@@ -8,26 +8,28 @@ class Control {
 	}
 
 	mapKeys() {
-		for (let directionName in directionEnum)
-			this.mapping[this.game.config.keys[directionName].charCodeAt(0)] = directionEnum[directionName];
+		this.mapping[this.game.config.keys[Direction.up].charCodeAt(0)] = Direction.up;
+		this.mapping[this.game.config.keys[Direction.right].charCodeAt(0)] = Direction.right;
+		this.mapping[this.game.config.keys[Direction.down].charCodeAt(0)] = Direction.down;
+		this.mapping[this.game.config.keys[Direction.left].charCodeAt(0)] = Direction.left;
 		this.mapping[this.game.config.keys.pause.charCodeAt(0)] = 0;
 	}
 
 	setForRunning() {
 		let me = this;
-		for (let directionName in directionEnum) {
-			let directionCode = directionEnum[directionName];
-			this.funcs[directionCode] = function () { me.game.worm.direction.funcs[directionCode]() };
-		}
+		this.funcs[Direction.up] = function () { me.game.worm.direction.funcs[Direction.up]() };
+		this.funcs[Direction.right] = function () { me.game.worm.direction.funcs[Direction.right]() };
+		this.funcs[Direction.down] = function () { me.game.worm.direction.funcs[Direction.down]() };
+		this.funcs[Direction.left] = function () { me.game.worm.direction.funcs[Direction.left]() };
 
 		this.funcs[0] = function () { me.game.togglePause() };
 	}
 
 	setForPause() {
-		for (let directionName in directionEnum) {
-			let directionCode = directionEnum[directionName];
-			this.funcs[directionCode] = function () { };
-		}
+		this.funcs[Direction.up] = function () { };
+		this.funcs[Direction.right] = function () { };
+		this.funcs[Direction.down] = function () { };
+		this.funcs[Direction.left] = function () { };
 	}
 
 	disable() {

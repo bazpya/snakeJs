@@ -45,10 +45,10 @@ class Grid {
     }
 
     getNextCell = function (wormHead, direction) {
-        if (direction == directionEnum.up) return this.cells[wormHead.col][wormHead.row - 1];
-        else if (direction == directionEnum.right) return this.cells[wormHead.col + 1][wormHead.row];
-        else if (direction == directionEnum.down) return this.cells[wormHead.col][wormHead.row + 1];
-        else if (direction == directionEnum.left) return this.cells[wormHead.col - 1][wormHead.row];
+        if (direction == Direction.up) return this.cells[wormHead.col][wormHead.row - 1];
+        else if (direction == Direction.right) return this.cells[wormHead.col + 1][wormHead.row];
+        else if (direction == Direction.down) return this.cells[wormHead.col][wormHead.row + 1];
+        else if (direction == Direction.left) return this.cells[wormHead.col - 1][wormHead.row];
     }
 
     getBlankCells = function () {
