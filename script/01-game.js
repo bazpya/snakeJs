@@ -7,7 +7,7 @@ class Game { //Todo: Make all fields private
 		this.infoboard = new Infoboard('stats', [infoboardKeysEnum.Score], [infoboardKeysEnum.Age, 0]);
 		this.control = new Control(this, this.#config.keys);
 		this.overlay = new Overlay(this, this.#config.devMode);
-		this.feeder = new Feeder(this, this.#config.numberOfFoodCellsAtOnce);
+		this.feeder = new Feeder(this, this.grid, this.#config.numberOfFoodCellsAtOnce);
 		this.button = new Button(this, document.getElementById('button'));
 	}
 

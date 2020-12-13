@@ -7,7 +7,7 @@ class Button {
 
     beStartButton() {
         let me = this;
-        this.game.mouse.bindById(this.element.id, () => me.game.start());
+        this.game.mouse.bindById(this.element.id, () => me.game.start()); //Todo: No direct reference to game props
     }
 
     beRestartButton() {

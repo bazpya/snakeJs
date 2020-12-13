@@ -30,7 +30,7 @@ class Mouse {
 	}
 
 	bindHandlers() { //Todo: This came from grid. Merge it here
-		if (this.game.config.devMode !== true)
+		if (this.game.config.devMode !== true) //Todo: No direct reference to game props
 			return;
 		let me = this;
 		this.game.mouse.bindByTag('TD', (clickEvent) => {

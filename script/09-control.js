@@ -19,7 +19,7 @@ class Control {
 
 	setForRunning() {
 		let me = this;
-		this.funcs[Direction.up] = function () { me.game.worm.input(Direction.up) };
+		this.funcs[Direction.up] = function () { me.game.worm.input(Direction.up) }; //Todo: No direct reference to game props
 		this.funcs[Direction.right] = function () { me.game.worm.input(Direction.right) };
 		this.funcs[Direction.down] = function () { me.game.worm.input(Direction.down) };
 		this.funcs[Direction.left] = function () { me.game.worm.input(Direction.left) };

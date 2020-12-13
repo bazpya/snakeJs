@@ -1,18 +1,20 @@
 class Feeder {
+	#grid;
 	#foodCountAtOnce;
-	constructor(game, foodCountAtOnce) {
+	constructor(game, grid, foodCountAtOnce = 1) {
 		this.game = game;
+		this.#grid = grid;
 		this.#foodCountAtOnce = foodCountAtOnce;
 	}
 
 	dropFood() {
-		let blankCells = this.game.grid.getBlankCells();
+		let blankCells = this.#grid.getBlankCells();
 		let nextFoodCell = blankCells.pickRandom();
 		nextFoodCell.beFood();
 	}
 
 	dropFoodInitial() {
-		let blankCells = this.game.grid.getBlankCells();
+		let blankCells = this.#grid.getBlankCells();
 		let newFoods;
 		if (this.#foodCountAtOnce === 1) {
 			newFoods = [blankCells.pickRandom()];
