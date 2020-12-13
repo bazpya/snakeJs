@@ -1,6 +1,13 @@
 class Worm {
-    constructor(game) {
+    #stepTime;
+    #intervaller;
+    constructor(game, stepTime) {
         this.game = game;
+        this.#stepTime = {
+            initial: stepTime.initial,
+            decrement: stepTime.decrement,
+            min: stepTime.min,
+        };
         this.sections = [];
         let origin = this.game.grid.getStartCell();
         let originWasFood = origin.isFood;
@@ -12,6 +19,11 @@ class Worm {
             lastInput: Direction.right,
         };
         this.age = 0;
+        let me = this;
+        this.#intervaller = new Intervaller(() => {
+            me.step();
+            me.game.infoboard.set(infoboardKeysEnum.Age, me.age); //Todo: Move to a callback on game
+        }, this.#stepTime.initial);
         this.game.onWormBorn(originWasFood);
     }
 
@@ -21,13 +33,17 @@ class Worm {
     get isUnicellular() { return this.length === 1 }
     get isMulticellular() { return this.length !== 1 }
 
+    run() {
+        this.#intervaller.run();
+    }
+
     step() {
         this.age++;
         let nextCell = this.getNextCell();
 
         if (nextCell.isDeadly) {
+            this.sections.forEachInterval(s => s.beWall(), this.#intervaller.period);
             this.game.onWormDied();
-            this.sections.forEachInterval(s => s.beWall(), this.game.intervaller.period);
         }
         else if (nextCell.isFood) {
             this.moveHeadTo(nextCell);
@@ -37,6 +53,17 @@ class Worm {
             this.moveHeadTo(nextCell);
             this.moveTail();
         }
+    }
+
+    speedUp() {
+        if (this.#intervaller.period > this.#stepTime.min) { //Todo: Move logic to intervaller
+            const newPeriod = this.#intervaller.period - this.#stepTime.decrement;
+            this.#intervaller.setPeriod(newPeriod);
+        }
+    }
+
+    stop() {
+        this.#intervaller.stop();
     }
 
     getNextCell() {

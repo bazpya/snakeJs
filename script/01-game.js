@@ -22,18 +22,13 @@ class Game {
 		this.overlay = new Overlay(this);
 		this.feeder = new Feeder(this);
 		this.button = new Button(this, document.getElementById('button'));
-		let me = this;
-		this.intervaller = new Intervaller(() => { //Todo: Move to worm
-			me.worm.step();
-			me.infoboard.set(infoboardKeysEnum.Age, me.worm.age);
-		}, this.config.stepTime.initial);
 	}
 
 	onSplashClicked() {
 		this.initialiseSound();
 		let me = this;
 		Crosshairs(() => me.sound.mouseInBeep(), () => me.sound.mouseOutBeep());
-		this.worm = new Worm(this);
+		this.worm = new Worm(this, this.config.stepTime);
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	}
 
@@ -58,18 +53,18 @@ class Game {
 			this.stopRunning();
 		}
 		this.worm.disappear();
-		this.worm = new Worm(this);
+		this.worm = new Worm(this, this.config.stepTime);
+		this.worm.run();
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 		this.control.setForRunning();
-		this.intervaller.setPeriod(this.config.stepTime.initial);
 	}
 
 	run() {
-		this.intervaller.run();
+		this.worm.run();
 	}
 
 	stopRunning() {
-		this.intervaller.stop();
+		this.worm.stop();
 	}
 
 	togglePause() {
@@ -100,14 +95,7 @@ class Game {
 	onFoodEaten(foodCell) {
 		this.sound.foodBeep();
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
-		this.speedUp();
+		this.worm.speedUp();
 		this.feeder.dropFood();
-	}
-
-	speedUp() {
-		if (this.intervaller.period > this.config.stepTime.min) {
-			const newPeriod = this.intervaller.period - this.config.stepTime.decrement;
-			this.intervaller.setPeriod(newPeriod);
-		}
 	}
 }
