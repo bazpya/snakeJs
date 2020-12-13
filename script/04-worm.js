@@ -1,13 +1,7 @@
 class Worm {
-    #stepTime;
     #intervaller;
     constructor(game, stepTime) {
         this.game = game;
-        this.#stepTime = {
-            initial: stepTime.initial,
-            decrement: stepTime.decrement,
-            min: stepTime.min,
-        };
         this.sections = [];
         let origin = this.game.grid.getStartCell();
         let originWasFood = origin.isFood;
@@ -23,7 +17,7 @@ class Worm {
         this.#intervaller = new Intervaller(() => {
             me.step();
             me.game.infoboard.set(infoboardKeysEnum.Age, me.age); //Todo: Move to a callback on game
-        }, this.#stepTime.initial);
+        }, stepTime.initial, stepTime.decrement, stepTime.min);
         this.game.onWormBorn(originWasFood);
     }
 
@@ -56,10 +50,7 @@ class Worm {
     }
 
     speedUp() {
-        if (this.#intervaller.period > this.#stepTime.min) { //Todo: Move logic to intervaller
-            const newPeriod = this.#intervaller.period - this.#stepTime.decrement;
-            this.#intervaller.setPeriod(newPeriod);
-        }
+        this.#intervaller.stepUp();
     }
 
     stop() {
