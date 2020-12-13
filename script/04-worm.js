@@ -27,12 +27,12 @@ class Worm {
         let nextCell = this.getNextCell();
 
         if (nextCell.isDeadly) {
-            this.game.wormDied();
+            this.game.onWormDied();
             this.sections.forEachInterval(s => s.beWall(), this.game.intervaller.period);
         }
         else if (nextCell.isFood) {
             this.moveHeadTo(nextCell);
-            this.game.foodEaten();
+            this.game.onFoodEaten();
         }
         else {
             this.moveHeadTo(nextCell);

@@ -28,7 +28,7 @@ class Overlay {
             me.line1 = "PAUSE";
             me.line2 = "";
             me.line3 = "";
-            me.game.splashClicked();
+            me.game.onSplashClicked();
         };
     }
 

@@ -29,7 +29,7 @@ class Game {
 		}, this.config.stepTime.initial);
 	}
 
-	splashClicked() {
+	onSplashClicked() {
 		this.initialiseSound();
 		let me = this;
 		Crosshairs(() => me.sound.mouseInBeep(), () => me.sound.mouseOutBeep());
@@ -87,12 +87,12 @@ class Game {
 		}
 	}
 
-	wormDied() {
+	onWormDied() {
 		this.stopRunning();
 		this.control.disable();
 	}
 
-	foodEaten(foodCell) {
+	onFoodEaten(foodCell) {
 		this.sound.foodBeep();
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 		this.speedUp();
