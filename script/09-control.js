@@ -1,6 +1,8 @@
 class Control {
-	constructor(game) {
+	#config;
+	constructor(game, config) {
 		this.game = game;
+		this.#config = config;
 		this.mapping = {};
 		this.funcs = [];
 		this.mapKeys();
@@ -8,11 +10,11 @@ class Control {
 	}
 
 	mapKeys() {
-		this.mapping[this.game.config.keys[Direction.up].charCodeAt(0)] = Direction.up;
-		this.mapping[this.game.config.keys[Direction.right].charCodeAt(0)] = Direction.right;
-		this.mapping[this.game.config.keys[Direction.down].charCodeAt(0)] = Direction.down;
-		this.mapping[this.game.config.keys[Direction.left].charCodeAt(0)] = Direction.left;
-		this.mapping[this.game.config.keys.pause.charCodeAt(0)] = 0;
+		this.mapping[this.#config[Direction.up].charCodeAt(0)] = Direction.up;
+		this.mapping[this.#config[Direction.right].charCodeAt(0)] = Direction.right;
+		this.mapping[this.#config[Direction.down].charCodeAt(0)] = Direction.down;
+		this.mapping[this.#config[Direction.left].charCodeAt(0)] = Direction.left;
+		this.mapping[this.#config.pause.charCodeAt(0)] = 0;
 	}
 
 	setForRunning() {

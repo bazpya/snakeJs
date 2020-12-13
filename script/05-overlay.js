@@ -1,9 +1,9 @@
 class Overlay {
-    constructor(game) {
+    constructor(game, devMode) {
         this.game = game;
         this.element = document.getElementById('overlay');
 
-        if (this.game.config.devMode) {
+        if (devMode) {
             this.element.classList.add('overlay-dev');
             this.line2 = "Developer mode";
         }

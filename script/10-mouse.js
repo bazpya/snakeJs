@@ -28,4 +28,18 @@ class Mouse {
 	unbindAll() {
 		this.idHandlers = {};
 	}
+
+	bindHandlers() { //Todo: This came from grid. Merge it here
+		if (this.game.config.devMode !== true)
+			return;
+		let me = this;
+		this.game.mouse.bindByTag('TD', (clickEvent) => {
+			switch (clickEvent.which) {
+				case 1: clickEvent.target.cell.beFood(); break;  // left click
+				case 2: clickEvent.target.cell.beBlank(); break;  // middle click
+				case 3: clickEvent.target.cell.beWall(); break;  // right click
+				default: break;
+			}
+		});
+	}
 } 
