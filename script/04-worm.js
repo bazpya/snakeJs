@@ -16,7 +16,7 @@ class Worm {
         let me = this;
         this.#intervaller = new Intervaller(() => {
             me.step();
-            me.game.infoboard.set(infoboardKeysEnum.Age, me.age); //Todo: Move to a callback on game
+            me.game.onStepTaken(me.age);
         }, stepTime.initial, stepTime.decrement, stepTime.min);
         this.game.onWormBorn(originWasFood);
     }

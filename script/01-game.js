@@ -87,6 +87,10 @@ class Game {
 			this.feeder.dropFood();
 	}
 
+	onStepTaken(age) {
+		this.infoboard.set(infoboardKeysEnum.Age, age);
+	}
+
 	onWormDied() {
 		this.stopRunning();
 		this.control.disable();
