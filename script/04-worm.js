@@ -1,9 +1,11 @@
 class Worm {
     #intervaller;
-    constructor(game, stepTime) {
+    #grid;
+    constructor(game, grid, stepTime) {
         this.game = game;
+        this.#grid = grid;
         this.sections = [];
-        let origin = this.game.grid.getStartCell();
+        let origin = grid.getStartCell();
         let originWasFood = origin.isFood;
         this.sections.push(origin);
         this.head.beWorm();
@@ -60,7 +62,7 @@ class Worm {
     getNextCell() {
         if (this.direction.queue.hasAny)
             this.direction.current = this.direction.queue.takeFirstOut();
-        return this.game.grid.getNextCell(this.head, this.direction.current);
+        return this.#grid.getNextCell(this.head, this.direction.current);
     }
 
     moveHeadTo(nextHeadCell) {

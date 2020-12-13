@@ -1,4 +1,4 @@
-class Game {
+class Game { //Todo: Make all fields private
 	constructor(znakeConf) {
 		this.importConfig(znakeConf);
 		this.initialise();
@@ -28,7 +28,7 @@ class Game {
 		this.initialiseSound();
 		let me = this;
 		Crosshairs(() => me.sound.mouseInBeep(), () => me.sound.mouseOutBeep());
-		this.worm = new Worm(this, this.config.stepTime);
+		this.worm = new Worm(this, this.grid, this.config.stepTime);
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	}
 
@@ -53,7 +53,7 @@ class Game {
 			this.stopRunning();
 		}
 		this.worm.disappear();
-		this.worm = new Worm(this, this.config.stepTime);
+		this.worm = new Worm(this, this.grid, this.config.stepTime);
 		this.worm.run();
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 		this.control.setForRunning();
