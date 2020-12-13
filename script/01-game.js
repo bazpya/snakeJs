@@ -87,6 +87,11 @@ class Game {
 		}
 	}
 
+	onWormBorn(replacedFoodCell = false) {
+		if (replacedFoodCell)
+			this.feeder.dropFood();
+	}
+
 	onWormDied() {
 		this.stopRunning();
 		this.control.disable();

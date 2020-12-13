@@ -3,17 +3,16 @@ class Worm {
         this.game = game;
         this.sections = [];
         let origin = this.game.grid.getStartCell();
-        let originIsFood = origin.isFood;
+        let originWasFood = origin.isFood;
         this.sections.push(origin);
         this.head.beWorm();
-        if (originIsFood)
-            this.game.feeder.dropFood();
         this.direction = {
             queue: [Direction.right],
             current: Direction.right,
             lastInput: Direction.right,
         };
         this.age = 0;
+        this.game.onWormBorn(originWasFood);
     }
 
     get head() { return this.sections[0] }
