@@ -1,18 +1,23 @@
 class Button {
-    constructor(game, element) {
-        this.game = game;
-        this.element = element;
-        this.beStartButton();
+    #element;
+    #startFunc;
+    #restartFunc;
+
+    constructor(element, startFunc, restartFunc) {
+        this.#element = element;
+        this.#startFunc = startFunc;
+        this.#restartFunc = restartFunc;
+        this.beStart();
     }
 
-    beStartButton() {
+    beStart() {
         let me = this;
-        this.game.mouse.bindById(this.element.id, () => me.game.start()); //Todo: No direct reference to game props
+        this.#element.onmousedown = () => me.#startFunc();
     }
 
-    beRestartButton() {
-        this.element.firstChild.textContent = "Restart";
+    beRestart() {
+        this.#element.firstChild.textContent = "Restart";
         let me = this;
-        this.game.mouse.bindById(this.element.id, () => me.game.restart());
+        this.#element.onmousedown = () => me.#restartFunc();
     }
 } 

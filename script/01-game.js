@@ -1,16 +1,20 @@
 class Game { //Todo: Make all fields private
 	#config;
 	#sound;
+	#mouse;
+	#grid;
+	#button;
 
 	constructor(znakeConf) {
+		let me = this;
 		this.#importConfig(znakeConf);
-		this.mouse = new Mouse(this);
-		this.grid = new Grid(this, document.getElementById('grid-container'), this.#config.grid);
+		this.#mouse = new Mouse(this);
+		this.#grid = new Grid(this, document.getElementById('grid-container'), this.#config.grid);
 		this.infoboard = new Infoboard('stats', [infoboardKeysEnum.Score], [infoboardKeysEnum.Age, 0]);
 		this.control = new Control(this, this.#config.keys);
 		this.overlay = new Overlay(this, this.#config.devMode);
-		this.feeder = new Feeder(this, this.grid, this.#config.numberOfFoodCellsAtOnce);
-		this.button = new Button(this, document.getElementById('button'));
+		this.feeder = new Feeder(this, this.#grid, this.#config.numberOfFoodCellsAtOnce);
+		this.#button = new Button(document.getElementById('button'), () => me.#start(), () => me.#restart());
 	}
 
 	#importConfig(znakeConf) {
@@ -27,7 +31,7 @@ class Game { //Todo: Make all fields private
 		this.#initialiseSound();
 		let me = this;
 		Crosshairs(() => me.#sound.mouseInBeep(), () => me.#sound.mouseOutBeep());
-		this.worm = new Worm(this, this.grid, this.#config.startAtCentre, this.#config.stepTime);
+		this.worm = new Worm(this, this.#grid, this.#config.startAtCentre, this.#config.stepTime);
 		this.control.attach(function (dir) { me.worm.input(dir) });
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	}
@@ -38,14 +42,14 @@ class Game { //Todo: Make all fields private
 		}
 	}
 
-	start() {
-		this.button.beRestartButton();
+	#start() {
+		this.#button.beRestart();
 		this.#run();
 		this.control.enable();
 		this.feeder.dropFoodInitial();
 	}
 
-	restart() {
+	#restart() {
 		if (this.isPaused) {
 			this.overlay.popDown();
 			this.isPaused = false;
@@ -53,7 +57,7 @@ class Game { //Todo: Make all fields private
 			this.stopRunning();
 		}
 		this.worm.disappear();
-		this.worm = new Worm(this, this.grid, this.#config.startAtCentre, this.#config.stepTime);
+		this.worm = new Worm(this, this.#grid, this.#config.startAtCentre, this.#config.stepTime);
 		let me = this;
 		this.control.attach(function (dir) { me.worm.input(dir) });
 		this.control.enable();
