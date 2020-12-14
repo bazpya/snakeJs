@@ -12,7 +12,22 @@ class Game { //Todo: Make all fields private
 		this.#grid = new Grid(this, document.getElementById('grid-container'), this.#config.grid);
 		this.infoboard = new Infoboard('stats', [infoboardKeysEnum.Score], [infoboardKeysEnum.Age, 0]);
 		this.control = new Control(this, this.#config.keys);
-		this.overlay = new Overlay(this, this.#config.devMode);
+		this.overlay = new Overlay(document.getElementById('body'),
+			() => {
+				me.overlay.popDown();
+				me.overlay.unbindHandler();
+				me.overlay.beTranslucent();
+				me.overlay.line1 = "PAUSE";
+				me.overlay.line2 = "";
+				me.overlay.line3 = "";
+				me.#onSplashClicked();
+			},
+			{
+				line1: "Znake",
+				line2: this.#config.devMode ? "Developer mode" : "",
+				line3: "Click me!",
+			}
+		);
 		this.feeder = new Feeder(this, this.#grid, this.#config.numberOfFoodCellsAtOnce);
 		this.#button = new MultiFuncButton(document.getElementById('button'),
 			[
@@ -31,7 +46,7 @@ class Game { //Todo: Make all fields private
 			throw "Grid width must be at least 4"
 	}
 
-	onSplashClicked() {
+	#onSplashClicked() {
 		this.#initialiseSound();
 		let me = this;
 		Crosshairs(() => me.#sound.mouseInBeep(), () => me.#sound.mouseOutBeep());

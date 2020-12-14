@@ -7,7 +7,6 @@
     <script src="script/02-grid.js"></script>
     <script src="script/03-cell.js"></script>
     <script src="script/04-worm.js"></script>
-    <script src="script/05-overlay.js"></script>
     <script src="script/06-sound.js"></script>
     <script src="script/07-direction.js"></script>
     <script src="script/09-control.js"></script>
@@ -22,9 +21,11 @@
     <script src="../bazJS/intervaller.js"></script>
     <script src="../bazJS/multiFuncButton.js"></script>
     <script src="../bazJS/infoboard/infoboard.js"></script>
+    <script src="../bazJS/overlay/overlay.js"></script>
     <script src="../bazJS/crosshairs/crosshairs.js"></script>
     <link href="znake.css" rel="stylesheet">
     <link href="../bazJS/infoboard/infoboard.css" rel="stylesheet">
+    <link href="../bazJS/overlay/overlay.css" rel="stylesheet">
     <link href="../bazJS/crosshairs/crosshairs.css" rel="stylesheet">
     <title>Znake</title>
 </head>
@@ -34,12 +35,6 @@
     <header class='fullwidth-row'>
         <p class='spread-elements' id='znake-title'>Znake</p>
     </header>
-
-    <div id='overlay' class='overlay popdown'>
-        <b id='overlay-line1'>Znake</b>
-        <b id='overlay-line2'></b>
-        <b id='overlay-line3'>Click me!</b>
-    </div>
 
     <div class='fullwidth-row' id='controls-row'>
         <button class='spread-elements ch-target' id='button'></button>

@@ -63,57 +63,6 @@ body {
   margin-top: 10px;
 }
 
-.overlay {
-    background-color: yellowgreen;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-.overlay-dev {
-    background-color: orangered;
-}
-
-.popup {
-    display: block;
-}
-
-.popdown {
-    display: none;
-}
-
-.translucent {
-    opacity: 0.4;
-}
-
-#overlay-line1 {
-    text-align: center;
-    font-size: 64px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-#overlay-line2 {
-  text-align: center;
-  /* font-size: 64px; */
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-#overlay-line3 {
-  text-align: center;
-  /* font-size: 64px; */
-  position: absolute;
-  top: 70%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 table {
   border-spacing: 1px;
   background-color: #202020;
