@@ -26,6 +26,7 @@ class Game { //Todo: Make all fields private
 		let me = this;
 		Crosshairs(() => me.sound.mouseInBeep(), () => me.sound.mouseOutBeep());
 		this.worm = new Worm(this, this.grid, this.#config.startAtCentre, this.#config.stepTime);
+		this.control.attach(function (dir) { me.worm.input(dir) });
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	}
 
@@ -37,8 +38,8 @@ class Game { //Todo: Make all fields private
 
 	start() {
 		this.button.beRestartButton();
-		this.control.setForRunning()
 		this.run();
+		this.control.enable();
 		this.feeder.dropFoodInitial();
 	}
 
@@ -51,9 +52,11 @@ class Game { //Todo: Make all fields private
 		}
 		this.worm.disappear();
 		this.worm = new Worm(this, this.grid, this.#config.startAtCentre, this.#config.stepTime);
+		let me = this;
+		this.control.attach(function (dir) { me.worm.input(dir) });
+		this.control.enable();
 		this.worm.run();
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
-		this.control.setForRunning();
 	}
 
 	run() {
@@ -68,13 +71,11 @@ class Game { //Todo: Make all fields private
 		if (this.isPaused) {
 			this.run();
 			this.isPaused = false;
-			this.control.setForRunning();
 			this.overlay.popDown();
 		}
 		else {
 			this.stopRunning();
 			this.isPaused = true;
-			this.control.setForPause();
 			this.overlay.popUp();
 		}
 	}
