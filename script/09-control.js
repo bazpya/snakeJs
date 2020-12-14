@@ -2,6 +2,7 @@ class Control {
 	#config;
 	#wormInput;
 	#enabled;
+	
 	constructor(game, config) {
 		this.game = game;
 		this.#config = config;

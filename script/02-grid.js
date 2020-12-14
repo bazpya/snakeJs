@@ -1,7 +1,6 @@
 class Grid {
-    constructor(game, container, config) {
-        this.game = game;
-        this.container = container;
+    constructor(parent, config) {
+        this.container = parent;
         this.height = config.height;
         this.width = config.width;
         this.element = document.createElement('table');

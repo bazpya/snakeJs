@@ -4,22 +4,25 @@ class Game { //Todo: Make all fields private
 	#mouse;
 	#grid;
 	#button;
+	#infoboard;
+	#control;
+	#overlay;
 
 	constructor(znakeConf) {
 		let me = this;
 		this.#importConfig(znakeConf);
 		this.#mouse = new Mouse(this);
-		this.#grid = new Grid(this, document.getElementById('grid-container'), this.#config.grid);
-		this.infoboard = new Infoboard('stats', [infoboardKeysEnum.Score], [infoboardKeysEnum.Age, 0]);
-		this.control = new Control(this, this.#config.keys);
-		this.overlay = new Overlay(document.getElementById('body'),
+		this.#grid = new Grid(document.getElementById('grid-container'), this.#config.grid);
+		this.#infoboard = new Infoboard('stats', [infoboardKeysEnum.Score], [infoboardKeysEnum.Age, 0]);
+		this.#control = new Control(this, this.#config.keys);
+		this.#overlay = new Overlay(document.getElementById('body'),
 			() => {
-				me.overlay.popDown();
-				me.overlay.unbindHandler();
-				me.overlay.beTranslucent();
-				me.overlay.line1 = "PAUSE";
-				me.overlay.line2 = "";
-				me.overlay.line3 = "";
+				me.#overlay.popDown();
+				me.#overlay.unbindHandler();
+				me.#overlay.beTranslucent();
+				me.#overlay.line1 = "PAUSE";
+				me.#overlay.line2 = "";
+				me.#overlay.line3 = "";
 				me.#onSplashClicked();
 			},
 			{
@@ -51,8 +54,8 @@ class Game { //Todo: Make all fields private
 		let me = this;
 		Crosshairs(() => me.#sound.mouseInBeep(), () => me.#sound.mouseOutBeep());
 		this.worm = new Worm(this, this.#grid, this.#config.startAtCentre, this.#config.stepTime);
-		this.control.attach(function (dir) { me.worm.input(dir) });
-		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
+		this.#control.attach(function (dir) { me.worm.input(dir) });
+		this.#infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	}
 
 	#initialiseSound() {
@@ -64,13 +67,13 @@ class Game { //Todo: Make all fields private
 	#start() {
 		this.#button.bind("Restart");
 		this.#run();
-		this.control.enable();
+		this.#control.enable();
 		this.feeder.dropFoodInitial();
 	}
 
 	#restart() {
 		if (this.isPaused) {
-			this.overlay.popDown();
+			this.#overlay.popDown();
 			this.isPaused = false;
 		} else {
 			this.stopRunning();
@@ -78,10 +81,10 @@ class Game { //Todo: Make all fields private
 		this.worm.disappear();
 		this.worm = new Worm(this, this.#grid, this.#config.startAtCentre, this.#config.stepTime);
 		let me = this;
-		this.control.attach(function (dir) { me.worm.input(dir) });
-		this.control.enable();
+		this.#control.attach(function (dir) { me.worm.input(dir) });
+		this.#control.enable();
 		this.worm.run();
-		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
+		this.#infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	}
 
 	#run() {
@@ -96,12 +99,12 @@ class Game { //Todo: Make all fields private
 		if (this.isPaused) {
 			this.#run();
 			this.isPaused = false;
-			this.overlay.popDown();
+			this.#overlay.popDown();
 		}
 		else {
 			this.stopRunning();
 			this.isPaused = true;
-			this.overlay.popUp();
+			this.#overlay.popUp();
 		}
 	}
 
@@ -111,17 +114,17 @@ class Game { //Todo: Make all fields private
 	}
 
 	onStepTaken(age) {
-		this.infoboard.set(infoboardKeysEnum.Age, age);
+		this.#infoboard.set(infoboardKeysEnum.Age, age);
 	}
 
 	onWormDied() {
 		this.stopRunning();
-		this.control.disable();
+		this.#control.disable();
 	}
 
 	onFoodEaten(foodCell) {
 		this.#sound.foodBeep();
-		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
+		this.#infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 		this.worm.speedUp();
 		this.feeder.dropFood();
 	}
