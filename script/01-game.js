@@ -14,7 +14,11 @@ class Game { //Todo: Make all fields private
 		this.control = new Control(this, this.#config.keys);
 		this.overlay = new Overlay(this, this.#config.devMode);
 		this.feeder = new Feeder(this, this.#grid, this.#config.numberOfFoodCellsAtOnce);
-		this.#button = new Button(document.getElementById('button'), () => me.#start(), () => me.#restart());
+		this.#button = new MultiFuncButton(document.getElementById('button'),
+			[
+				{ label: "Start", func: () => me.#start() },
+				{ label: "Restart", func: () => me.#restart() }
+			]);
 	}
 
 	#importConfig(znakeConf) {
@@ -43,7 +47,7 @@ class Game { //Todo: Make all fields private
 	}
 
 	#start() {
-		this.#button.beRestart();
+		this.#button.bind("Restart");
 		this.#run();
 		this.control.enable();
 		this.feeder.dropFoodInitial();

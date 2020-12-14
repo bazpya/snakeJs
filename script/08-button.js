@@ -1,23 +1,18 @@
-class Button {
+class MultiFuncButton {
     #element;
-    #startFunc;
-    #restartFunc;
+    #funcs = {};
 
-    constructor(element, startFunc, restartFunc) {
+    constructor(element, funcDescriptions) {
         this.#element = element;
-        this.#startFunc = startFunc;
-        this.#restartFunc = restartFunc;
-        this.beStart();
+        for (let desc of funcDescriptions) {
+            this.#funcs[desc.label] = desc.func;
+        }
+        this.bind(funcDescriptions[0].label);
     }
 
-    beStart() {
+    bind(label) {
         let me = this;
-        this.#element.onmousedown = () => me.#startFunc();
-    }
-
-    beRestart() {
-        this.#element.firstChild.textContent = "Restart";
-        let me = this;
-        this.#element.onmousedown = () => me.#restartFunc();
+        this.#element.onmousedown = () => me.#funcs[label]();
+        this.#element.innerText = label;
     }
 } 
