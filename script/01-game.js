@@ -1,7 +1,9 @@
 class Game { //Todo: Make all fields private
 	#config;
+	#sound;
+
 	constructor(znakeConf) {
-		this.importConfig(znakeConf);
+		this.#importConfig(znakeConf);
 		this.mouse = new Mouse(this);
 		this.grid = new Grid(this, document.getElementById('grid-container'), this.#config.grid);
 		this.infoboard = new Infoboard('stats', [infoboardKeysEnum.Score], [infoboardKeysEnum.Age, 0]);
@@ -11,7 +13,7 @@ class Game { //Todo: Make all fields private
 		this.button = new Button(this, document.getElementById('button'));
 	}
 
-	importConfig(znakeConf) {
+	#importConfig(znakeConf) {
 		this.#config = {}
 		for (let key in znakeConf)
 			this.#config[key] = znakeConf[key];
@@ -22,23 +24,23 @@ class Game { //Todo: Make all fields private
 	}
 
 	onSplashClicked() {
-		this.initialiseSound();
+		this.#initialiseSound();
 		let me = this;
-		Crosshairs(() => me.sound.mouseInBeep(), () => me.sound.mouseOutBeep());
+		Crosshairs(() => me.#sound.mouseInBeep(), () => me.#sound.mouseOutBeep());
 		this.worm = new Worm(this, this.grid, this.#config.startAtCentre, this.#config.stepTime);
 		this.control.attach(function (dir) { me.worm.input(dir) });
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	}
 
-	initialiseSound() {
-		if (isUndefined(this.sound) || isUndefined(this.sound.audioCtx)) {
-			this.sound = new znakeSound(this.#config.soundVolume);
+	#initialiseSound() {
+		if (isUndefined(this.#sound) || isUndefined(this.#sound.audioCtx)) {
+			this.#sound = new znakeSound(this.#config.soundVolume);
 		}
 	}
 
 	start() {
 		this.button.beRestartButton();
-		this.run();
+		this.#run();
 		this.control.enable();
 		this.feeder.dropFoodInitial();
 	}
@@ -59,7 +61,7 @@ class Game { //Todo: Make all fields private
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	}
 
-	run() {
+	#run() {
 		this.worm.run();
 	}
 
@@ -69,7 +71,7 @@ class Game { //Todo: Make all fields private
 
 	togglePause() {
 		if (this.isPaused) {
-			this.run();
+			this.#run();
 			this.isPaused = false;
 			this.overlay.popDown();
 		}
@@ -95,7 +97,7 @@ class Game { //Todo: Make all fields private
 	}
 
 	onFoodEaten(foodCell) {
-		this.sound.foodBeep();
+		this.#sound.foodBeep();
 		this.infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 		this.worm.speedUp();
 		this.feeder.dropFood();
