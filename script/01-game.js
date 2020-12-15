@@ -1,5 +1,5 @@
 class Game { //Todo: Make all fields private
-	#config;
+	#config = {};
 	#sound;
 	#mouse;
 	#grid;
@@ -8,6 +8,7 @@ class Game { //Todo: Make all fields private
 	#control;
 	#overlay;
 	#isPaused = false;
+	#worm;
 
 	constructor(znakeConf) {
 		let me = this;
@@ -59,7 +60,6 @@ class Game { //Todo: Make all fields private
 	}
 
 	#importConfig(znakeConf) {
-		this.#config = {}
 		for (let key in znakeConf)
 			this.#config[key] = znakeConf[key];
 		if (this.#config["grid.height"] < 4)
@@ -72,7 +72,7 @@ class Game { //Todo: Make all fields private
 		this.#initialiseSound();
 		let me = this;
 		Crosshairs(() => me.#sound.mouseInBeep(), () => me.#sound.mouseOutBeep());
-		this.worm = new Worm(
+		this.#worm = new Worm(
 			this.#grid,
 			this.#config.startAtCentre,
 			this.#config.stepTime,
@@ -82,7 +82,7 @@ class Game { //Todo: Make all fields private
 				onFoodEaten: (...args) => this.#onFoodEaten(...args),
 				onWormDied: (...args) => this.#onWormDied(...args),
 			});
-		this.#infoboard.set({ Score: this.worm.length });
+		this.#infoboard.set({ Score: this.#worm.length });
 	}
 
 	#initialiseSound() {
@@ -105,8 +105,8 @@ class Game { //Todo: Make all fields private
 		} else {
 			this.stopRunning();
 		}
-		this.worm.disappear();
-		this.worm = new Worm(
+		this.#worm.disappear();
+		this.#worm = new Worm(
 			this.#grid,
 			this.#config.startAtCentre,
 			this.#config.stepTime,
@@ -118,16 +118,16 @@ class Game { //Todo: Make all fields private
 			});
 		let me = this;
 		this.#control.enable();
-		this.worm.run();
-		this.#infoboard.set({ Score: this.worm.length });
+		this.#worm.run();
+		this.#infoboard.set({ Score: this.#worm.length });
 	}
 
 	#run() {
-		this.worm.run();
+		this.#worm.run();
 	}
 
 	stopRunning() {
-		this.worm.stop();
+		this.#worm.stop();
 	}
 
 	#togglePause() {
@@ -146,7 +146,7 @@ class Game { //Todo: Make all fields private
 	#directionInput(dir) {
 		if (this.#isPaused)
 			return;
-		this.worm.input(dir);
+		this.#worm.input(dir);
 	}
 
 	#onWormBorn(replacedFoodCell = false) {
@@ -160,8 +160,8 @@ class Game { //Todo: Make all fields private
 
 	#onFoodEaten(foodCell) {
 		this.#sound.foodBeep();
-		this.#infoboard.set({ Score: this.worm.length });
-		this.worm.speedUp();
+		this.#infoboard.set({ Score: this.#worm.length });
+		this.#worm.speedUp();
 		this.feeder.dropFood();
 	}
 
