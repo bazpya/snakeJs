@@ -1,6 +1,7 @@
 class Feeder {
 	#grid;
 	#foodCountAtOnce;
+
 	constructor(grid, foodCountAtOnce = 1) {
 		this.#grid = grid;
 		this.#foodCountAtOnce = foodCountAtOnce;

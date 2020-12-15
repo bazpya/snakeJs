@@ -2,12 +2,13 @@ class Control {
 	#directionFunc;
 	#pauseFunc;
 	#enabled;
+	#mapping;
 
 	constructor(gameDirFunc, gamePauseFunc, config) {
 		this.#directionFunc = gameDirFunc;
 		this.#pauseFunc = gamePauseFunc;
 		this.#enabled = false;
-		this.mapping = {
+		this.#mapping = {
 			[config[Direction.up].charCodeAt(0)]: Direction.up,
 			[config[Direction.right].charCodeAt(0)]: Direction.right,
 			[config[Direction.down].charCodeAt(0)]: Direction.down,
@@ -30,7 +31,7 @@ class Control {
 		document.onkeydown = function (keyDownEvent) {
 			if (!me.#enabled)
 				return;
-			const direction = me.mapping[keyDownEvent.keyCode];
+			const direction = me.#mapping[keyDownEvent.keyCode];
 			if (isUndefined(direction))
 				return;
 			if (direction === 0) {

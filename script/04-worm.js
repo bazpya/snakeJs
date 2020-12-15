@@ -11,17 +11,21 @@ class Worm {
         let originWasFood = origin.isFood;
         this.sections.push(origin);
         this.head.beWorm();
+
         this.direction = {
             queue: [Direction.right],
             current: Direction.right,
             lastInput: Direction.right,
         };
+
         this.age = 0;
         let me = this;
+
         this.#intervaller = new Intervaller(() => {
             me.step();
             me.#gameCallbacks.onStepTaken(me.age);
         }, stepTime.initial, stepTime.decrement, stepTime.min);
+
         this.#gameCallbacks.onWormBorn(originWasFood);
     }
 
@@ -39,10 +43,9 @@ class Worm {
         this.age++;
         let nextCell = this.getNextCell();
 
-        if (nextCell.isDeadly) {
-            this.sections.forEachInterval(s => s.beWall(), this.#intervaller.period);
-            this.#gameCallbacks.onWormDied();
-        }
+        if (nextCell.isDeadly)
+            this.die();
+
         else if (nextCell.isFood) {
             this.moveHeadTo(nextCell);
             this.#gameCallbacks.onFoodEaten();
@@ -79,6 +82,11 @@ class Worm {
 
     disappear() {
         this.sections.forEach(s => s.beBlank());
+    }
+
+    die() {
+        this.sections.forEachInterval(s => s.beWall(), this.#intervaller.period);
+        this.#gameCallbacks.onWormDied();
     }
 
     input(dir) {
