@@ -43,7 +43,7 @@ class Game { //Todo: Make all fields private
 				line3: "Click me!",
 			});
 
-		this.feeder = new Feeder(this, this.#grid, this.#config.numberOfFoodCellsAtOnce);
+		this.feeder = new Feeder(this.#grid, this.#config.numberOfFoodCellsAtOnce);
 
 		this.#button = new MultiFuncButton(document.getElementById('button'),
 			{
