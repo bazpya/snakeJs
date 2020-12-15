@@ -12,13 +12,21 @@ class Game { //Todo: Make all fields private
 	constructor(znakeConf) {
 		let me = this;
 		this.#importConfig(znakeConf);
-		this.#mouse = new Mouse(this);
-		this.#grid = new Grid(document.getElementById('grid-container'), this.#config.grid);
+		this.#mouse = new Mouse();
+
+		this.#grid = new Grid(
+			document.getElementById('grid-container'),
+			this.#config.grid,
+			(...args) => this.#mouse.bindByTag(...args),
+			this.#config.devMode);
+
 		this.#infoboard = new Infoboard('stats', [infoboardKeysEnum.Score], [infoboardKeysEnum.Age, 0]);
+
 		this.#control = new Control(
-			(arg) => this.#directionInput(arg),
+			(...args) => this.#directionInput(...args),
 			() => this.#togglePause(),
 			this.#config.keys);
+
 		this.#overlay = new Overlay(document.getElementById('body'),
 			() => {
 				me.#overlay.popDown();
@@ -34,7 +42,9 @@ class Game { //Todo: Make all fields private
 				line2: this.#config.devMode ? "Developer mode" : "",
 				line3: "Click me!",
 			});
+
 		this.feeder = new Feeder(this, this.#grid, this.#config.numberOfFoodCellsAtOnce);
+
 		this.#button = new MultiFuncButton(document.getElementById('button'),
 			{
 				Start: () => me.#start(),
@@ -61,10 +71,10 @@ class Game { //Todo: Make all fields private
 			this.#config.startAtCentre,
 			this.#config.stepTime,
 			{
-				onWormBorn: (arg) => this.#onWormBorn(arg),
-				onStepTaken: (arg) => this.#onStepTaken(arg),
-				onFoodEaten: (arg) => this.#onFoodEaten(arg),
-				onWormDied: (arg) => this.#onWormDied(arg),
+				onWormBorn: (...args) => this.#onWormBorn(...args),
+				onStepTaken: (...args) => this.#onStepTaken(...args),
+				onFoodEaten: (...args) => this.#onFoodEaten(...args),
+				onWormDied: (...args) => this.#onWormDied(...args),
 			});
 		this.#infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	}
@@ -95,10 +105,10 @@ class Game { //Todo: Make all fields private
 			this.#config.startAtCentre,
 			this.#config.stepTime,
 			{
-				onWormBorn: (arg) => this.#onWormBorn(arg),
-				onStepTaken: (arg) => this.#onStepTaken(arg),
-				onFoodEaten: (arg) => this.#onFoodEaten(arg),
-				onWormDied: (arg) => this.#onWormDied(arg),
+				onWormBorn: (...args) => this.#onWormBorn(...args),
+				onStepTaken: (...args) => this.#onStepTaken(...args),
+				onFoodEaten: (...args) => this.#onFoodEaten(...args),
+				onWormDied: (...args) => this.#onWormDied(...args),
 			});
 		let me = this;
 		this.#control.enable();

@@ -1,5 +1,5 @@
 class Grid {
-    constructor(parent, config) {
+    constructor(parent, config, mouseBindFunc, devMode) {
         this.container = parent;
         this.height = config.height;
         this.width = config.width;
@@ -23,6 +23,17 @@ class Grid {
             this.element.appendChild(newRow);
         }
         this.container.appendChild(this.element);
+
+        if (devMode) {
+            mouseBindFunc('TD', (clickEvent) => {
+                switch (clickEvent.which) {
+                    case 1: clickEvent.target.cell.beFood(); break;  // left click
+                    case 2: clickEvent.target.cell.beBlank(); break;  // middle click
+                    case 3: clickEvent.target.cell.beWall(); break;  // right click
+                    default: break;
+                }
+            });
+        }
     }
 
     get lastRowIndex() { return this.height - 1 }
