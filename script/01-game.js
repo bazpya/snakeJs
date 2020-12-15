@@ -33,10 +33,10 @@ class Game { //Todo: Make all fields private
 		);
 		this.feeder = new Feeder(this, this.#grid, this.#config.numberOfFoodCellsAtOnce);
 		this.#button = new MultiFuncButton(document.getElementById('button'),
-			[
-				{ label: "Start", func: () => me.#start() },
-				{ label: "Restart", func: () => me.#restart() }
-			]);
+			{
+				Start: () => me.#start(),
+				Restart: () => me.#restart()
+			});
 	}
 
 	#importConfig(znakeConf) {
