@@ -7,6 +7,7 @@ class Game { //Todo: Make all fields private
 	#infoboard;
 	#control;
 	#overlay;
+	#isPaused = false;
 
 	constructor(znakeConf) {
 		let me = this;
@@ -14,7 +15,10 @@ class Game { //Todo: Make all fields private
 		this.#mouse = new Mouse(this);
 		this.#grid = new Grid(document.getElementById('grid-container'), this.#config.grid);
 		this.#infoboard = new Infoboard('stats', [infoboardKeysEnum.Score], [infoboardKeysEnum.Age, 0]);
-		this.#control = new Control(this, this.#config.keys);
+		this.#control = new Control(
+			(arg) => this.#directionInput(arg),
+			() => this.#togglePause(),
+			this.#config.keys);
 		this.#overlay = new Overlay(document.getElementById('body'),
 			() => {
 				me.#overlay.popDown();
@@ -29,8 +33,7 @@ class Game { //Todo: Make all fields private
 				line1: "Znake",
 				line2: this.#config.devMode ? "Developer mode" : "",
 				line3: "Click me!",
-			}
-		);
+			});
 		this.feeder = new Feeder(this, this.#grid, this.#config.numberOfFoodCellsAtOnce);
 		this.#button = new MultiFuncButton(document.getElementById('button'),
 			{
@@ -58,12 +61,11 @@ class Game { //Todo: Make all fields private
 			this.#config.startAtCentre,
 			this.#config.stepTime,
 			{
-				onWormBorn: (params) => this.#onWormBorn(params),
-				onStepTaken: (params) => this.#onStepTaken(params),
-				onFoodEaten: (params) => this.#onFoodEaten(params),
-				onWormDied: (params) => this.#onWormDied(params),
+				onWormBorn: (arg) => this.#onWormBorn(arg),
+				onStepTaken: (arg) => this.#onStepTaken(arg),
+				onFoodEaten: (arg) => this.#onFoodEaten(arg),
+				onWormDied: (arg) => this.#onWormDied(arg),
 			});
-		this.#control.attach(function (dir) { me.worm.input(dir) });
 		this.#infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	}
 
@@ -81,9 +83,9 @@ class Game { //Todo: Make all fields private
 	}
 
 	#restart() {
-		if (this.isPaused) {
+		if (this.#isPaused) {
 			this.#overlay.popDown();
-			this.isPaused = false;
+			this.#isPaused = false;
 		} else {
 			this.stopRunning();
 		}
@@ -93,13 +95,12 @@ class Game { //Todo: Make all fields private
 			this.#config.startAtCentre,
 			this.#config.stepTime,
 			{
-				onWormBorn: (params) => this.#onWormBorn(params),
-				onStepTaken: (params) => this.#onStepTaken(params),
-				onFoodEaten: (params) => this.#onFoodEaten(params),
-				onWormDied: (params) => this.#onWormDied(params),
+				onWormBorn: (arg) => this.#onWormBorn(arg),
+				onStepTaken: (arg) => this.#onStepTaken(arg),
+				onFoodEaten: (arg) => this.#onFoodEaten(arg),
+				onWormDied: (arg) => this.#onWormDied(arg),
 			});
 		let me = this;
-		this.#control.attach(function (dir) { me.worm.input(dir) });
 		this.#control.enable();
 		this.worm.run();
 		this.#infoboard.set(infoboardKeysEnum.Score, this.worm.length);
@@ -113,17 +114,23 @@ class Game { //Todo: Make all fields private
 		this.worm.stop();
 	}
 
-	togglePause() {
-		if (this.isPaused) {
+	#togglePause() {
+		if (this.#isPaused) {
 			this.#run();
-			this.isPaused = false;
+			this.#isPaused = false;
 			this.#overlay.popDown();
 		}
 		else {
 			this.stopRunning();
-			this.isPaused = true;
+			this.#isPaused = true;
 			this.#overlay.popUp();
 		}
+	}
+
+	#directionInput(dir) {
+		if (this.#isPaused)
+			return;
+		this.worm.input(dir);
 	}
 
 	#onWormBorn(replacedFoodCell = false) {
