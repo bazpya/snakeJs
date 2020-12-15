@@ -53,7 +53,16 @@ class Game { //Todo: Make all fields private
 		this.#initialiseSound();
 		let me = this;
 		Crosshairs(() => me.#sound.mouseInBeep(), () => me.#sound.mouseOutBeep());
-		this.worm = new Worm(this, this.#grid, this.#config.startAtCentre, this.#config.stepTime);
+		this.worm = new Worm(
+			this.#grid,
+			this.#config.startAtCentre,
+			this.#config.stepTime,
+			{
+				onWormBorn: (params) => this.#onWormBorn(params),
+				onStepTaken: (params) => this.#onStepTaken(params),
+				onFoodEaten: (params) => this.#onFoodEaten(params),
+				onWormDied: (params) => this.#onWormDied(params),
+			});
 		this.#control.attach(function (dir) { me.worm.input(dir) });
 		this.#infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 	}
@@ -79,7 +88,16 @@ class Game { //Todo: Make all fields private
 			this.stopRunning();
 		}
 		this.worm.disappear();
-		this.worm = new Worm(this, this.#grid, this.#config.startAtCentre, this.#config.stepTime);
+		this.worm = new Worm(
+			this.#grid,
+			this.#config.startAtCentre,
+			this.#config.stepTime,
+			{
+				onWormBorn: (params) => this.#onWormBorn(params),
+				onStepTaken: (params) => this.#onStepTaken(params),
+				onFoodEaten: (params) => this.#onFoodEaten(params),
+				onWormDied: (params) => this.#onWormDied(params),
+			});
 		let me = this;
 		this.#control.attach(function (dir) { me.worm.input(dir) });
 		this.#control.enable();
@@ -108,24 +126,24 @@ class Game { //Todo: Make all fields private
 		}
 	}
 
-	onWormBorn(replacedFoodCell = false) {
+	#onWormBorn(replacedFoodCell = false) {
 		if (replacedFoodCell)
 			this.feeder.dropFood();
 	}
 
-	onStepTaken(age) {
+	#onStepTaken(age) {
 		this.#infoboard.set(infoboardKeysEnum.Age, age);
 	}
 
-	onWormDied() {
-		this.stopRunning();
-		this.#control.disable();
-	}
-
-	onFoodEaten(foodCell) {
+	#onFoodEaten(foodCell) {
 		this.#sound.foodBeep();
 		this.#infoboard.set(infoboardKeysEnum.Score, this.worm.length);
 		this.worm.speedUp();
 		this.feeder.dropFood();
+	}
+
+	#onWormDied() {
+		this.stopRunning();
+		this.#control.disable();
 	}
 }

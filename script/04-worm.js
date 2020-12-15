@@ -1,9 +1,11 @@
 class Worm {
     #intervaller;
     #grid;
-    constructor(game, grid, startAtCentre, stepTime) {
-        this.game = game;
+    #gameCallbacks = {};
+
+    constructor(grid, startAtCentre, stepTime, gameCallbacks) {
         this.#grid = grid;
+        copyProperties(gameCallbacks, this.#gameCallbacks);
         this.sections = [];
         let origin = grid.getStartCell(startAtCentre);
         let originWasFood = origin.isFood;
@@ -18,9 +20,9 @@ class Worm {
         let me = this;
         this.#intervaller = new Intervaller(() => {
             me.step();
-            me.game.onStepTaken(me.age);
+            me.#gameCallbacks.onStepTaken(me.age);
         }, stepTime.initial, stepTime.decrement, stepTime.min);
-        this.game.onWormBorn(originWasFood);
+        this.#gameCallbacks.onWormBorn(originWasFood);
     }
 
     get head() { return this.sections[0] }
@@ -39,11 +41,11 @@ class Worm {
 
         if (nextCell.isDeadly) {
             this.sections.forEachInterval(s => s.beWall(), this.#intervaller.period);
-            this.game.onWormDied();
+            this.#gameCallbacks.onWormDied();
         }
         else if (nextCell.isFood) {
             this.moveHeadTo(nextCell);
-            this.game.onFoodEaten();
+            this.#gameCallbacks.onFoodEaten();
         }
         else {
             this.moveHeadTo(nextCell);
