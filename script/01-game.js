@@ -20,7 +20,13 @@ class Game { //Todo: Make all fields private
 			(...args) => this.#mouse.bindByTag(...args),
 			this.#config.devMode);
 
-		this.#infoboard = new Infoboard('stats', [infoboardKeysEnum.Score], [infoboardKeysEnum.Age, 0]);
+		this.#infoboard = new Infoboard(
+			document.getElementById('stats'),
+			{
+				Score: 0,
+				Age: 0,
+			}
+		);
 
 		this.#control = new Control(
 			(...args) => this.#directionInput(...args),
@@ -76,7 +82,7 @@ class Game { //Todo: Make all fields private
 				onFoodEaten: (...args) => this.#onFoodEaten(...args),
 				onWormDied: (...args) => this.#onWormDied(...args),
 			});
-		this.#infoboard.set(infoboardKeysEnum.Score, this.worm.length);
+		this.#infoboard.set({ Score: this.worm.length });
 	}
 
 	#initialiseSound() {
@@ -113,7 +119,7 @@ class Game { //Todo: Make all fields private
 		let me = this;
 		this.#control.enable();
 		this.worm.run();
-		this.#infoboard.set(infoboardKeysEnum.Score, this.worm.length);
+		this.#infoboard.set({ Score: this.worm.length });
 	}
 
 	#run() {
@@ -149,12 +155,12 @@ class Game { //Todo: Make all fields private
 	}
 
 	#onStepTaken(age) {
-		this.#infoboard.set(infoboardKeysEnum.Age, age);
+		this.#infoboard.set({ Age: age });
 	}
 
 	#onFoodEaten(foodCell) {
 		this.#sound.foodBeep();
-		this.#infoboard.set(infoboardKeysEnum.Score, this.worm.length);
+		this.#infoboard.set({ Score: this.worm.length });
 		this.worm.speedUp();
 		this.feeder.dropFood();
 	}
