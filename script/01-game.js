@@ -71,7 +71,7 @@ class Game { //Todo: Make all fields private
 	#onSplashClicked() {
 		this.#initialiseSound();
 		let me = this;
-		Crosshairs(() => me.#sound.mouseInBeep(), () => me.#sound.mouseOutBeep());
+		new Crosshairs(() => me.#sound.mouseInBeep(), () => me.#sound.mouseOutBeep());
 		this.#worm = new Worm(
 			this.#grid,
 			this.#config.startAtCentre,

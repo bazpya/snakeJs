@@ -1,0 +1,20 @@
+{
+  "name": "znake",
+  "version": "",
+  "description": "",
+  "main": "",
+  "scripts": {},
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/pyabzz/znake/issues"
+  },
+  "homepage": "",
+  "dependencies": {
+    "bazjs": "1.0.3"
+  }
+}
