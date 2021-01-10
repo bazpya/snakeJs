@@ -86,7 +86,7 @@ class Game { //Todo: Make all fields private
 	}
 
 	#initialiseSound() {
-		if (isUndefined(this.#sound) || isUndefined(this.#sound.audioCtx)) {
+		if (Var.isUndefined(this.#sound) || Var.isUndefined(this.#sound.audioCtx)) {
 			this.#sound = new znakeSound(this.#config.soundVolume);
 		}
 	}

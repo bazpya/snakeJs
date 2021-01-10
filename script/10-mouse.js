@@ -11,8 +11,8 @@ class Mouse {
 
 		document.onmousedown = function (clickEvent) {
 			let target = clickEvent.target;
-			ifFunctionRun(me.idHandlers[target.id], clickEvent);
-			ifFunctionRun(me.tagHandlers[target.tagName], clickEvent);
+			Var.ifFunctionRun(me.idHandlers[target.id], clickEvent);
+			Var.ifFunctionRun(me.tagHandlers[target.tagName], clickEvent);
 		}
 	}
 

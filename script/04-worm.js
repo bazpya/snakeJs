@@ -5,7 +5,7 @@ class Worm {
 
     constructor(grid, startAtCentre, stepTime, gameCallbacks) {
         this.#grid = grid;
-        copyProperties(gameCallbacks, this.#gameCallbacks);
+        this.#gameCallbacks = gameCallbacks;
         this.sections = [];
         let origin = grid.getStartCell(startAtCentre);
         let originWasFood = origin.isFood;
@@ -30,7 +30,7 @@ class Worm {
     }
 
     get head() { return this.sections[0] }
-    get tail() { return this.sections.last }
+    get tail() { return BazArray.getLast(this.sections) }
     get length() { return this.sections.length }
     get isUnicellular() { return this.length === 1 }
     get isMulticellular() { return this.length !== 1 }
@@ -65,19 +65,19 @@ class Worm {
     }
 
     getNextCell() {
-        if (this.direction.queue.hasAny)
-            this.direction.current = this.direction.queue.takeFirstOut();
+        if (BazArray.hasAny(this.direction.queue))
+            this.direction.current = this.direction.queue.shift();
         return this.#grid.getNextCell(this.head, this.direction.current);
     }
 
     moveHeadTo(nextHeadCell) {
-        this.sections.addToFront(nextHeadCell);
+        this.sections.unshift(nextHeadCell);
         this.head.beWorm();
     }
 
     moveTail() {
         this.tail.beBlank();
-        this.sections.takeLastOut();
+        this.sections.pop();
     }
 
     disappear() {
@@ -85,8 +85,11 @@ class Worm {
     }
 
     die() {
-        this.sections.forEachInterval(s => s.beWall(), this.#intervaller.period);
-        this.#gameCallbacks.onWormDied();
+        BazArray.forEachInterval(this.sections,
+            s => s.beWall(),
+            this.#intervaller.period,
+            () => this.#gameCallbacks.onWormDied()
+        );
     }
 
     input(dir) {

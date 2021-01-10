@@ -32,7 +32,7 @@ class Control {
 			if (!me.#enabled)
 				return;
 			const direction = me.#mapping[keyDownEvent.keyCode];
-			if (isUndefined(direction))
+			if (Var.isUndefined(direction))
 				return;
 			if (direction === 0) {
 				me.#pauseFunc();

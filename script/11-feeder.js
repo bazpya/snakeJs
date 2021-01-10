@@ -9,18 +9,13 @@ class Feeder {
 
 	dropFood() {
 		let blankCells = this.#grid.getBlankCells();
-		let nextFoodCell = blankCells.pickRandom();
+		let nextFoodCell = BazArray.pickRandom(blankCells).items[0];
 		nextFoodCell.beFood();
 	}
 
 	dropFoodInitial() {
 		let blankCells = this.#grid.getBlankCells();
-		let newFoods;
-		if (this.#foodCountAtOnce === 1) {
-			newFoods = [blankCells.pickRandom()];
-		} else {
-			newFoods = blankCells.pickRandom(this.#foodCountAtOnce);
-		}
+		let newFoods = BazArray.pickRandom(blankCells, this.#foodCountAtOnce).items;
 		newFoods.forEach((cell) => cell.beFood());
 	}
 } 
