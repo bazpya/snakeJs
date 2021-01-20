@@ -72,16 +72,7 @@ class Game { //Todo: Make all fields private
 		this.#initialiseSound();
 		let me = this;
 		new Crosshairs(() => me.#sound.mouseInBeep(), () => me.#sound.mouseOutBeep());
-		this.#worm = new Worm(
-			this.#grid,
-			this.#config.startAtCentre,
-			this.#config.stepTime,
-			{
-				onWormBorn: (...args) => this.#onWormBorn(...args),
-				onStepTaken: (...args) => this.#onStepTaken(...args),
-				onFoodEaten: (...args) => this.#onFoodEaten(...args),
-				onWormDied: (...args) => this.#onWormDied(...args),
-			});
+		this.#worm = this.#createWorm();
 		this.#infoboard.set({ Score: this.#worm.length });
 	}
 
@@ -106,16 +97,7 @@ class Game { //Todo: Make all fields private
 			this.stopRunning();
 		}
 		this.#worm.disappear();
-		this.#worm = new Worm(
-			this.#grid,
-			this.#config.startAtCentre,
-			this.#config.stepTime,
-			{
-				onWormBorn: (...args) => this.#onWormBorn(...args),
-				onStepTaken: (...args) => this.#onStepTaken(...args),
-				onFoodEaten: (...args) => this.#onFoodEaten(...args),
-				onWormDied: (...args) => this.#onWormDied(...args),
-			});
+		this.#worm = this.#createWorm();
 		let me = this;
 		this.#control.enable();
 		this.#worm.run();
@@ -141,6 +123,19 @@ class Game { //Todo: Make all fields private
 			this.#isPaused = true;
 			this.#overlay.popUp();
 		}
+	}
+
+	#createWorm() {
+		return new Worm(
+			this.#grid,
+			this.#config.startAtCentre,
+			this.#config.stepTime,
+			{
+				onWormBorn: (...args) => this.#onWormBorn(...args),
+				onStepTaken: (...args) => this.#onStepTaken(...args),
+				onFoodEaten: (...args) => this.#onFoodEaten(...args),
+				onWormDied: (...args) => this.#onWormDied(...args),
+			});
 	}
 
 	#directionInput(dir) {
