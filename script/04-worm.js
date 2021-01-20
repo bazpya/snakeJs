@@ -44,7 +44,7 @@ class Worm {
         let nextCell = this.getNextCell();
 
         if (nextCell.isDeadly)
-            this.die();
+            this.#die();
 
         else if (nextCell.isFood) {
             this.moveHeadTo(nextCell);
@@ -84,7 +84,7 @@ class Worm {
         this.sections.forEach(s => s.beBlank());
     }
 
-    die() {
+    #die() {
         BazArray.forEachInterval(this.sections,
             s => s.beWall(),
             this.#intervaller.period,
