@@ -85,6 +85,7 @@ class Worm {
     }
 
     #die() {
+        this.#gameCallbacks.onWallHit();
         BazArray.forEachInterval(this.sections,
             s => s.beWall(),
             this.#intervaller.period,

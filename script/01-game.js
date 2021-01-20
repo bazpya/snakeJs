@@ -55,7 +55,8 @@ class Game { //Todo: Make all fields private
 		this.#button = new MultiFuncButton(document.getElementById('button'),
 			{
 				Start: () => me.#start(),
-				Restart: () => me.#restart()
+				Restart: () => me.#restart(),
+				Disabled: () => { },
 			});
 	}
 
@@ -134,6 +135,7 @@ class Game { //Todo: Make all fields private
 				onWormBorn: (...args) => this.#onWormBorn(...args),
 				onStepTaken: (...args) => this.#onStepTaken(...args),
 				onFoodEaten: (...args) => this.#onFoodEaten(...args),
+				onWallHit: (...args) => this.#onWallHit(...args),
 				onWormDied: (...args) => this.#onWormDied(...args),
 			});
 	}
@@ -160,8 +162,13 @@ class Game { //Todo: Make all fields private
 		this.feeder.dropFood();
 	}
 
-	#onWormDied() {
+	#onWallHit() {
 		this.stopRunning();
 		this.#control.disable();
+		this.#button.bind("Disabled");
+	}
+
+	#onWormDied() {
+		this.#button.bind("Restart");
 	}
 }
