@@ -3,7 +3,9 @@
   "version": "",
   "description": "",
   "main": "",
-  "scripts": {},
+  "scripts": {
+    "test": "jest"
+  },
   "repository": {
     "type": "",
     "url": ""
@@ -15,6 +17,7 @@
   },
   "homepage": "",
   "dependencies": {
-    "bazjs": "1.0.7"
+    "bazjs": "1.0.7",
+    "jest": "^29.7.0"
   }
 }
