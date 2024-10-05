@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Test",
+            "request": "launch",
+            "type": "node-terminal",
+            "command": "npm run test",
+            "presentation": {
+                "hidden": false,
+                "group": "0",
+                "order": 0,
+            }
+        }
+    ]
+}

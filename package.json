@@ -1,9 +1,9 @@
 {
-  "name": "znake",
+  "name": "snake-js",
   "version": "",
   "description": "",
+  "type": "module",
   "main": "",
-  "scripts": {},
   "repository": {
     "type": "",
     "url": ""
@@ -11,10 +11,16 @@
   "author": "",
   "license": "",
   "bugs": {
-    "url": "https://github.com/pyabzz/znake/issues"
+    "url": "https://github.com/bazpya/znake/issues"
   },
   "homepage": "",
   "dependencies": {
     "bazjs": "1.0.7"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "devDependencies": {
+    "jest": "29.7.0"
   }
 }
