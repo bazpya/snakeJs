@@ -1,0 +1,47 @@
+.overlay {
+  background-color: yellowgreen;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: 1;
+}
+
+.overlay-popup {
+  display: block;
+}
+
+.overlay-popdown {
+  display: none;
+}
+
+.overlay-translucent {
+  opacity: 0.4;
+}
+
+.overlay-line1 {
+  text-align: center;
+  font-size: 64px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.overlay-line2 {
+text-align: center;
+/* font-size: 64px; */
+position: absolute;
+top: 60%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+.overlay-line3 {
+text-align: center;
+/* font-size: 64px; */
+position: absolute;
+top: 70%;
+left: 50%;
+transform: translate(-50%, -50%);
+}

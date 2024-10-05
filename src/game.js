@@ -10,9 +10,9 @@ class Game { //Todo: Make all fields private
 	#isPaused = false;
 	#worm;
 
-	constructor(znakeConf) {
+	constructor(snakeConf) {
 		let me = this;
-		this.#importConfig(znakeConf);
+		this.#importConfig(snakeConf);
 		this.#mouse = new Mouse();
 
 		this.#grid = new Grid(
@@ -45,7 +45,7 @@ class Game { //Todo: Make all fields private
 				me.#onSplashClicked();
 			},
 			{
-				line1: "Znake",
+				line1: "Snake",
 				line2: this.#config.devMode ? "Developer mode" : "",
 				line3: "Click me!",
 			});
@@ -60,9 +60,9 @@ class Game { //Todo: Make all fields private
 			});
 	}
 
-	#importConfig(znakeConf) {
-		for (let key in znakeConf)
-			this.#config[key] = znakeConf[key];
+	#importConfig(snakeConf) {
+		for (let key in snakeConf)
+			this.#config[key] = snakeConf[key];
 		if (this.#config["grid.height"] < 4)
 			throw "Grid height must be at least 4"
 		if (this.#config["grid.width"] < 4)
@@ -71,15 +71,13 @@ class Game { //Todo: Make all fields private
 
 	#onSplashClicked() {
 		this.#initialiseSound();
-		let me = this;
-		new Crosshairs(() => me.#sound.mouseInBeep(), () => me.#sound.mouseOutBeep());
 		this.#worm = this.#createWorm();
 		this.#infoboard.set({ Score: this.#worm.length });
 	}
 
 	#initialiseSound() {
-		if (Var.isUndefined(this.#sound) || Var.isUndefined(this.#sound.audioCtx)) {
-			this.#sound = new znakeSound(this.#config.soundVolume);
+		if (typeof this.#sound === 'undefined' || typeof this.#sound.audioCtx === 'undefined') {
+			this.#sound = new snakeSound(this.#config.soundVolume);
 		}
 	}
 
@@ -87,7 +85,7 @@ class Game { //Todo: Make all fields private
 		this.#button.bind("Restart");
 		this.#run();
 		this.#control.enable();
-		this.feeder.dropFoodInitial();
+		this.feeder.dropFood();
 	}
 
 	#restart() {

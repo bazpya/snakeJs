@@ -30,7 +30,7 @@ class Worm {
     }
 
     get head() { return this.sections[0] }
-    get tail() { return BazArray.getLast(this.sections) }
+    get tail() { return this.sections.at(-1) }
     get length() { return this.sections.length }
     get isUnicellular() { return this.length === 1 }
     get isMulticellular() { return this.length !== 1 }
@@ -65,7 +65,7 @@ class Worm {
     }
 
     getNextCell() {
-        if (BazArray.hasAny(this.direction.queue))
+        if (this.direction.queue.length > 0)
             this.direction.current = this.direction.queue.shift();
         return this.#grid.getNextCell(this.head, this.direction.current);
     }
@@ -86,11 +86,25 @@ class Worm {
 
     #die() {
         this.#gameCallbacks.onWallHit();
-        BazArray.forEachInterval(this.sections,
-            s => s.beWall(),
-            this.#intervaller.period,
-            () => this.#gameCallbacks.onWormDied()
-        );
+
+        const arr = this.sections;
+        const action = (s) => s.beWall();
+        const timeStep = this.#intervaller.period;
+        const callback = () => this.#gameCallbacks.onWormDied();
+
+        let i = 0;
+        let elem = arr[0];
+        action(elem, i, arr);
+        const loopHandle = setInterval(function () {
+            i++;
+            if (i < arr.length) {
+                elem = arr[i];
+                action(elem, i, arr);
+            } else {
+                clearInterval(loopHandle);
+                callback();
+            }
+        }, timeStep);
     }
 
     input(dir) {

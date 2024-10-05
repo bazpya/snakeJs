@@ -1,4 +1,4 @@
-class znakeSound {
+class snakeSound {
 
     static #soundDefinitions = Object.freeze({
         "foodBeep": [2000, 70],
@@ -12,10 +12,10 @@ class znakeSound {
         this.gainNode.connect(this.audioCtx.destination);
         this.gainNode.gain.value = volume;
 
-        for (let key in znakeSound.#soundDefinitions) {
+        for (let key in snakeSound.#soundDefinitions) {
             let oscillatorName = key + "Oscillator";
             this[oscillatorName] = this.audioCtx.createOscillator();
-            this[oscillatorName].frequency.value = znakeSound.#soundDefinitions[key][0];
+            this[oscillatorName].frequency.value = snakeSound.#soundDefinitions[key][0];
             this[oscillatorName].connect(this.gainNode);
             this[oscillatorName].start();
             this[oscillatorName].disconnect();
@@ -23,7 +23,7 @@ class znakeSound {
             this[key] = function () {
                 let me = this;
                 this[oscillatorName].connect(this.gainNode);
-                setTimeout(() => { me[oscillatorName].disconnect() }, znakeSound.#soundDefinitions[key][1]);
+                setTimeout(() => { me[oscillatorName].disconnect() }, snakeSound.#soundDefinitions[key][1]);
             }
         }
     }

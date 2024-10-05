@@ -1,4 +1,4 @@
-znakeConfig = {
+snakeConfig = {
     devMode: false,
     startAtCentre: true,
     numberOfFoodCellsAtOnce: 1,

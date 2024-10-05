@@ -1,0 +1,23 @@
+.infoboard {
+  text-align: left;
+}
+
+.infoboard-title {
+  display: block;
+  margin-bottom: 10px;
+  color: green;
+}
+
+.infoboard-item {
+  line-height: 1;
+}
+
+.infoboard-label {
+  color: green;
+  font-size: 18px;
+}
+
+.infoboard-value {
+  color: yellowgreen;
+  font-size: 18px;
+}

@@ -11,12 +11,10 @@
   "author": "",
   "license": "",
   "bugs": {
-    "url": "https://github.com/bazpya/znake/issues"
+    "url": "https://github.com/bazpya/snake/issues"
   },
   "homepage": "",
-  "dependencies": {
-    "bazjs": "1.0.7"
-  },
+  "dependencies": {},
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
